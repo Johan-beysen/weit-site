@@ -1,0 +1,53 @@
+---
+const navLinks = [
+  { href: "/consulting", label: "consulting" },
+  { href: "/development", label: "development" },
+  { href: "/automation", label: "automation" },
+  { href: "/projects", label: "projects" },
+  { href: "/contact", label: "contact" },
+];
+
+const current = Astro.url.pathname;
+---
+
+<nav>
+  <a href="/" class="logo">weit<span>.</span>be</a>
+  <ul>
+    {navLinks.map(link => (
+      <li>
+        <a href={link.href} class={current.startsWith(link.href) ? "active" : ""}>
+          {link.label}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 48px;
+    border-bottom: 1px solid var(--border);
+    background: #fff;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .logo span { color: var(--teal); }
+  ul {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  a {
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: color 0.15s;
+  }
+  a:hover, a.active { color: var(--text); }
+</style>

@@ -1,0 +1,253 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base title="contact">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="label mono">// contact</div>
+    <h1>Een project in gedachten?</h1>
+    <p>Vertel me wat je nodig hebt — geen verplichtingen, gewoon een gesprek. Stuur een bericht of plan meteen een kennismakingsgesprek in.</p>
+  </section>
+
+  <section class="contact-grid">
+
+    <div class="form-block">
+      <div class="mono section-label">// stuur een bericht</div>
+      <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="JOUW_WEB3FORMS_KEY_HIER" />
+        <input type="hidden" name="subject" value="Nieuw bericht via weit.be" />
+        <input type="hidden" name="redirect" value="false" />
+        <input type="checkbox" name="botcheck" style="display:none" />
+
+        <div class="field">
+          <label for="name">naam</label>
+          <input type="text" id="name" name="name" required placeholder="Jan Janssen" />
+        </div>
+
+        <div class="field">
+          <label for="email">e-mail</label>
+          <input type="email" id="email" name="email" required placeholder="jan@bedrijf.be" />
+        </div>
+
+        <div class="field">
+          <label for="company">bedrijf <span class="optional">(optioneel)</span></label>
+          <input type="text" id="company" name="company" placeholder="Bedrijf BV" />
+        </div>
+
+        <div class="field">
+          <label for="message">bericht</label>
+          <textarea id="message" name="message" required rows="5" placeholder="Vertel me wat je nodig hebt..."></textarea>
+        </div>
+
+        <button type="submit" id="submit-btn">Verstuur bericht</button>
+        <div id="form-result" class="form-result"></div>
+      </form>
+    </div>
+
+    <div class="cal-block">
+      <div class="mono section-label">// plan een gesprek</div>
+      <div class="cal-wrapper">
+        <div style="width:100%;height:100%;overflow:scroll" id="my-cal-inline-project-intake"></div>
+      </div>
+    </div>
+
+  </section>
+
+  <Footer slot="footer" />
+</Base>
+
+<script type="text/javascript">
+  (function (C, A, L) {
+    let p = function (a, ar) { a.q.push(ar); };
+    let d = C.document;
+    C.Cal = C.Cal || function () {
+      let cal = C.Cal; let ar = arguments;
+      if (!cal.loaded) {
+        cal.ns = {}; cal.q = cal.q || [];
+        d.head.appendChild(d.createElement("script")).src = A;
+        cal.loaded = true;
+      }
+      if (ar[0] === L) {
+        const api = function () { p(api, arguments); };
+        const namespace = ar[1];
+        api.q = api.q || [];
+        if (typeof namespace === "string") {
+          cal.ns[namespace] = cal.ns[namespace] || api;
+          p(cal.ns[namespace], ar);
+          p(cal, ["initNamespace", namespace]);
+        } else p(cal, ar);
+        return;
+      }
+      p(cal, ar);
+    };
+  })(window, "https://app.cal.eu/embed/embed.js", "init");
+
+  Cal("init", "project-intake", { origin: "https://app.cal.eu" });
+  Cal.ns["project-intake"]("inline", {
+    elementOrSelector: "#my-cal-inline-project-intake",
+    config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
+    calLink: "johan-beysen-3rh9fy/project-intake",
+  });
+  Cal.ns["project-intake"]("ui", {
+    hideEventTypeDetails: false,
+    layout: "month_view",
+  });
+</script>
+
+<script>
+  const form = document.getElementById("contact-form") as HTMLFormElement;
+  const result = document.getElementById("form-result");
+  const btn = document.getElementById("submit-btn");
+
+  form?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    btn!.textContent = "Bezig...";
+    btn!.setAttribute("disabled", "true");
+
+    const formData = new FormData(form);
+    const response = await fetch("https://api.web3forms.com/submit", {
+      method: "POST",
+      body: formData,
+    });
+    const data = await response.json();
+
+    if (data.success) {
+      result!.textContent = "Bericht verzonden — ik neem zo snel mogelijk contact op.";
+      result!.className = "form-result success";
+      form.reset();
+    } else {
+      result!.textContent = "Er liep iets mis. Probeer opnieuw of mail me rechtstreeks.";
+      result!.className = "form-result error";
+    }
+
+    btn!.textContent = "Verstuur bericht";
+    btn!.removeAttribute("disabled");
+  });
+</script>
+
+<style>
+  .mono { font-family: var(--mono); }
+  .section-label {
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+  }
+
+  .page-hero {
+    padding: 64px 48px 56px;
+    border-bottom: 1px solid var(--border);
+    max-width: 680px;
+  }
+  .page-hero .label {
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .page-hero h1 {
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .page-hero p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    min-height: 600px;
+  }
+
+  .form-block {
+    padding: 56px 48px;
+    border-right: 1px solid var(--border);
+  }
+
+  .cal-block {
+    padding: 56px 48px;
+    background: var(--gray-100);
+  }
+
+  .cal-wrapper {
+    height: 580px;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+
+  label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    font-family: var(--mono);
+  }
+
+  .optional {
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: var(--sans);
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.15s;
+  }
+
+  input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--teal);
+  }
+
+  textarea { resize: vertical; }
+
+  button[type="submit"] {
+    background: var(--teal);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 22px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  button[type="submit"]:hover { background: var(--teal-dark); }
+  button[type="submit"]:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+
+  .form-result {
+    margin-top: 16px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  .form-result.success { color: var(--teal-dark); }
+  .form-result.error { color: #993C1D; }
+</style>

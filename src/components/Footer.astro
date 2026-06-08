@@ -1,0 +1,45 @@
+---
+const year = new Date().getFullYear();
+---
+
+<footer>
+  <div class="left">
+    <span class="logo">weit<span>.</span>be</span>
+    <span class="tagline">consulting · development · automation</span>
+  </div>
+  <div class="right">
+    <span class="mono">// {year}</span>
+  </div>
+</footer>
+
+<style>
+  footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 48px;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+  }
+  .left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .logo {
+    font-family: var(--mono);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .logo span { color: var(--teal); }
+  .tagline {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .mono {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+</style>

@@ -1,17 +1,240 @@
 ---
-
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Base title="home">
+  <Nav slot="nav" />
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="label mono">// consulting · development · automation</div>
+      <h1>Digitale problemen<br />oplossen, van begin<br />tot einde.</h1>
+      <p>Ik help bedrijven bouwen wat werkt, automatiseren wat tijd kost, en denken over wat complex lijkt.</p>
+      <div class="hero-cta">
+        <a href="/contact" class="btn-primary">Neem contact op</a>
+        <a href="/projects" class="mono subtle">↓ bekijk projecten</a>
+      </div>
+    </div>
+    <div class="hero-code mono" aria-hidden="true">
+      <span class="kw">const</span> <span class="fn">weit</span> = &#123;<br />
+      &nbsp;&nbsp;focus: <span class="str">"resultaat"</span>,<br />
+      &nbsp;&nbsp;aanpak: <span class="str">"pragmatisch"</span>,<br />
+      &nbsp;&nbsp;overhead: <span class="val">false</span><br />
+      &#125;
+    </div>
+  </section>
+
+  <section class="diensten">
+    <div class="section-label mono">// wat ik doe</div>
+    <div class="diensten-grid">
+
+      <a href="/consulting" class="dienst-card">
+        <div class="icon">&#x1F4A1;</div>
+        <h3>consulting</h3>
+        <p>Meedenken over digitale vraagstukken. Van procesanalyse tot technische roadmap.</p>
+        <span class="mono arrow">→ meer</span>
+      </a>
+
+      <a href="/development" class="dienst-card featured">
+        <div class="icon">&#x1F4BB;</div>
+        <h3>development</h3>
+        <p>Webapplicaties, tools en integraties. Clean code, geen overbodige complexiteit.</p>
+        <span class="mono arrow">→ meer</span>
+      </a>
+
+      <a href="/automation" class="dienst-card">
+        <div class="icon">&#x2699;&#xFE0F;</div>
+        <h3>automation</h3>
+        <p>Repetitief werk uit handen nemen. Workflows, scripts en slimme koppelingen.</p>
+        <span class="mono arrow">→ meer</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="projecten">
+    <div class="section-header">
+      <div class="section-label mono">// projecten</div>
+      <a href="/projects" class="mono subtle">alle projecten →</a>
+    </div>
+    <div class="projecten-grid">
+      <div class="project-card empty">
+        <span class="tag mono">binnenkort</span>
+        <h4>Projecten volgen</h4>
+        <p>Portfolio groeit project per project. Wordt vervolgd.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact-cta">
+    <div class="section-label mono">// contact</div>
+    <h2>Een project in gedachten?</h2>
+    <p>Vertel me wat je nodig hebt — geen verplichtingen, gewoon een gesprek.</p>
+    <a href="/contact" class="btn-primary">Stuur een bericht</a>
+  </section>
+
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  /* hero */
+  .hero {
+    background: #111;
+    padding: 72px 48px 64px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 32px;
+  }
+  .hero-content { max-width: 520px; }
+  .hero h1 {
+    font-size: 40px;
+    font-weight: 500;
+    color: #fff;
+    line-height: 1.2;
+    margin: 16px 0 20px;
+  }
+  .hero p {
+    font-size: 15px;
+    color: #888780;
+    line-height: 1.7;
+    margin-bottom: 32px;
+  }
+  .hero-cta { display: flex; align-items: center; gap: 20px; }
+  .hero-code {
+    font-size: 12px;
+    color: #2C2C2A;
+    line-height: 2;
+    padding-top: 8px;
+    white-space: nowrap;
+  }
+  .hero-code .kw { color: #534AB7; }
+  .hero-code .fn { color: #5DCAA5; }
+  .hero-code .str { color: #EF9F27; }
+  .hero-code .val { color: #EF9F27; }
+
+  /* buttons */
+  .btn-primary {
+    background: var(--teal);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 22px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--teal-dark); }
+
+  /* shared */
+  .mono { font-family: var(--mono); }
+  .subtle { font-size: 12px; color: var(--text-muted); }
+  .subtle:hover { color: var(--text); }
+  .section-label {
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+  }
+
+  /* diensten */
+  .diensten {
+    padding: 56px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .diensten-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .dienst-card {
+    display: block;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.15s;
+  }
+  .dienst-card:hover { border-color: var(--teal); }
+  .dienst-card.featured { border: 2px solid var(--teal); }
+  .dienst-card .icon { font-size: 20px; margin-bottom: 14px; }
+  .dienst-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+  .dienst-card p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .arrow {
+    display: block;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--teal);
+  }
+
+  /* projecten */
+  .projecten {
+    padding: 56px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  .projecten-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .project-card {
+    background: var(--gray-100);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .project-card.empty {
+    border: 1px dashed var(--gray-200);
+  }
+  .project-card h4 {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 10px 0 6px;
+    color: var(--text-muted);
+  }
+  .project-card p {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .tag {
+    font-size: 11px;
+    background: var(--gray-200);
+    color: #444441;
+    padding: 3px 8px;
+    border-radius: 4px;
+    display: inline-block;
+  }
+
+  /* contact cta */
+  .contact-cta {
+    padding: 56px 48px;
+    background: var(--gray-100);
+  }
+  .contact-cta h2 {
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .contact-cta p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+</style>

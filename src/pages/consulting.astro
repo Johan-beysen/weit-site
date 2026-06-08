@@ -1,0 +1,142 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Base title="consulting">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="label mono">// consulting</div>
+    <h1>Denken voor je bouwt.</h1>
+    <p>Veel digitale projecten mislukken niet door slechte code, maar door onduidelijke vraagstelling. Ik help je de juiste vragen stellen voor je aan de slag gaat.</p>
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="mono section-label">// wat dit inhoudt</div>
+      <div class="items">
+        <div class="item">
+          <h3>Procesanalyse</h3>
+          <p>Hoe werkt het nu, waar wringt het, en wat is de meest efficiënte oplossing? Zonder meteen naar tooling te springen.</p>
+        </div>
+        <div class="item">
+          <h3>Technische roadmap</h3>
+          <p>Van vage wens naar concreet plan. Wat bouw je zelf, wat koop je, in welke volgorde pak je het aan.</p>
+        </div>
+        <div class="item">
+          <h3>Vendor- en toolselectie</h3>
+          <p>Welk platform, welke stack, welke leverancier — met een onderbouwde redenering, niet op buikgevoel.</p>
+        </div>
+        <div class="item">
+          <h3>Second opinion</h3>
+          <p>Al een plan of offerte ontvangen? Ik kijk mee met een frisse blik en zeg wat ik er van denk.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="mono section-label">// voor wie</div>
+      <ul>
+        <li>KMO's die een digitaal project willen starten maar niet weten waar te beginnen</li>
+        <li>Bedrijven die twijfelen over een technische beslissing</li>
+        <li>Teams die vastlopen en een externe blik nodig hebben</li>
+      </ul>
+      <a href="/contact" class="btn-primary">Gesprek inplannen</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>
+
+<style>
+  .mono { font-family: var(--mono); }
+  .section-label {
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    margin-bottom: 24px;
+  }
+
+  .page-hero {
+    padding: 64px 48px 56px;
+    border-bottom: 1px solid var(--border);
+    max-width: 680px;
+  }
+  .page-hero .label {
+    font-size: 11px;
+    color: var(--teal);
+    letter-spacing: 0.08em;
+    margin-bottom: 16px;
+  }
+  .page-hero h1 {
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+  .page-hero p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  .content {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .block {
+    padding: 56px 48px;
+  }
+  .block.aside {
+    border-left: 1px solid var(--border);
+    background: var(--gray-100);
+  }
+
+  .items {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .item h3 {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .item p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .aside ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .aside ul li {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+    padding-left: 16px;
+    border-left: 2px solid var(--teal);
+    border-radius: 0;
+  }
+
+  .btn-primary {
+    background: var(--teal);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 22px;
+    border-radius: 6px;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--teal-dark); }
+</style>
