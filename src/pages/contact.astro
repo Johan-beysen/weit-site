@@ -180,9 +180,9 @@ import Footer from "../components/Footer.astro";
   }
 
   .cal-wrapper {
-    height: 580px;
+    min-height: 580px;
     border-radius: 12px;
-    overflow: hidden;
+    overflow: visible;
   }
 
   .field {
@@ -265,7 +265,7 @@ import Footer from "../components/Footer.astro";
       padding-bottom: 40px;
     }
     .cal-block { padding-top: 40px; padding-bottom: 40px; }
-    .cal-wrapper { height: 500px; }
+    .cal-wrapper { min-height: 500px; }
   }
 
   @media (max-width: 640px) {
