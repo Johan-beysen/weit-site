@@ -18,7 +18,7 @@ import Footer from "../components/Footer.astro";
     <div class="form-block">
       <div class="mono section-label">// stuur een bericht</div>
       <form id="contact-form" action="https://api.web3forms.com/submit" method="POST">
-        <input type="hidden" name="access_key" value="JOUW_WEB3FORMS_KEY_HIER" />
+        <input type="hidden" name="access_key" value="9911e82b-b3eb-431c-918c-e3e0ae4aea36" />
         <input type="hidden" name="subject" value="Nieuw bericht via weit.be" />
         <input type="hidden" name="redirect" value="false" />
         <input type="checkbox" name="botcheck" style="display:none" />
@@ -120,7 +120,7 @@ import Footer from "../components/Footer.astro";
       result!.className = "form-result success";
       form.reset();
     } else {
-      result!.textContent = "Er liep iets mis. Probeer opnieuw of mail me rechtstreeks.";
+      result!.textContent = `Fout: ${data.message ?? "Onbekende fout"}`;
       result!.className = "form-result error";
     }
 
@@ -139,7 +139,7 @@ import Footer from "../components/Footer.astro";
   }
 
   .page-hero {
-    padding: 64px 48px 56px;
+    padding: 64px var(--px) 56px;
     border-bottom: 1px solid var(--border);
     max-width: 680px;
   }
@@ -170,12 +170,12 @@ import Footer from "../components/Footer.astro";
   }
 
   .form-block {
-    padding: 56px 48px;
+    padding: 56px var(--px);
     border-right: 1px solid var(--border);
   }
 
   .cal-block {
-    padding: 56px 48px;
+    padding: 56px var(--px);
     background: var(--gray-100);
   }
 
@@ -250,4 +250,25 @@ import Footer from "../components/Footer.astro";
   }
   .form-result.success { color: var(--teal-dark); }
   .form-result.error { color: #993C1D; }
+
+  @media (max-width: 768px) {
+    .page-hero { padding-top: 40px; padding-bottom: 32px; max-width: 100%; }
+    .page-hero h1 { font-size: 28px; }
+    .contact-grid {
+      grid-template-columns: 1fr;
+      min-height: unset;
+    }
+    .form-block {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .cal-block { padding-top: 40px; padding-bottom: 40px; }
+    .cal-wrapper { height: 500px; }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero h1 { font-size: 24px; }
+  }
 </style>

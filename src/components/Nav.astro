@@ -28,7 +28,7 @@ const current = Astro.url.pathname;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 48px;
+    padding: 16px var(--px);
     border-bottom: 1px solid var(--border);
     background: #fff;
   }
@@ -50,4 +50,13 @@ const current = Astro.url.pathname;
     transition: color 0.15s;
   }
   a:hover, a.active { color: var(--text); }
+
+  @media (max-width: 640px) {
+    nav {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    ul { gap: 20px; flex-wrap: wrap; }
+  }
 </style>

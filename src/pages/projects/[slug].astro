@@ -7,9 +7,9 @@ export async function getStaticPaths() {
   const projectFiles = import.meta.glob("../../content/projects/*.md", { eager: true });
   return Object.entries(projectFiles).map(([path, project]) => ({
     params: {
-      slug: path.split('/').pop().replace('.md', '')
+      slug: (path.split('/').pop() as string).replace('.md', '')
     },
-    props: { project }
+    props: { project: project as any }
   }));
 }
 
@@ -61,7 +61,7 @@ const Content = project.default ?? (() => null);
   .mono { font-family: var(--mono); }
 
   .page-hero {
-    padding: 64px 48px 56px;
+    padding: 64px var(--px) 56px;
     border-bottom: 1px solid var(--border);
     max-width: 720px;
   }
@@ -114,7 +114,7 @@ const Content = project.default ?? (() => null);
   }
 
   .project-content {
-    padding: 56px 48px;
+    padding: 56px var(--px);
     max-width: 720px;
     border-bottom: 1px solid var(--border);
   }
@@ -152,11 +152,23 @@ const Content = project.default ?? (() => null);
   }
 
   .back {
-    padding: 32px 48px;
+    padding: 32px var(--px);
   }
   .back a {
     font-size: 13px;
     color: var(--text-muted);
   }
   .back a:hover { color: var(--teal); }
+
+  @media (max-width: 768px) {
+    .page-hero { padding-top: 40px; padding-bottom: 32px; max-width: 100%; }
+    .page-hero h1 { font-size: 28px; }
+    .details { flex-direction: column; gap: 16px; }
+    .project-content { padding-top: 40px; padding-bottom: 40px; }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero h1 { font-size: 24px; }
+    .back { padding-top: 24px; padding-bottom: 24px; }
+  }
 </style>

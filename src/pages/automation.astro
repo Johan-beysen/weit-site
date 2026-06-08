@@ -60,7 +60,7 @@ import Footer from "../components/Footer.astro";
   }
 
   .page-hero {
-    padding: 64px 48px 56px;
+    padding: 64px var(--px) 56px;
     border-bottom: 1px solid var(--border);
     max-width: 680px;
   }
@@ -89,7 +89,7 @@ import Footer from "../components/Footer.astro";
     border-bottom: 1px solid var(--border);
   }
 
-  .block { padding: 56px 48px; }
+  .block { padding: 56px var(--px); }
   .block.aside {
     border-left: 1px solid var(--border);
     background: var(--gray-100);
@@ -124,7 +124,6 @@ import Footer from "../components/Footer.astro";
     line-height: 1.5;
     padding-left: 16px;
     border-left: 2px solid var(--teal);
-    border-radius: 0;
   }
 
   .btn-primary {
@@ -137,4 +136,17 @@ import Footer from "../components/Footer.astro";
     display: inline-block;
   }
   .btn-primary:hover { background: var(--teal-dark); }
+
+  @media (max-width: 768px) {
+    .page-hero { padding-top: 40px; padding-bottom: 32px; max-width: 100%; }
+    .page-hero h1 { font-size: 28px; }
+    .content { grid-template-columns: 1fr; }
+    .block.aside { border-left: none; border-top: 1px solid var(--border); }
+    .items { gap: 24px; }
+  }
+
+  @media (max-width: 640px) {
+    .page-hero h1 { font-size: 24px; }
+    .items { grid-template-columns: 1fr; }
+  }
 </style>
