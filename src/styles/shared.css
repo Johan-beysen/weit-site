@@ -29,33 +29,44 @@
 }
 .btn-primary:hover { background: var(--teal-dark); }
 
-/* Hero-blok bovenaan elke pagina — titel + omschrijving */
+/* Donkere hero bovenaan elke pagina — kleiner dan de homepage hero,
+   zonder code-snippet. Achtergrond is full-width, tekst beperkt tot
+   680px zodat lange regels vermeden worden op brede schermen. */
 .page-hero {
-  padding: 64px var(--px) 56px;
-  border-bottom: 1px solid var(--border);
-  max-width: 680px;
+  background: #111;
+  padding: 56px var(--px) 48px;
 }
+
+/* Breedte beperken op de tekstelementen, niet op de sectie zelf */
+.page-hero .label,
+.page-hero h1,
+.page-hero p { max-width: 680px; }
+
+/* Kleine teal label bv. "// consulting" */
 .page-hero .label {
   font-size: 11px;
   color: var(--teal);
   letter-spacing: 0.08em;
   margin-bottom: 16px;
 }
+
 .page-hero h1 {
   font-size: 36px;
   font-weight: 500;
   line-height: 1.2;
+  color: #fff;
   margin-bottom: 20px;
 }
+
 .page-hero p {
   font-size: 15px;
-  color: var(--text-muted);
+  color: #888780;
   line-height: 1.7;
 }
 
 /* Responsive — tablet */
 @media (max-width: 768px) {
-  .page-hero { padding-top: 40px; padding-bottom: 32px; max-width: 100%; }
+  .page-hero { padding-top: 40px; padding-bottom: 32px; }
   .page-hero h1 { font-size: 28px; }
 }
 
