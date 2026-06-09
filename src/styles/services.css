@@ -1,0 +1,61 @@
+/* =============================================================
+   services.css — gedeelde layout voor consulting, development
+   en automation pagina's (identieke structuur, andere inhoud)
+   ============================================================= */
+
+/* Tweekolomslayout: inhoud links, sidebar rechts */
+.content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Blok = een kolom in de content grid */
+.block { padding: 56px var(--px); }
+
+/* Sidebar: lichte achtergrond, links gescheiden door een border */
+.block.aside {
+  border-left: 1px solid var(--border);
+  background: var(--gray-100);
+}
+
+/* 2x2 grid van beschrijvende items in de linkerkolom */
+.items {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.item h3 { font-size: 14px; font-weight: 500; margin-bottom: 8px; }
+.item p   { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+/* Lijst in de sidebar met teal linkerborder per item */
+.aside ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.aside ul li {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  padding-left: 16px;
+  border-left: 2px solid var(--teal);
+}
+
+/* --- Responsive -------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* Sidebar stapelt onder de inhoud */
+  .content { grid-template-columns: 1fr; }
+  .block.aside { border-left: none; border-top: 1px solid var(--border); }
+  .items { gap: 24px; }
+}
+
+@media (max-width: 640px) {
+  /* Items van 2 naar 1 kolom op mobiel */
+  .items { grid-template-columns: 1fr; }
+}

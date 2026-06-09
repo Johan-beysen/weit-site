@@ -1,0 +1,106 @@
+/* =============================================================
+   contact.css — stijlen voor de contactpagina
+   Bevat: formulierlayout, velden, Cal.eu embed wrapper
+   ============================================================= */
+
+/* Tweekolomslayout: formulier links, kalender rechts */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  min-height: 600px;
+}
+
+/* Linkerkolom: contactformulier */
+.form-block {
+  padding: 56px var(--px);
+  border-right: 1px solid var(--border);
+}
+
+/* Rechterkolom: Cal.eu kalender embed */
+.cal-block {
+  padding: 56px var(--px);
+  background: var(--gray-100);
+}
+
+/* Container voor de Cal.eu inline embed — min-height zodat de
+   volledige maand zichtbaar is, overflow visible om afkappen
+   te vermijden */
+.cal-wrapper {
+  min-height: 580px;
+  border-radius: 12px;
+  overflow: visible;
+}
+
+/* Binnenste div van de Cal embed — dimensies voor de widget */
+.cal-inner { width: 100%; height: 100%; overflow: scroll; }
+
+/* --- Formuliervelden --------------------------------------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text);
+  font-family: var(--mono);
+}
+
+/* Optioneel veld — grijs (optioneel) naast het label */
+.optional { font-weight: 400; color: var(--text-muted); }
+
+input, textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: var(--sans);
+  color: var(--text);
+  background: #fff;
+  transition: border-color 0.15s;
+}
+input:focus, textarea:focus { outline: none; border-color: var(--teal); }
+textarea { resize: vertical; }
+
+/* Verstuur-knop — volledige breedte */
+button[type="submit"] {
+  background: var(--teal);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 10px 22px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.15s;
+  width: 100%;
+  margin-top: 4px;
+}
+button[type="submit"]:hover    { background: var(--teal-dark); }
+button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* Feedback na formulierverzending */
+.form-result { margin-top: 16px; font-size: 13px; line-height: 1.5; }
+.form-result.success { color: var(--teal-dark); }
+.form-result.error   { color: #993C1D; }
+
+/* Honeypot veld voor spambeveiliging — nooit zichtbaar voor
+   echte gebruikers, bots vullen het wel in */
+.honeypot { display: none; }
+
+/* --- Responsive -------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* Kalender stapelt onder het formulier */
+  .contact-grid { grid-template-columns: 1fr; min-height: unset; }
+  .form-block { border-right: none; border-bottom: 1px solid var(--border); padding-top: 40px; padding-bottom: 40px; }
+  .cal-block  { padding-top: 40px; padding-bottom: 40px; }
+  .cal-wrapper { min-height: 500px; }
+}

@@ -1,0 +1,64 @@
+/* =============================================================
+   projects.css — stijlen voor de projectenlijst (projects/index)
+   ============================================================= */
+
+/* Wrapper voor de volledige projectenlijst */
+.projects-list { padding: 56px var(--px); }
+
+/* Lege staat wanneer er nog geen projecten zijn */
+.empty { max-width: 480px; }
+.empty p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+/* Tweekolomsgrid van projectkaarten */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+/* Individuele projectkaart */
+.project-card {
+  display: block;
+  background: var(--gray-100);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: border-color 0.15s;
+}
+.project-card:hover { border-color: var(--teal); }
+
+/* Bovenkant kaart: categorie-tag links, jaar rechts */
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+/* Categorie-badge in teal */
+.tag {
+  font-size: 11px;
+  background: #E1F5EE;
+  color: #085041;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.year  { font-size: 11px; color: var(--text-muted); }
+
+.project-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+.project-card p  { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+/* "→ lees meer" link onderaan de kaart */
+.arrow { display: block; margin-top: 16px; font-size: 12px; color: var(--teal); }
+
+/* --- Responsive -------------------------------------------- */
+
+@media (max-width: 768px) {
+  .projects-list { padding-top: 40px; padding-bottom: 40px; }
+}
+
+@media (max-width: 640px) {
+  /* Projecten van 2 naar 1 kolom op mobiel */
+  .grid { grid-template-columns: 1fr; }
+}

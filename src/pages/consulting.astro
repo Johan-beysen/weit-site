@@ -2,6 +2,8 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import "../styles/shared.css";
+import "../styles/services.css";
 ---
 
 <Base title="consulting">
@@ -49,104 +51,3 @@ import Footer from "../components/Footer.astro";
 
   <Footer slot="footer" />
 </Base>
-
-<style>
-  .mono { font-family: var(--mono); }
-  .section-label {
-    font-size: 11px;
-    color: var(--teal);
-    letter-spacing: 0.08em;
-    margin-bottom: 24px;
-  }
-
-  .page-hero {
-    padding: 64px var(--px) 56px;
-    border-bottom: 1px solid var(--border);
-    max-width: 680px;
-  }
-  .page-hero .label {
-    font-size: 11px;
-    color: var(--teal);
-    letter-spacing: 0.08em;
-    margin-bottom: 16px;
-  }
-  .page-hero h1 {
-    font-size: 36px;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 20px;
-  }
-  .page-hero p {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-
-  .content {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-  }
-
-  .block { padding: 56px var(--px); }
-  .block.aside {
-    border-left: 1px solid var(--border);
-    background: var(--gray-100);
-  }
-
-  .items {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-  }
-  .item h3 {
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 8px;
-  }
-  .item p {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  .aside ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    margin-bottom: 32px;
-  }
-  .aside ul li {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.5;
-    padding-left: 16px;
-    border-left: 2px solid var(--teal);
-  }
-
-  .btn-primary {
-    background: var(--teal);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 10px 22px;
-    border-radius: 6px;
-    display: inline-block;
-  }
-  .btn-primary:hover { background: var(--teal-dark); }
-
-  @media (max-width: 768px) {
-    .page-hero { padding-top: 40px; padding-bottom: 32px; max-width: 100%; }
-    .page-hero h1 { font-size: 28px; }
-    .content { grid-template-columns: 1fr; }
-    .block.aside { border-left: none; border-top: 1px solid var(--border); }
-    .items { gap: 24px; }
-  }
-
-  @media (max-width: 640px) {
-    .page-hero h1 { font-size: 24px; }
-    .items { grid-template-columns: 1fr; }
-  }
-</style>

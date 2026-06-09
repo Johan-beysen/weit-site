@@ -1,0 +1,67 @@
+/* =============================================================
+   project-detail.css — stijlen voor een individuele projectpagina
+   (projects/[slug].astro)
+   ============================================================= */
+
+/* Metadata bovenaan: categorie-tag + jaar */
+.meta { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+
+/* Categorie-badge in teal */
+.tag {
+  font-size: 11px;
+  background: #E1F5EE;
+  color: #085041;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.year { font-size: 11px; color: var(--text-muted); }
+
+/* Project detail info: client + stack naast elkaar */
+.details { display: flex; gap: 32px; }
+
+.detail { display: flex; flex-direction: column; gap: 4px; }
+
+/* Kleine teal label "// client" of "// stack" */
+.label { font-size: 11px; color: var(--teal); letter-spacing: 0.08em; }
+.detail span:last-child { font-size: 13px; color: var(--text-muted); }
+
+/* Artikel met de markdown inhoud van het project */
+.project-content {
+  padding: 56px var(--px);
+  max-width: 720px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Markdown opmaak binnen het artikel */
+.project-content :global(h2) { font-size: 20px; font-weight: 500; margin: 40px 0 16px; }
+.project-content :global(h3) { font-size: 16px; font-weight: 500; margin: 28px 0 12px; }
+.project-content :global(p)  { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+.project-content :global(ul) { margin: 0 0 16px 20px; }
+.project-content :global(li) { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 6px; }
+
+/* Inline code binnen markdown */
+.project-content :global(code) {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--gray-100);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Terug-link onderaan */
+.back { padding: 32px var(--px); }
+.back a { font-size: 13px; color: var(--text-muted); }
+.back a:hover { color: var(--teal); }
+
+/* --- Responsive -------------------------------------------- */
+
+@media (max-width: 768px) {
+  /* Client + stack stapelen verticaal */
+  .details { flex-direction: column; gap: 16px; }
+  .project-content { padding-top: 40px; padding-bottom: 40px; }
+}
+
+@media (max-width: 640px) {
+  .back { padding-top: 24px; padding-bottom: 24px; }
+}

@@ -1,0 +1,154 @@
+/* =============================================================
+   home.css — stijlen specifiek voor de homepage (index.astro)
+   ============================================================= */
+
+/* --- Hero --------------------------------------------------- */
+
+/* Donkere hero met intro tekst links en code-display rechts */
+.hero {
+  background: #111;
+  padding: 72px var(--px) 64px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.hero-content { max-width: 520px; }
+
+.hero h1 {
+  font-size: 40px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.2;
+  margin: 16px 0 20px;
+}
+
+.hero p {
+  font-size: 15px;
+  color: #888780;
+  line-height: 1.7;
+  margin-bottom: 32px;
+}
+
+.hero-cta { display: flex; align-items: center; gap: 20px; }
+
+/* Decoratief code-blok rechts in de hero (verborgen op mobiel) */
+.hero-code {
+  font-size: 12px;
+  color: #2C2C2A;
+  line-height: 2;
+  padding-top: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+/* Syntax highlighting kleuren voor het code-blok */
+.hero-code .kw  { color: #534AB7; } /* keyword */
+.hero-code .fn  { color: #5DCAA5; } /* function */
+.hero-code .str { color: #EF9F27; } /* string */
+.hero-code .val { color: #EF9F27; } /* value */
+
+/* --- Diensten grid ----------------------------------------- */
+
+/* Sectie met drie dienstenkaarten */
+.diensten {
+  padding: 56px var(--px);
+  border-bottom: 1px solid var(--border);
+}
+
+.diensten-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.dienst-card {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  transition: border-color 0.15s;
+}
+.dienst-card:hover { border-color: var(--teal); }
+
+/* Featured kaart (development) heeft een volle teal border */
+.dienst-card.featured { border: 2px solid var(--teal); }
+
+.dienst-card .icon { font-size: 20px; margin-bottom: 14px; }
+.dienst-card h3 { font-size: 15px; font-weight: 500; margin-bottom: 8px; color: var(--text); }
+.dienst-card p  { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+/* Pijl-link onderaan een kaart */
+.arrow { display: block; margin-top: 16px; font-size: 12px; color: var(--teal); }
+
+/* --- Projecten preview ------------------------------------- */
+
+.projecten {
+  padding: 56px var(--px);
+  border-bottom: 1px solid var(--border);
+}
+
+/* Header met label links en "alle projecten →" link rechts */
+.section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.projecten-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.project-card { background: var(--gray-100); border-radius: 12px; padding: 24px; }
+
+/* Stippelrand voor de "binnenkort" placeholder kaart */
+.project-card.empty { border: 1px dashed var(--gray-200); }
+
+.project-card h4 { font-size: 14px; font-weight: 500; margin: 10px 0 6px; color: var(--text-muted); }
+.project-card p  { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+
+/* Tag badge op de placeholder kaart */
+.tag {
+  font-size: 11px;
+  background: var(--gray-200);
+  color: #444441;
+  padding: 3px 8px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* --- Contact CTA ------------------------------------------- */
+
+/* Afsluitend blok met uitnodiging om contact op te nemen */
+.contact-cta { padding: 56px var(--px); background: var(--gray-100); }
+.contact-cta h2 { font-size: 22px; font-weight: 500; margin-bottom: 8px; }
+.contact-cta p  { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
+
+/* --- Responsive -------------------------------------------- */
+
+@media (max-width: 1024px) {
+  /* Diensten van 3 naar 2 kolommen op tablet */
+  .diensten-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .hero { flex-direction: column; padding-top: 48px; padding-bottom: 40px; gap: 0; }
+  .hero-code { display: none; }
+  .hero h1 { font-size: 32px; }
+  .diensten  { padding-top: 40px; padding-bottom: 40px; }
+  .projecten { padding-top: 40px; padding-bottom: 40px; }
+  .contact-cta { padding-top: 40px; padding-bottom: 40px; }
+}
+
+@media (max-width: 640px) {
+  .hero h1 { font-size: 26px; }
+  .hero p  { margin-bottom: 24px; }
+  .hero-cta { flex-direction: column; align-items: flex-start; gap: 14px; }
+  /* Alles naar 1 kolom op mobiel */
+  .diensten-grid  { grid-template-columns: 1fr; }
+  .projecten-grid { grid-template-columns: 1fr; }
+}

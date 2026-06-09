@@ -2,6 +2,8 @@
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
+import "../../styles/shared.css";
+import "../../styles/project-detail.css";
 
 export async function getStaticPaths() {
   const projectFiles = import.meta.glob("../../content/projects/*.md", { eager: true });
@@ -56,119 +58,3 @@ const Content = project.default ?? (() => null);
 
   <Footer slot="footer" />
 </Base>
-
-<style>
-  .mono { font-family: var(--mono); }
-
-  .page-hero {
-    padding: 64px var(--px) 56px;
-    border-bottom: 1px solid var(--border);
-    max-width: 720px;
-  }
-  .meta {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-  .tag {
-    font-size: 11px;
-    background: #E1F5EE;
-    color: #085041;
-    padding: 3px 8px;
-    border-radius: 4px;
-  }
-  .year {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-  .page-hero h1 {
-    font-size: 36px;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 20px;
-  }
-  .page-hero p {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 32px;
-  }
-  .details {
-    display: flex;
-    gap: 32px;
-  }
-  .detail {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .label {
-    font-size: 11px;
-    color: var(--teal);
-    letter-spacing: 0.08em;
-  }
-  .detail span:last-child {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-
-  .project-content {
-    padding: 56px var(--px);
-    max-width: 720px;
-    border-bottom: 1px solid var(--border);
-  }
-  .project-content :global(h2) {
-    font-size: 20px;
-    font-weight: 500;
-    margin: 40px 0 16px;
-  }
-  .project-content :global(h3) {
-    font-size: 16px;
-    font-weight: 500;
-    margin: 28px 0 12px;
-  }
-  .project-content :global(p) {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 16px;
-  }
-  .project-content :global(ul) {
-    margin: 0 0 16px 20px;
-  }
-  .project-content :global(li) {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.7;
-    margin-bottom: 6px;
-  }
-  .project-content :global(code) {
-    font-family: var(--mono);
-    font-size: 13px;
-    background: var(--gray-100);
-    padding: 2px 6px;
-    border-radius: 4px;
-  }
-
-  .back {
-    padding: 32px var(--px);
-  }
-  .back a {
-    font-size: 13px;
-    color: var(--text-muted);
-  }
-  .back a:hover { color: var(--teal); }
-
-  @media (max-width: 768px) {
-    .page-hero { padding-top: 40px; padding-bottom: 32px; max-width: 100%; }
-    .page-hero h1 { font-size: 28px; }
-    .details { flex-direction: column; gap: 16px; }
-    .project-content { padding-top: 40px; padding-bottom: 40px; }
-  }
-
-  @media (max-width: 640px) {
-    .page-hero h1 { font-size: 24px; }
-    .back { padding-top: 24px; padding-bottom: 24px; }
-  }
-</style>

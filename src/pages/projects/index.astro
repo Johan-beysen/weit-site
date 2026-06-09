@@ -2,6 +2,8 @@
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
+import "../../styles/shared.css";
+import "../../styles/projects.css";
 
 const projectFiles = import.meta.glob("../../content/projects/*.md", { eager: true });
 const projects = Object.values(projectFiles);
@@ -41,109 +43,3 @@ const projects = Object.values(projectFiles);
 
   <Footer slot="footer" />
 </Base>
-
-<style>
-  .mono { font-family: var(--mono); }
-  .section-label {
-    font-size: 11px;
-    color: var(--teal);
-    letter-spacing: 0.08em;
-    margin-bottom: 16px;
-  }
-
-  .page-hero {
-    padding: 64px var(--px) 56px;
-    border-bottom: 1px solid var(--border);
-    max-width: 680px;
-  }
-  .page-hero .label {
-    font-size: 11px;
-    color: var(--teal);
-    letter-spacing: 0.08em;
-    margin-bottom: 16px;
-  }
-  .page-hero h1 {
-    font-size: 36px;
-    font-weight: 500;
-    line-height: 1.2;
-    margin-bottom: 20px;
-  }
-  .page-hero p {
-    font-size: 15px;
-    color: var(--text-muted);
-    line-height: 1.7;
-  }
-
-  .projects-list { padding: 56px var(--px); }
-
-  .empty { max-width: 480px; }
-  .empty p {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
-  .project-card {
-    display: block;
-    background: var(--gray-100);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    transition: border-color 0.15s;
-  }
-  .project-card:hover { border-color: var(--teal); }
-
-  .card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 14px;
-  }
-
-  .tag {
-    font-size: 11px;
-    background: #E1F5EE;
-    color: #085041;
-    padding: 3px 8px;
-    border-radius: 4px;
-  }
-  .year {
-    font-size: 11px;
-    color: var(--text-muted);
-  }
-
-  .project-card h3 {
-    font-size: 15px;
-    font-weight: 500;
-    margin-bottom: 8px;
-    color: var(--text);
-  }
-  .project-card p {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
-  .arrow {
-    display: block;
-    margin-top: 16px;
-    font-size: 12px;
-    color: var(--teal);
-  }
-
-  @media (max-width: 768px) {
-    .page-hero { padding-top: 40px; padding-bottom: 32px; max-width: 100%; }
-    .page-hero h1 { font-size: 28px; }
-    .projects-list { padding-top: 40px; padding-bottom: 40px; }
-  }
-
-  @media (max-width: 640px) {
-    .page-hero h1 { font-size: 24px; }
-    .grid { grid-template-columns: 1fr; }
-  }
-</style>
