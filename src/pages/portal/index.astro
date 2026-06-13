@@ -10,21 +10,43 @@ if (!user) return Astro.redirect('/portal/login');
 
 const sb = getServiceClient();
 
+// Client ophalen vóór POST-handler — nodig voor ownership check
+const { data: client } = await supabase
+  .from('clients')
+  .select('*')
+  .eq('user_id', user.id)
+  .single();
+
 /* ── POST-acties ─────────────────────────────────────────── */
 if (Astro.request.method === 'POST') {
   const form   = await Astro.request.formData();
   const action = form.get('action')?.toString();
 
+  // Ownership check: task_id moet bij de ingelogde klant horen
+  const ownTask = async (taskId: string | undefined): Promise<boolean> => {
+    if (!client || !taskId) return false;
+    const { data } = await sb
+      .from('tasks')
+      .select('id, projects(client_id)')
+      .eq('id', taskId)
+      .single();
+    const proj = (data as any)?.projects;
+    const cid  = Array.isArray(proj) ? proj[0]?.client_id : proj?.client_id;
+    return cid === client.id;
+  };
+
   if (action === 'toggle-satisfied') {
     const taskId  = form.get('task_id')?.toString();
     const current = form.get('current')?.toString() === 'true';
-    await sb.from('tasks').update({ satisfied: !current }).eq('id', taskId);
+    if (await ownTask(taskId)) {
+      await sb.from('tasks').update({ satisfied: !current }).eq('id', taskId);
+    }
   }
 
   if (action === 'add-comment') {
     const taskId  = form.get('task_id')?.toString();
     const content = form.get('content')?.toString()?.trim();
-    if (taskId && content) {
+    if (content && await ownTask(taskId)) {
       await sb.from('task_comments').insert({
         task_id: taskId,
         author: user.email,
@@ -38,7 +60,7 @@ if (Astro.request.method === 'POST') {
   if (action === 'add-attachment') {
     const taskId = form.get('task_id')?.toString();
     const file   = form.get('file') as File | null;
-    if (taskId && file && file.size > 0) {
+    if (file && file.size > 0 && await ownTask(taskId)) {
       const ext      = file.name.split('.').pop();
       const filePath = `${taskId}/client_${Date.now()}.${ext}`;
       const buffer   = await file.arrayBuffer();
@@ -58,13 +80,6 @@ if (Astro.request.method === 'POST') {
 
   return Astro.redirect('/portal');
 }
-
-/* ── Data ophalen ───────────────────────────────────────── */
-const { data: client } = await supabase
-  .from('clients')
-  .select('*')
-  .eq('user_id', user.id)
-  .single();
 
 const { data: projects } = client
   ? await sb
