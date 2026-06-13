@@ -11,6 +11,7 @@ if (!user) return Astro.redirect('/portal/login');
 
 const admin = getServiceClient();
 let error = '';
+let savedAction = '';
 
 if (Astro.request.method === 'POST') {
   const form   = await Astro.request.formData();
@@ -23,7 +24,7 @@ if (Astro.request.method === 'POST') {
     const { error: e } = await admin.from('projects').insert({
       client_id: id, title, phase, status: 'active', notes,
     });
-    if (e) error = e.message;
+    if (e) error = e.message; else savedAction = 'project';
   }
 
   if (action === 'add-task') {
@@ -34,35 +35,41 @@ if (Astro.request.method === 'POST') {
     const { error: e } = await admin.from('tasks').insert({
       project_id, title, owner, time_estimate, satisfied: false,
     });
-    if (e) error = e.message;
+    if (e) error = e.message; else savedAction = 'taak';
   }
 
   if (action === 'update-task') {
     const task_id     = form.get('task_id')?.toString();
     const description = form.get('description')?.toString().trim() || null;
     await admin.from('tasks').update({ description }).eq('id', task_id);
+    savedAction = 'notities';
   }
 
   if (action === 'toggle-task') {
     const task_id = form.get('task_id')?.toString();
     const current = form.get('current') === 'true';
     await admin.from('tasks').update({ satisfied: !current }).eq('id', task_id);
+    savedAction = 'taak';
   }
 
   if (action === 'delete-task') {
     const task_id = form.get('task_id')?.toString();
     await admin.from('tasks').delete().eq('id', task_id);
+    savedAction = 'verwijderd';
   }
 
   if (action === 'add-comment') {
     const task_id = form.get('task_id')?.toString();
     const content = form.get('content')?.toString().trim();
     if (task_id && content) {
-      await admin.from('task_comments').insert({
+      const { error: e } = await admin.from('task_comments').insert({
         task_id,
         author: user.email ?? 'johan',
         content,
+        is_read_by_admin: true,
+        is_read_by_client: false,
       });
+      if (e) error = e.message; else savedAction = 'bericht';
     }
   }
 
@@ -78,10 +85,13 @@ if (Astro.request.method === 'POST') {
     });
     if (e) {
       error = e.message;
-    } else if (invoicable && hours > 0) {
-      const { data: cur } = await admin.from('clients').select('credit_balance').eq('id', id).single();
-      const newBalance = Math.max(0, (cur?.credit_balance ?? 0) - hours);
-      await admin.from('clients').update({ credit_balance: newBalance }).eq('id', id);
+    } else {
+      savedAction = 'uren';
+      if (invoicable && hours > 0) {
+        const { data: cur } = await admin.from('clients').select('credit_balance').eq('id', id).single();
+        const newBalance = Math.max(0, (cur?.credit_balance ?? 0) - hours);
+        await admin.from('clients').update({ credit_balance: newBalance }).eq('id', id);
+      }
     }
   }
 
@@ -102,6 +112,7 @@ if (Astro.request.method === 'POST') {
           task_id, file_path: filePath, file_name: file.name,
           uploaded_by: user.email ?? 'admin',
         });
+        savedAction = 'bijlage';
       }
     }
   }
@@ -111,6 +122,7 @@ if (Astro.request.method === 'POST') {
     const filePath = form.get('file_path')?.toString();
     if (filePath) await admin.storage.from('task-files').remove([filePath]);
     if (att_id)   await admin.from('task_attachments').delete().eq('id', att_id);
+    savedAction = 'verwijderd';
   }
 
   if (action === 'update-credits') {
@@ -121,13 +133,30 @@ if (Astro.request.method === 'POST') {
     const { error: e } = await admin.from('clients').update({
       credit_balance, credit_expiry, credit_transferable, credit_max_cumulative,
     }).eq('id', id);
-    if (e) error = e.message;
+    if (e) error = e.message; else savedAction = 'credits';
   }
 
-  return Astro.redirect(`/portal/admin/klant/${id}`);
+  if (!error) {
+    return Astro.redirect(
+      `/portal/admin/klant/${id}${savedAction ? `?ok=${savedAction}` : ''}`
+    );
+  }
+  // Error: geen redirect, gewoon pagina renderen met foutmelding
 }
 
 /* ── Data ─────────────────────────────────────────────────── */
+const ok = Astro.url.searchParams.get('ok');
+const okLabels: Record<string, string> = {
+  project:    'Project aangemaakt.',
+  taak:       'Taak bijgewerkt.',
+  notities:   'Notities opgeslagen.',
+  uren:       'Uren geregistreerd.',
+  bericht:    'Bericht verstuurd.',
+  bijlage:    'Bijlage geüpload.',
+  credits:    'Credits bijgewerkt.',
+  verwijderd: 'Verwijderd.',
+};
+
 const { data: client } = await admin.from('clients').select('*').eq('id', id).single();
 if (!client) return Astro.redirect('/portal/admin');
 
@@ -137,7 +166,25 @@ const { data: projects } = await admin
   .eq('client_id', id)
   .order('created_at');
 
-// Signed URLs voor alle bijlagen (1u geldig)
+// Welke taken hebben ongelezen berichten van de klant?
+const tasksWithUnread = new Set(
+  (projects ?? []).flatMap((p: any) =>
+    (p.tasks ?? [])
+      .filter((t: any) => (t.task_comments ?? []).some((c: any) => c.is_read_by_admin === false))
+      .map((t: any) => t.id)
+  )
+);
+
+// Markeer alle ongelezen comments als gelezen door admin
+const allTaskIds = (projects ?? []).flatMap((p: any) => (p.tasks ?? []).map((t: any) => t.id));
+if (allTaskIds.length > 0) {
+  await admin.from('task_comments')
+    .update({ is_read_by_admin: true })
+    .in('task_id', allTaskIds)
+    .eq('is_read_by_admin', false);
+}
+
+// Signed URLs voor bijlagen (1u geldig)
 const allAttachments = (projects ?? []).flatMap((p: any) =>
   (p.tasks ?? []).flatMap((t: any) => t.task_attachments ?? [])
 );
@@ -192,7 +239,7 @@ const fmt = (d: string) =>
     .task-admin { border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
     .task-main { display: flex; align-items: center; gap: 10px; padding: 10px 12px; background: var(--bg); }
     .task-check-admin { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; flex-shrink: 0; }
-    .task-title-admin { flex: 1; font-size: 13px; }
+    .task-title-admin { flex: 1; font-size: 13px; display: flex; align-items: center; gap: 6px; }
     .task-title-admin.done { text-decoration: line-through; color: var(--muted); }
     .tag { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
     .del-btn { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 16px; line-height: 1; padding: 0 4px; }
@@ -211,6 +258,7 @@ const fmt = (d: string) =>
 
     /* Comments */
     .comment-bubble { background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 8px 10px; margin-bottom: 6px; }
+    .comment-bubble.unread { border-color: #f0b429; background: #fffbf0; }
     .comment-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; font-family: var(--mono); }
     .comment-text { font-size: 13px; line-height: 1.5; }
     .comment-form-row { display: flex; gap: 8px; margin-top: 8px; }
@@ -222,7 +270,6 @@ const fmt = (d: string) =>
     .timelog-desc { color: var(--text); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .timelog-meta { color: var(--muted); white-space: nowrap; margin-left: 8px; font-family: var(--mono); }
 
-    .flash-err { background: #fdf0ed; color: #c0392b; border-radius: 6px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
     .mono-label { font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; margin-bottom: 12px; }
     @media (max-width: 720px) { .two-col { grid-template-columns: 1fr; } }
   </style>
@@ -247,6 +294,8 @@ const fmt = (d: string) =>
     </p>
 
     {error && <div class="flash-err">{error}</div>}
+    {ok && okLabels[ok] && <div class="flash-ok" id="flash-ok">✓ {okLabels[ok]}</div>}
+    <script is:inline>setTimeout(function(){ var el=document.getElementById('flash-ok'); if(el) el.remove(); }, 3500)</script>
 
     <div class="two-col">
 
@@ -283,7 +332,12 @@ const fmt = (d: string) =>
                         <input type="hidden" name="current" value={task.satisfied.toString()} />
                         <input type="checkbox" class="task-check-admin" checked={task.satisfied} onchange="this.form.submit()" />
                       </form>
-                      <span class={`task-title-admin${task.satisfied ? ' done' : ''}`}>{task.title}</span>
+                      <span class={`task-title-admin${task.satisfied ? ' done' : ''}`}>
+                        {task.title}
+                        {tasksWithUnread.has(task.id) && (
+                          <span class="unread-dot" title="Nieuw bericht van klant" />
+                        )}
+                      </span>
                       <span class="tag">{task.owner}</span>
                       {task.time_estimate && <span class="tag">{task.time_estimate}u</span>}
                       {(task.task_comments?.length ?? 0) > 0 && (
@@ -296,7 +350,7 @@ const fmt = (d: string) =>
                       </form>
                     </div>
 
-                    {/* Body: notes + uren loggen + comments */}
+                    {/* Body: notes + uren loggen + comments + bijlagen */}
                     <div class="task-body">
 
                       {/* Notes */}
@@ -333,7 +387,7 @@ const fmt = (d: string) =>
                       <div class="task-section">
                         <div class="task-section-label">COMMUNICATIE</div>
                         {(task.task_comments as any[])?.map((c: any) => (
-                          <div class="comment-bubble">
+                          <div class={`comment-bubble${c.is_read_by_admin === false ? ' unread' : ''}`}>
                             <div class="comment-meta">{c.author} · {fmt(c.created_at)}</div>
                             <div class="comment-text">{c.content}</div>
                           </div>
@@ -342,7 +396,7 @@ const fmt = (d: string) =>
                           <input type="hidden" name="action" value="add-comment" />
                           <input type="hidden" name="task_id" value={task.id} />
                           <div class="comment-form-row">
-                            <input type="text" name="content" placeholder="Schrijf een bericht..." required />
+                            <input type="text" name="content" placeholder="Schrijf een bericht naar de klant..." required />
                             <button type="submit" class="btn-sm">Stuur</button>
                           </div>
                         </form>
@@ -362,6 +416,7 @@ const fmt = (d: string) =>
                                     ? <a href={url} target="_blank"><img src={url} alt={att.file_name} style="max-width:120px; max-height:90px; border-radius:6px; border:1px solid var(--border); object-fit:cover;" /></a>
                                     : <a href={url ?? '#'} target="_blank" style="font-size:12px; color:var(--teal);">📄 {att.file_name}</a>
                                   }
+                                  <span style="font-size:10px; color:var(--muted); display:block;">{att.uploaded_by?.split('@')[0]}</span>
                                   <form method="POST" style="display:inline; margin-left:4px;">
                                     <input type="hidden" name="action" value="delete-attachment" />
                                     <input type="hidden" name="att_id" value={att.id} />
@@ -376,7 +431,7 @@ const fmt = (d: string) =>
                         <form method="POST" enctype="multipart/form-data" style="display:flex; gap:8px; align-items:center;">
                           <input type="hidden" name="action" value="add-attachment" />
                           <input type="hidden" name="task_id" value={task.id} />
-                          <input type="file" name="file" accept="image/*,application/pdf" style="font-size:12px; flex:1;" />
+                          <input type="file" name="file" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" style="font-size:12px; flex:1;" />
                           <button type="submit" class="btn-ghost-sm">Upload</button>
                         </form>
                       </div>

@@ -220,6 +220,49 @@ details[open].task-comments summary::before { transform: rotate(90deg); }
 }
 .comment-submit:hover { opacity: 0.88; }
 
+/* ── Flash berichten ────────────────────────────────────── */
+.flash-ok {
+  background: var(--teal-light);
+  color: var(--teal-dark);
+  border: 1px solid rgba(29,158,117,0.3);
+  border-radius: 6px;
+  padding: 10px 16px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+.flash-err {
+  background: #fdf0ed;
+  color: #c0392b;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+/* ── Ongelezen badges ───────────────────────────────────── */
+.unread-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  background: #e74c3c;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin-left: 5px;
+  flex-shrink: 0;
+}
+.unread-count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px; height: 18px;
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 9px;
+  font-size: 10px;
+  font-weight: 600;
+  padding: 0 5px;
+  margin-left: 6px;
+}
+
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 768px) {
   .portal-wrap { grid-template-columns: 1fr; padding: 16px; gap: 16px; }

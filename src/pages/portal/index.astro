@@ -1,7 +1,6 @@
 ---
 export const prerender = false;
-import { createSupabaseServerClient } from '../../lib/supabase';
-import { getServiceClient } from '../../lib/supabase';
+import { createSupabaseServerClient, getServiceClient } from '../../lib/supabase';
 import '../../styles/portal.css';
 
 const responseHeaders = new Headers();
@@ -9,27 +8,51 @@ const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
 const { data: { user } } = await supabase.auth.getUser();
 if (!user) return Astro.redirect('/portal/login');
 
-/* ── Verwerk POST-acties ────────────────────────────────── */
+const sb = getServiceClient();
+
+/* ── POST-acties ─────────────────────────────────────────── */
 if (Astro.request.method === 'POST') {
-  const form  = await Astro.request.formData();
+  const form   = await Astro.request.formData();
   const action = form.get('action')?.toString();
-  const admin  = getServiceClient();
 
   if (action === 'toggle-satisfied') {
-    const taskId = form.get('task_id')?.toString();
+    const taskId  = form.get('task_id')?.toString();
     const current = form.get('current')?.toString() === 'true';
-    await admin.from('tasks').update({ satisfied: !current }).eq('id', taskId);
+    await sb.from('tasks').update({ satisfied: !current }).eq('id', taskId);
   }
 
   if (action === 'add-comment') {
     const taskId  = form.get('task_id')?.toString();
     const content = form.get('content')?.toString()?.trim();
     if (taskId && content) {
-      await admin.from('task_comments').insert({
+      await sb.from('task_comments').insert({
         task_id: taskId,
         author: user.email,
         content,
+        is_read_by_admin: false,
+        is_read_by_client: true,
       });
+    }
+  }
+
+  if (action === 'add-attachment') {
+    const taskId = form.get('task_id')?.toString();
+    const file   = form.get('file') as File | null;
+    if (taskId && file && file.size > 0) {
+      const ext      = file.name.split('.').pop();
+      const filePath = `${taskId}/client_${Date.now()}.${ext}`;
+      const buffer   = await file.arrayBuffer();
+      const { error: upErr } = await sb.storage
+        .from('task-files')
+        .upload(filePath, buffer, { contentType: file.type });
+      if (!upErr) {
+        await sb.from('task_attachments').insert({
+          task_id: taskId,
+          file_path: filePath,
+          file_name: file.name,
+          uploaded_by: user.email,
+        });
+      }
     }
   }
 
@@ -44,16 +67,44 @@ const { data: client } = await supabase
   .single();
 
 const { data: projects } = client
-  ? await supabase
+  ? await sb
       .from('projects')
-      .select(`*, tasks(*, task_comments(*))`)
+      .select('*, tasks(*, task_comments(*), task_attachments(*))')
       .eq('client_id', client.id)
       .eq('status', 'active')
       .order('created_at')
   : { data: [] };
 
+// Welke taken hebben ongelezen berichten van Johan?
+const tasksWithUnread = new Set(
+  (projects ?? []).flatMap((p: any) =>
+    (p.tasks ?? [])
+      .filter((t: any) => (t.task_comments ?? []).some((c: any) => c.is_read_by_client === false))
+      .map((t: any) => t.id)
+  )
+);
+
+// Markeer alles als gelezen voor de klant
+const clientTaskIds = (projects ?? []).flatMap((p: any) => (p.tasks ?? []).map((t: any) => t.id));
+if (clientTaskIds.length > 0) {
+  await sb.from('task_comments')
+    .update({ is_read_by_client: true })
+    .in('task_id', clientTaskIds)
+    .eq('is_read_by_client', false);
+}
+
+// Signed URLs voor bijlagen
+const allAttachments = (projects ?? []).flatMap((p: any) =>
+  (p.tasks ?? []).flatMap((t: any) => t.task_attachments ?? [])
+);
+const signedUrls: Record<string, string> = {};
+await Promise.all(allAttachments.map(async (att: any) => {
+  const { data } = await sb.storage.from('task-files').createSignedUrl(att.file_path, 3600);
+  if (data?.signedUrl) signedUrls[att.id] = data.signedUrl;
+}));
+
 const { data: timeLogs } = client
-  ? await supabase
+  ? await sb
       .from('time_logs')
       .select('*')
       .eq('client_id', client.id)
@@ -74,13 +125,34 @@ const formatDate = (d: string) =>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* Bijlagen rij in client view */
+    .att-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
+    .att-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .att-item img { max-width: 100px; max-height: 76px; border-radius: 6px; border: 1px solid var(--border); object-fit: cover; }
+    .att-item a { font-size: 12px; color: var(--teal); max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    /* Upload form klant */
+    .upload-form { display: flex; gap: 8px; align-items: center; margin-top: 10px; }
+    .upload-form input[type=file] { flex: 1; font-size: 12px; }
+    .btn-upload { padding: 5px 12px; background: none; border: 1px solid var(--border); border-radius: 5px; font-size: 12px; cursor: pointer; color: var(--muted); white-space: nowrap; }
+    .btn-upload:hover { border-color: var(--teal); color: var(--teal); }
+    /* Task notes voor klant */
+    .task-notes { font-size: 13px; color: var(--muted); line-height: 1.6; padding: 8px 14px; border-top: 1px solid var(--border); background: #fafaf8; }
+    /* Ongelezen flash in nav */
+    .nav-unread { background: #e74c3c; color: #fff; border-radius: 9px; font-size: 10px; font-weight: 600; padding: 2px 6px; margin-left: 4px; }
+  </style>
 </head>
 <body>
 
   <nav class="portal-nav">
     <a href="/portal" class="portal-nav-logo">// weit.be portaal</a>
     <div class="portal-nav-right">
-      <span class="portal-nav-user">{client?.contact_name ?? user.email}</span>
+      <span class="portal-nav-user">
+        {client?.contact_name ?? user.email}
+        {tasksWithUnread.size > 0 && (
+          <span class="nav-unread" title="Ongelezen berichten">{tasksWithUnread.size}</span>
+        )}
+      </span>
       <a href="/portal/logout">uitloggen</a>
     </div>
   </nav>
@@ -176,9 +248,9 @@ const formatDate = (d: string) =>
             ) : (
               (project.tasks as any[]).map((task: any) => (
                 <div class="task">
-                  <div class="task-row">
 
-                    <!-- Satisfied toggle -->
+                  {/* Taakrij */}
+                  <div class="task-row">
                     <form method="POST" class="task-satisfied-form">
                       <input type="hidden" name="action" value="toggle-satisfied" />
                       <input type="hidden" name="task_id" value={task.id} />
@@ -191,7 +263,12 @@ const formatDate = (d: string) =>
                       />
                     </form>
 
-                    <span class={`task-title ${task.satisfied ? 'done' : ''}`}>{task.title}</span>
+                    <span class={`task-title ${task.satisfied ? 'done' : ''}`}>
+                      {task.title}
+                      {tasksWithUnread.has(task.id) && (
+                        <span class="unread-dot" title="Nieuw bericht van Johan" />
+                      )}
+                    </span>
 
                     <span class={`task-owner ${task.owner === 'johan' ? 'owner-johan' : ''}`}>
                       {task.owner}
@@ -204,10 +281,45 @@ const formatDate = (d: string) =>
                     <span class="task-comment-count">
                       {task.task_comments?.length ?? 0} 💬
                     </span>
-
                   </div>
 
-                  <!-- Comments accordion -->
+                  {/* Notes */}
+                  {task.description && (
+                    <div class="task-notes">{task.description}</div>
+                  )}
+
+                  {/* Bijlagen */}
+                  {(task.task_attachments as any[])?.length > 0 && (
+                    <div style="padding: 8px 14px; border-top: 1px solid var(--border); background: #fafaf8;">
+                      <div style="font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:0.05em; margin-bottom:6px;">BIJLAGEN</div>
+                      <div class="att-grid">
+                        {(task.task_attachments as any[]).map((att: any) => {
+                          const url = signedUrls[att.id];
+                          const isImg = /\.(png|jpe?g|gif|webp)$/i.test(att.file_name ?? '');
+                          return (
+                            <div class="att-item">
+                              {isImg && url
+                                ? <a href={url} target="_blank"><img src={url} alt={att.file_name} /></a>
+                                : <a href={url ?? '#'} target="_blank">📄 {att.file_name}</a>
+                              }
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Upload */}
+                  <div style="padding: 8px 14px; border-top: 1px solid var(--border); background: #fafaf8;">
+                    <form method="POST" enctype="multipart/form-data" class="upload-form">
+                      <input type="hidden" name="action" value="add-attachment" />
+                      <input type="hidden" name="task_id" value={task.id} />
+                      <input type="file" name="file" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx" />
+                      <button type="submit" class="btn-upload">Opladen</button>
+                    </form>
+                  </div>
+
+                  {/* Comments accordion */}
                   <details class="task-comments">
                     <summary>
                       {task.task_comments?.length > 0

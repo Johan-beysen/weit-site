@@ -11,8 +11,17 @@ if (!user) return Astro.redirect('/portal/login');
 const admin = getServiceClient();
 const { data: clients } = await admin
   .from('clients')
-  .select('*, projects(id, title, status)')
+  .select('*, projects(id, status, tasks(task_comments(is_read_by_admin)))')
   .order('created_at', { ascending: false });
+
+// Ongelezen berichten per klant (klant schreef, admin nog niet gelezen)
+const unreadCounts: Record<string, number> = {};
+(clients ?? []).forEach((c: any) => {
+  const n = (c.projects ?? []).reduce((s: number, p: any) =>
+    s + (p.tasks ?? []).reduce((s2: number, t: any) =>
+      s2 + (t.task_comments ?? []).filter((x: any) => x.is_read_by_admin === false).length, 0), 0);
+  if (n > 0) unreadCounts[c.id] = n;
+});
 ---
 
 <!DOCTYPE html>
@@ -52,7 +61,12 @@ const { data: clients } = await admin
           <a href={`/portal/admin/klant/${client.id}`} style="display:block; text-decoration:none;">
             <div class="card" style="display:grid; grid-template-columns:1fr auto auto; gap:16px; align-items:center; transition: border-color 0.15s;" onmouseenter="this.style.borderColor='var(--teal)'" onmouseleave="this.style.borderColor=''">
               <div>
-                <div style="font-weight:500; font-size:15px; margin-bottom:3px;">{client.contact_name}</div>
+                <div style="font-weight:500; font-size:15px; margin-bottom:3px; display:flex; align-items:center;">
+                  {client.contact_name}
+                  {unreadCounts[client.id] > 0 && (
+                    <span class="unread-count" title="Ongelezen berichten van klant">{unreadCounts[client.id]}</span>
+                  )}
+                </div>
                 <div style="font-size:13px; color:var(--muted);">{client.company_name ?? client.email}</div>
               </div>
               <div style="text-align:right;">
