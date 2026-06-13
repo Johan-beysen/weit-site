@@ -1,0 +1,172 @@
+---
+export const prerender = false;
+import { createSupabaseServerClient, getServiceClient } from '../../../lib/supabase';
+import '../../../styles/portal.css';
+
+const responseHeaders = new Headers();
+const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) return Astro.redirect('/portal/login');
+
+let error = '';
+let success = '';
+
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+
+  const email             = form.get('email')?.toString().trim() ?? '';
+  const contact_name      = form.get('contact_name')?.toString().trim() ?? '';
+  const company_name      = form.get('company_name')?.toString().trim() || null;
+  const phone             = form.get('phone')?.toString().trim() || null;
+  const credit_balance    = parseFloat(form.get('credit_balance')?.toString() ?? '0') || 0;
+  const credit_expiry     = form.get('credit_expiry')?.toString() || null;
+  const credit_transferable  = form.get('credit_transferable') === 'on';
+  const credit_max_cumulative = parseFloat(form.get('credit_max_cumulative')?.toString() ?? '') || null;
+
+  const admin = getServiceClient();
+
+  // Stuur invite mail + maak Supabase user aan
+  const { data: inviteData, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, {
+    redirectTo: `${Astro.url.origin}/portal`,
+  });
+
+  if (inviteError) {
+    error = inviteError.message;
+  } else {
+    // Maak client record aan gekoppeld aan de nieuwe user
+    const { error: clientError } = await admin.from('clients').insert({
+      user_id: inviteData.user.id,
+      contact_name,
+      company_name,
+      email,
+      phone,
+      credit_balance,
+      credit_expiry: credit_expiry || null,
+      credit_transferable,
+      credit_max_cumulative,
+    });
+
+    if (clientError) {
+      error = clientError.message;
+    } else {
+      return Astro.redirect('/portal/admin');
+    }
+  }
+}
+---
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nieuwe klant — weit.be admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-group.full { grid-column: 1 / -1; }
+    label { font-size: 12px; font-weight: 500; color: var(--text); }
+    .hint { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    input[type="text"], input[type="email"], input[type="number"], input[type="date"] {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.15s;
+      width: 100%;
+    }
+    input:focus { border-color: var(--teal); }
+    .toggle-row { display: flex; align-items: center; gap: 10px; }
+    .toggle-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--teal); cursor: pointer; }
+    .section-sep { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+    .section-label-sm { font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; margin-bottom: 16px; }
+    .btn-row { display: flex; gap: 12px; align-items: center; margin-top: 28px; }
+    .btn-primary { padding: 10px 24px; background: var(--teal); color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-ghost { font-size: 13px; color: var(--muted); }
+    .btn-ghost:hover { color: var(--teal); }
+    .error { background: #fdf0ed; color: #c0392b; border-radius: 6px; padding: 10px 14px; font-size: 13px; margin-bottom: 20px; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="portal-nav">
+    <a href="/portal/admin" class="portal-nav-logo">// weit.be admin</a>
+    <div class="portal-nav-right">
+      <a href="/portal/logout">uitloggen</a>
+    </div>
+  </nav>
+
+  <div style="max-width:680px; margin:0 auto; padding:32px 24px;">
+
+    <a href="/portal/admin" style="font-size:13px; color:var(--muted); display:inline-block; margin-bottom:24px;">← terug</a>
+
+    <h1 style="font-size:20px; font-weight:500; margin-bottom:6px;">Nieuwe klant aanmaken</h1>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:28px;">De klant krijgt automatisch een uitnodigingsmail met een link om zijn account te activeren.</p>
+
+    {error && <div class="error">{error}</div>}
+
+    <div class="card">
+      <form method="POST">
+
+        <div class="section-label-sm">// contactgegevens</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="contact_name">Naam *</label>
+            <input type="text" id="contact_name" name="contact_name" required placeholder="Jan Janssen" />
+          </div>
+          <div class="form-group">
+            <label for="email">E-mail *</label>
+            <input type="email" id="email" name="email" required placeholder="jan@bedrijf.be" />
+          </div>
+          <div class="form-group">
+            <label for="company_name">Bedrijfsnaam</label>
+            <input type="text" id="company_name" name="company_name" placeholder="Bedrijf BV" />
+          </div>
+          <div class="form-group">
+            <label for="phone">Telefoon</label>
+            <input type="text" id="phone" name="phone" placeholder="+32 470 00 00 00" />
+          </div>
+        </div>
+
+        <hr class="section-sep" />
+        <div class="section-label-sm">// credits</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="credit_balance">Startkrediet (uren)</label>
+            <input type="number" id="credit_balance" name="credit_balance" min="0" step="0.5" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label for="credit_expiry">Vervaldatum</label>
+            <input type="date" id="credit_expiry" name="credit_expiry" />
+          </div>
+          <div class="form-group">
+            <label for="credit_max_cumulative">Max cumuleerbaar (uren)</label>
+            <input type="number" id="credit_max_cumulative" name="credit_max_cumulative" min="0" step="0.5" placeholder="onbeperkt" />
+          </div>
+          <div class="form-group" style="justify-content:flex-end;">
+            <div class="toggle-row">
+              <input type="checkbox" id="credit_transferable" name="credit_transferable" />
+              <label for="credit_transferable" style="cursor:pointer;">Credits overdraagbaar</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="btn-row">
+          <button type="submit" class="btn-primary">Aanmaken & uitnodiging versturen</button>
+          <a href="/portal/admin" class="btn-ghost">annuleren</a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+</body>
+</html>

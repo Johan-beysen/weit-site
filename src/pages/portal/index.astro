@@ -2,6 +2,7 @@
 export const prerender = false;
 import { createSupabaseServerClient } from '../../lib/supabase';
 import { getServiceClient } from '../../lib/supabase';
+import '../../styles/portal.css';
 
 const responseHeaders = new Headers();
 const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
@@ -73,7 +74,6 @@ const formatDate = (d: string) =>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/src/styles/portal.css">
 </head>
 <body>
 
@@ -187,7 +187,7 @@ const formatDate = (d: string) =>
                         type="checkbox"
                         class="task-check"
                         checked={task.satisfied}
-                        onChange="this.form.submit()"
+                        onchange="this.form.submit()"
                       />
                     </form>
 

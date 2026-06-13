@@ -1,0 +1,77 @@
+---
+export const prerender = false;
+import { createSupabaseServerClient, getServiceClient } from '../../../lib/supabase';
+import '../../../styles/portal.css';
+
+const responseHeaders = new Headers();
+const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) return Astro.redirect('/portal/login');
+
+const admin = getServiceClient();
+const { data: clients } = await admin
+  .from('clients')
+  .select('*, projects(id, title, status)')
+  .order('created_at', { ascending: false });
+---
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin — weit.be portaal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="portal-nav">
+    <a href="/portal/admin" class="portal-nav-logo">// weit.be admin</a>
+    <div class="portal-nav-right">
+      <a href="/portal/admin/nieuwe-klant" style="color: var(--teal); font-weight:500;">+ nieuwe klant</a>
+      <a href="/portal/logout">uitloggen</a>
+    </div>
+  </nav>
+
+  <div style="max-width:900px; margin:0 auto; padding:32px 24px;">
+
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+      <h1 style="font-size:20px; font-weight:500;">Klanten</h1>
+      <span style="font-family:var(--mono); font-size:12px; color:var(--muted);">{clients?.length ?? 0} actief</span>
+    </div>
+
+    {(!clients || clients.length === 0) ? (
+      <div class="card">
+        <p class="empty-state">Nog geen klanten. <a href="/portal/admin/nieuwe-klant" style="color:var(--teal);">Eerste klant aanmaken →</a></p>
+      </div>
+    ) : (
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        {(clients as any[]).map(client => (
+          <a href={`/portal/admin/klant/${client.id}`} style="display:block; text-decoration:none;">
+            <div class="card" style="display:grid; grid-template-columns:1fr auto auto; gap:16px; align-items:center; transition: border-color 0.15s;" onmouseenter="this.style.borderColor='var(--teal)'" onmouseleave="this.style.borderColor=''">
+              <div>
+                <div style="font-weight:500; font-size:15px; margin-bottom:3px;">{client.contact_name}</div>
+                <div style="font-size:13px; color:var(--muted);">{client.company_name ?? client.email}</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-family:var(--mono); font-size:18px; font-weight:600;">{client.credit_balance ?? 0}<span style="font-size:12px; font-weight:400; color:var(--muted); margin-left:3px;">u</span></div>
+                {client.credit_expiry && <div style="font-size:11px; color:var(--muted);">vervalt {new Date(client.credit_expiry).toLocaleDateString('nl-BE', {day:'numeric', month:'short', year:'numeric'})}</div>}
+              </div>
+              <div>
+                {(client.projects as any[])?.filter((p:any) => p.status === 'active').length > 0
+                  ? <span class="phase-badge">{(client.projects as any[]).filter((p:any) => p.status === 'active').length} project{(client.projects as any[]).filter((p:any) => p.status === 'active').length !== 1 ? 'en' : ''}</span>
+                  : <span style="font-size:12px; color:var(--muted); font-family:var(--mono);">geen project</span>
+                }
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    )}
+
+  </div>
+
+</body>
+</html>
