@@ -1,13 +1,11 @@
 import { defineMiddleware } from 'astro:middleware';
 import { createSupabaseServerClient } from './lib/supabase';
+import { env } from 'cloudflare:workers';
 
 export const onRequest = defineMiddleware(async (context, next) => {
   const { pathname } = context.url;
 
-  // Alleen portal routes bewaken
   if (!pathname.startsWith('/portal')) return next();
-
-  // Login pagina zelf altijd doorlaten
   if (pathname === '/portal/login') return next();
 
   const responseHeaders = new Headers();
@@ -19,10 +17,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
     return context.redirect('/portal/login');
   }
 
-  // Admin routes — check of user het Johan-email heeft
   if (pathname.startsWith('/portal/admin')) {
-    const { env } = await import('cloudflare:workers');
-    const adminEmail = (env.ADMIN_EMAIL as string) ?? 'johan@weit.be';
+    const adminEmail = env.ADMIN_EMAIL ?? 'johan@weit.be';
     if (user.email !== adminEmail) {
       return context.redirect('/portal');
     }
