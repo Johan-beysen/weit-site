@@ -85,6 +85,34 @@ if (Astro.request.method === 'POST') {
     }
   }
 
+  if (action === 'add-attachment') {
+    const task_id = form.get('task_id')?.toString();
+    const file    = form.get('file') as File | null;
+    if (task_id && file && file.size > 0) {
+      const ext      = file.name.split('.').pop();
+      const filePath = `${task_id}/${Date.now()}.${ext}`;
+      const buffer   = await file.arrayBuffer();
+      const { error: upErr } = await admin.storage
+        .from('task-files')
+        .upload(filePath, buffer, { contentType: file.type });
+      if (upErr) {
+        error = upErr.message;
+      } else {
+        await admin.from('task_attachments').insert({
+          task_id, file_path: filePath, file_name: file.name,
+          uploaded_by: user.email ?? 'admin',
+        });
+      }
+    }
+  }
+
+  if (action === 'delete-attachment') {
+    const att_id   = form.get('att_id')?.toString();
+    const filePath = form.get('file_path')?.toString();
+    if (filePath) await admin.storage.from('task-files').remove([filePath]);
+    if (att_id)   await admin.from('task_attachments').delete().eq('id', att_id);
+  }
+
   if (action === 'update-credits') {
     const credit_balance        = parseFloat(form.get('credit_balance')?.toString() ?? '0');
     const credit_expiry         = form.get('credit_expiry')?.toString() || null;
@@ -105,9 +133,19 @@ if (!client) return Astro.redirect('/portal/admin');
 
 const { data: projects } = await admin
   .from('projects')
-  .select('*, tasks(*, task_comments(*))')
+  .select('*, tasks(*, task_comments(*), task_attachments(*))')
   .eq('client_id', id)
   .order('created_at');
+
+// Signed URLs voor alle bijlagen (1u geldig)
+const allAttachments = (projects ?? []).flatMap((p: any) =>
+  (p.tasks ?? []).flatMap((t: any) => t.task_attachments ?? [])
+);
+const signedUrls: Record<string, string> = {};
+await Promise.all(allAttachments.map(async (att: any) => {
+  const { data } = await admin.storage.from('task-files').createSignedUrl(att.file_path, 3600);
+  if (data?.signedUrl) signedUrls[att.id] = data.signedUrl;
+}));
 
 const { data: timeLogs } = await admin
   .from('time_logs')
@@ -307,6 +345,39 @@ const fmt = (d: string) =>
                             <input type="text" name="content" placeholder="Schrijf een bericht..." required />
                             <button type="submit" class="btn-sm">Stuur</button>
                           </div>
+                        </form>
+                      </div>
+
+                      {/* Bijlagen */}
+                      <div class="task-section">
+                        <div class="task-section-label">BIJLAGEN</div>
+                        {(task.task_attachments as any[])?.length > 0 && (
+                          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px;">
+                            {(task.task_attachments as any[]).map((att: any) => {
+                              const url = signedUrls[att.id];
+                              const isImg = /\.(png|jpe?g|gif|webp)$/i.test(att.file_name ?? '');
+                              return (
+                                <div style="position:relative; display:inline-block;">
+                                  {isImg && url
+                                    ? <a href={url} target="_blank"><img src={url} alt={att.file_name} style="max-width:120px; max-height:90px; border-radius:6px; border:1px solid var(--border); object-fit:cover;" /></a>
+                                    : <a href={url ?? '#'} target="_blank" style="font-size:12px; color:var(--teal);">📄 {att.file_name}</a>
+                                  }
+                                  <form method="POST" style="display:inline; margin-left:4px;">
+                                    <input type="hidden" name="action" value="delete-attachment" />
+                                    <input type="hidden" name="att_id" value={att.id} />
+                                    <input type="hidden" name="file_path" value={att.file_path} />
+                                    <button type="submit" class="del-btn" title="Verwijder" style="font-size:12px;">×</button>
+                                  </form>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        )}
+                        <form method="POST" enctype="multipart/form-data" style="display:flex; gap:8px; align-items:center;">
+                          <input type="hidden" name="action" value="add-attachment" />
+                          <input type="hidden" name="task_id" value={task.id} />
+                          <input type="file" name="file" accept="image/*,application/pdf" style="font-size:12px; flex:1;" />
+                          <button type="submit" class="btn-ghost-sm">Upload</button>
                         </form>
                       </div>
 
