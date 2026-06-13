@@ -1,0 +1,229 @@
+/* =========================================================
+   portal.css — stijlen voor het klantportaal
+   ========================================================= */
+
+:root {
+  --teal: #1D9E75;
+  --teal-light: #E1F5EE;
+  --teal-dark: #0F6E56;
+  --border: rgba(0,0,0,0.09);
+  --text: #1a1a1a;
+  --muted: #5F5E5A;
+  --bg: #f5f5f3;
+  --card: #ffffff;
+  --mono: 'JetBrains Mono', monospace;
+  --sans: 'Inter', sans-serif;
+  --radius: 10px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--sans); background: var(--bg); color: var(--text); min-height: 100vh; }
+a { color: inherit; text-decoration: none; }
+
+/* ── Topnav ─────────────────────────────────────────────── */
+.portal-nav {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.portal-nav-logo { font-family: var(--mono); font-size: 12px; color: var(--teal); }
+.portal-nav-right { display: flex; align-items: center; gap: 20px; font-size: 13px; color: var(--muted); }
+.portal-nav-right a:hover { color: var(--teal); }
+.portal-nav-user { font-weight: 500; color: var(--text); }
+
+/* ── Layout ──────────────────────────────────────────────── */
+.portal-wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* ── Card ────────────────────────────────────────────────── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+/* ── Sidebar: credits ────────────────────────────────────── */
+.credits-label { font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; margin-bottom: 16px; }
+.credits-balance { font-size: 36px; font-weight: 600; line-height: 1; }
+.credits-unit { font-size: 14px; font-weight: 400; color: var(--muted); margin-left: 4px; }
+.credits-meta { margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
+.credits-row { display: flex; justify-content: space-between; font-size: 13px; }
+.credits-row span:first-child { color: var(--muted); }
+.credits-row span:last-child { font-weight: 500; }
+.credits-divider { border: none; border-top: 1px solid var(--border); margin: 16px 0; }
+
+/* Tijdslog in sidebar */
+.timelog-title { font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; margin-bottom: 12px; }
+.timelog-item { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+.timelog-item:last-child { border-bottom: none; }
+.timelog-top { display: flex; justify-content: space-between; align-items: center; }
+.timelog-desc { font-size: 13px; color: var(--text); }
+.timelog-hours { font-family: var(--mono); font-size: 12px; color: var(--teal); }
+.timelog-badge {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--mono);
+}
+.timelog-badge.invoicable { background: var(--teal-light); color: var(--teal-dark); }
+.timelog-badge.free { background: #f0f0ee; color: var(--muted); }
+.timelog-date { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+/* ── Hoofdinhoud ─────────────────────────────────────────── */
+.main-col { display: flex; flex-direction: column; gap: 20px; }
+
+/* Project header */
+.project-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+.project-title { font-size: 17px; font-weight: 500; }
+.phase-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--teal-light);
+  color: var(--teal-dark);
+}
+
+/* Lege staat */
+.empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 14px; }
+
+/* ── Taken ───────────────────────────────────────────────── */
+.tasks-label { font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; margin-bottom: 12px; }
+
+.task {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.task-row {
+  display: grid;
+  grid-template-columns: 32px 1fr auto auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--card);
+}
+
+.task-satisfied-form { display: contents; }
+
+.task-check {
+  width: 18px; height: 18px;
+  border: 2px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  appearance: none;
+  flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s;
+  position: relative;
+}
+.task-check:checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+.task-check:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px; top: 0px;
+  width: 5px; height: 9px;
+  border: 2px solid #fff;
+  border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+
+.task-title { font-size: 14px; }
+.task-title.done { text-decoration: line-through; color: var(--muted); }
+
+.task-owner {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: #f0f0ee;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.task-owner.owner-johan { background: #e8f4fd; color: #1a6fa3; }
+
+.task-time { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+.task-comment-count {
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* Comments accordion */
+details.task-comments { background: #fafaf8; border-top: 1px solid var(--border); }
+details.task-comments summary {
+  list-style: none;
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+details.task-comments summary::-webkit-details-marker { display: none; }
+details.task-comments summary::before { content: '›'; font-size: 14px; transition: transform 0.15s; }
+details[open].task-comments summary::before { transform: rotate(90deg); }
+
+.comments-inner { padding: 0 14px 12px; }
+
+.comment {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+.comment:last-of-type { border-bottom: none; }
+.comment-meta { font-size: 11px; color: var(--muted); margin-bottom: 3px; }
+.comment-meta strong { color: var(--text); }
+
+.comment-form { display: flex; gap: 8px; margin-top: 10px; }
+.comment-input {
+  flex: 1;
+  padding: 7px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+}
+.comment-input:focus { border-color: var(--teal); }
+.comment-submit {
+  padding: 7px 14px;
+  background: var(--teal);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.comment-submit:hover { opacity: 0.88; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .portal-wrap { grid-template-columns: 1fr; padding: 16px; gap: 16px; }
+  .portal-nav { padding: 0 16px; }
+  .task-row { grid-template-columns: 28px 1fr auto; }
+  .task-owner, .task-time { display: none; }
+}

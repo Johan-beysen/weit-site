@@ -4,7 +4,7 @@ category: "development"
 year: 2026
 client: "Liesbeth — De Tussenruimte"
 summary: "Website voor een startende loopbaanbegeleidster. Van eerste gesprek tot live — volledig handgebouwd, zonder website builders. Inclusief volledige digitale onboarding."
-stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "GitHub", "Proton Pass", "Calendly"]
+stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Calendly", "GitHub"]
 ---
 
 ## Hoe het begon
@@ -23,18 +23,14 @@ Daarna gewacht op de fotograaf. Finale foto's en teksten gekregen, geïmplemente
 
 Volledig handgeschreven HTML, CSS en JavaScript — geen website builders, geen thema's, geen shortcuts. Een statische site die snel laadt en makkelijk te onderhouden is.
 
-Gewenste functies waren eenvoudig: een contactformulier en de mogelijkheid om afspraken in te plannen. Maar het is wat uitgebreider geworden:
-
-- Blogpagina zodat Liesbeth zelf relevante artikels kan schrijven — goed voor vindbaarheid
-- Decap CMS als admin portaal, initieel voor de blog, uitgebreid naar beheer van de volledige site-inhoud
-- Calendly-integratie voor afspraken
-- Google Tag Manager integratie voor conversietracking van Google Ads campagnes
-- Open source cookie consent banner als gevolg van de GTM-integratie
-- A+ score op CSP en security headers
-- Privacybeleid en robots.txt
-- Publicatie via GitHub naar Netlify
-- Mailboxen aangemaakt en geconfigureerd
-- Eerste blogartikel geschreven — over mijn eigen ervaring als klant bij haar
+| Onderdeel | Wat het doet |
+|-----------|------|
+| Blog | Zodat Liesbeth zelf relevante artikels kan schrijven — goed voor vindbaarheid. |
+| Decap CMS | Admin portaal voor de blog, uitgebreid naar beheer van de volledige site-inhoud. |
+| Calendly | Integratie voor afspraken — direct inplannen zonder heen-en-weer e-mailen. |
+| Google Tag Manager | Conversietracking van Google Ads campagnes, met open source cookie consent banner. |
+| Security headers | A+ score op CSP en security headers. Privacybeleid en robots.txt inbegrepen. |
+| Publicatie | GitHub → Netlify. Mailboxen aangemaakt en geconfigureerd. |
 
 ## Meer dan een website
 

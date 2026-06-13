@@ -1,0 +1,253 @@
+---
+export const prerender = false;
+import { createSupabaseServerClient } from '../../lib/supabase';
+import { getServiceClient } from '../../lib/supabase';
+
+const responseHeaders = new Headers();
+const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) return Astro.redirect('/portal/login');
+
+/* ── Verwerk POST-acties ────────────────────────────────── */
+if (Astro.request.method === 'POST') {
+  const form  = await Astro.request.formData();
+  const action = form.get('action')?.toString();
+  const admin  = getServiceClient();
+
+  if (action === 'toggle-satisfied') {
+    const taskId = form.get('task_id')?.toString();
+    const current = form.get('current')?.toString() === 'true';
+    await admin.from('tasks').update({ satisfied: !current }).eq('id', taskId);
+  }
+
+  if (action === 'add-comment') {
+    const taskId  = form.get('task_id')?.toString();
+    const content = form.get('content')?.toString()?.trim();
+    if (taskId && content) {
+      await admin.from('task_comments').insert({
+        task_id: taskId,
+        author: user.email,
+        content,
+      });
+    }
+  }
+
+  return Astro.redirect('/portal');
+}
+
+/* ── Data ophalen ───────────────────────────────────────── */
+const { data: client } = await supabase
+  .from('clients')
+  .select('*')
+  .eq('user_id', user.id)
+  .single();
+
+const { data: projects } = client
+  ? await supabase
+      .from('projects')
+      .select(`*, tasks(*, task_comments(*))`)
+      .eq('client_id', client.id)
+      .eq('status', 'active')
+      .order('created_at')
+  : { data: [] };
+
+const { data: timeLogs } = client
+  ? await supabase
+      .from('time_logs')
+      .select('*')
+      .eq('client_id', client.id)
+      .order('logged_at', { ascending: false })
+      .limit(10)
+  : { data: [] };
+
+const formatDate = (d: string) =>
+  new Date(d).toLocaleDateString('nl-BE', { day: 'numeric', month: 'short' });
+---
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portaal — weit.be</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/portal.css">
+</head>
+<body>
+
+  <nav class="portal-nav">
+    <a href="/portal" class="portal-nav-logo">// weit.be portaal</a>
+    <div class="portal-nav-right">
+      <span class="portal-nav-user">{client?.contact_name ?? user.email}</span>
+      <a href="/portal/logout">uitloggen</a>
+    </div>
+  </nav>
+
+  <div class="portal-wrap">
+
+    <!-- ── Sidebar ── -->
+    <aside>
+
+      <!-- Credits -->
+      <div class="card" style="margin-bottom: 20px;">
+        <div class="credits-label">// credits</div>
+        {client ? (
+          <>
+            <div class="credits-balance">
+              {client.credit_balance ?? 0}
+              <span class="credits-unit">uur</span>
+            </div>
+            <div class="credits-meta">
+              {client.credit_expiry && (
+                <div class="credits-row">
+                  <span>Vervalt</span>
+                  <span>{new Date(client.credit_expiry).toLocaleDateString('nl-BE', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                </div>
+              )}
+              <div class="credits-row">
+                <span>Overdraagbaar</span>
+                <span>{client.credit_transferable ? 'Ja' : 'Nee'}</span>
+              </div>
+              {client.credit_max_cumulative && (
+                <div class="credits-row">
+                  <span>Max cumuleerbaar</span>
+                  <span>{client.credit_max_cumulative}u</span>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <p style="font-size:13px; color: var(--muted);">Nog niet ingesteld.</p>
+        )}
+      </div>
+
+      <!-- Tijdsregistratie -->
+      {timeLogs && timeLogs.length > 0 && (
+        <div class="card">
+          <div class="timelog-title">// recente uren</div>
+          {timeLogs.map((log: any) => (
+            <div class="timelog-item">
+              <div class="timelog-top">
+                <span class="timelog-desc">{log.description ?? '—'}</span>
+                <span class="timelog-hours">{log.hours}u</span>
+              </div>
+              <div style="display:flex; gap:6px; align-items:center; margin-top:4px;">
+                <span class={`timelog-badge ${log.invoicable ? 'invoicable' : 'free'}`}>
+                  {log.invoicable ? 'aangerekend' : 'gratis'}
+                </span>
+                <span class="timelog-date">{formatDate(log.logged_at)}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+    </aside>
+
+    <!-- ── Hoofdinhoud ── -->
+    <main class="main-col">
+
+      {!client ? (
+        <div class="card">
+          <p class="empty-state">Je account is aangemaakt maar nog niet gekoppeld aan een project.<br>Johan komt daar snel bij.</p>
+        </div>
+      ) : !projects || projects.length === 0 ? (
+        <div class="card">
+          <p class="empty-state">Nog geen actieve projecten.</p>
+        </div>
+      ) : (
+        (projects as any[]).map(project => (
+          <div class="card">
+            <div class="project-header">
+              <span class="project-title">{project.title}</span>
+              <span class="phase-badge">{project.phase}</span>
+            </div>
+
+            {project.notes && (
+              <p style="font-size:13px; color:var(--muted); margin-bottom:16px; line-height:1.6;">{project.notes}</p>
+            )}
+
+            <div class="tasks-label">// taken</div>
+
+            {(!project.tasks || project.tasks.length === 0) ? (
+              <p style="font-size:13px; color:var(--muted);">Nog geen taken.</p>
+            ) : (
+              (project.tasks as any[]).map((task: any) => (
+                <div class="task">
+                  <div class="task-row">
+
+                    <!-- Satisfied toggle -->
+                    <form method="POST" class="task-satisfied-form">
+                      <input type="hidden" name="action" value="toggle-satisfied" />
+                      <input type="hidden" name="task_id" value={task.id} />
+                      <input type="hidden" name="current" value={task.satisfied.toString()} />
+                      <input
+                        type="checkbox"
+                        class="task-check"
+                        checked={task.satisfied}
+                        onChange="this.form.submit()"
+                      />
+                    </form>
+
+                    <span class={`task-title ${task.satisfied ? 'done' : ''}`}>{task.title}</span>
+
+                    <span class={`task-owner ${task.owner === 'johan' ? 'owner-johan' : ''}`}>
+                      {task.owner}
+                    </span>
+
+                    {task.time_estimate && (
+                      <span class="task-time">{task.time_estimate}u</span>
+                    )}
+
+                    <span class="task-comment-count">
+                      {task.task_comments?.length ?? 0} 💬
+                    </span>
+
+                  </div>
+
+                  <!-- Comments accordion -->
+                  <details class="task-comments">
+                    <summary>
+                      {task.task_comments?.length > 0
+                        ? `${task.task_comments.length} reactie${task.task_comments.length !== 1 ? 's' : ''}`
+                        : 'reactie toevoegen'}
+                    </summary>
+                    <div class="comments-inner">
+                      {(task.task_comments as any[])?.map((c: any) => (
+                        <div class="comment">
+                          <div class="comment-meta">
+                            <strong>{c.author}</strong> · {formatDate(c.created_at)}
+                          </div>
+                          <div>{c.content}</div>
+                        </div>
+                      ))}
+                      <form method="POST" class="comment-form">
+                        <input type="hidden" name="action" value="add-comment" />
+                        <input type="hidden" name="task_id" value={task.id} />
+                        <input
+                          type="text"
+                          name="content"
+                          class="comment-input"
+                          placeholder="Voeg een reactie toe..."
+                          required
+                        />
+                        <button type="submit" class="comment-submit">Verstuur</button>
+                      </form>
+                    </div>
+                  </details>
+
+                </div>
+              ))
+            )}
+          </div>
+        ))
+      )}
+
+    </main>
+
+  </div>
+
+</body>
+</html>
