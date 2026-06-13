@@ -18,7 +18,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
   }
 
   if (pathname.startsWith('/portal/admin')) {
-    const adminEmail = env.ADMIN_EMAIL ?? 'johan@weit.be';
+    const adminEmail = (env.ADMIN_EMAIL || 'johan@weit.be').trim();
     if (user.email !== adminEmail) {
       return context.redirect('/portal');
     }
