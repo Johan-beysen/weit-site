@@ -8,5 +8,10 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'never',
   },
+  // Voorkomt dat de adapter een Cloudflare KV SESSION binding aanmaakt die we niet gebruiken
+  // (auth loopt via Supabase SSR cookies, niet via Astro.session)
+  session: {
+    driver: 'cookie',
+  },
   adapter: cloudflare(),
 });
