@@ -4,6 +4,9 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/shared.css";
 import "../styles/home.css";
+
+const projectFiles = import.meta.glob("../content/projects/*.md", { eager: true });
+const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
 ---
 
 <Base title="home">
@@ -62,11 +65,16 @@ import "../styles/home.css";
       <a href="/projects" class="mono subtle">alle projecten →</a>
     </div>
     <div class="projecten-grid">
-      <div class="project-card empty">
-        <span class="tag mono">binnenkort</span>
-        <h4>Projecten volgen</h4>
-        <p>Portfolio groeit project per project. Wordt vervolgd.</p>
-      </div>
+      {featuredProjects.map((project: any) => {
+        const slug = project.file.split('/').pop().replace('.md', '');
+        return (
+          <a href={`/projects/${slug}`} class="project-card">
+            <span class="tag mono">{project.frontmatter.category}</span>
+            <h4>{project.frontmatter.title}</h4>
+            <p>{project.frontmatter.summary}</p>
+          </a>
+        );
+      })}
     </div>
   </section>
 
