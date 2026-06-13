@@ -1,0 +1,330 @@
+---
+export const prerender = false;
+import { createSupabaseServerClient, getServiceClient } from '../../../../lib/supabase';
+import '../../../../styles/portal.css';
+
+const { id } = Astro.params;
+const responseHeaders = new Headers();
+const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) return Astro.redirect('/portal/login');
+
+const admin = getServiceClient();
+
+let error = '';
+let success = '';
+
+/* ── POST-acties ─────────────────────────────────────────── */
+if (Astro.request.method === 'POST') {
+  const form = await Astro.request.formData();
+  const action = form.get('action')?.toString();
+
+  if (action === 'add-project') {
+    const title  = form.get('title')?.toString().trim() ?? '';
+    const phase  = form.get('phase')?.toString().trim() || 'planning';
+    const notes  = form.get('notes')?.toString().trim() || null;
+    const { error: e } = await admin.from('projects').insert({
+      client_id: id, title, phase, status: 'active', notes,
+    });
+    if (e) error = e.message; else success = 'Project aangemaakt.';
+  }
+
+  if (action === 'add-task') {
+    const project_id    = form.get('project_id')?.toString();
+    const title         = form.get('title')?.toString().trim() ?? '';
+    const owner         = form.get('owner')?.toString() || 'johan';
+    const time_estimate = parseFloat(form.get('time_estimate')?.toString() ?? '') || null;
+    const { error: e } = await admin.from('tasks').insert({
+      project_id, title, owner, time_estimate, satisfied: false,
+    });
+    if (e) error = e.message; else success = 'Taak aangemaakt.';
+  }
+
+  if (action === 'add-timelog') {
+    const hours       = parseFloat(form.get('hours')?.toString() ?? '0');
+    const description = form.get('description')?.toString().trim() || null;
+    const invoicable  = form.get('invoicable') === 'on';
+    const { error: e } = await admin.from('time_logs').insert({
+      client_id: id, hours, description, invoicable, logged_at: new Date().toISOString(),
+    });
+    if (e) error = e.message;
+    else success = 'Uren geregistreerd.';
+  }
+
+  if (action === 'update-credits') {
+    const credit_balance        = parseFloat(form.get('credit_balance')?.toString() ?? '0');
+    const credit_expiry         = form.get('credit_expiry')?.toString() || null;
+    const credit_transferable   = form.get('credit_transferable') === 'on';
+    const credit_max_cumulative = parseFloat(form.get('credit_max_cumulative')?.toString() ?? '') || null;
+    const { error: e } = await admin.from('clients').update({
+      credit_balance, credit_expiry, credit_transferable, credit_max_cumulative,
+    }).eq('id', id);
+    if (e) error = e.message; else success = 'Credits bijgewerkt.';
+  }
+
+  if (action === 'delete-task') {
+    const task_id = form.get('task_id')?.toString();
+    await admin.from('tasks').delete().eq('id', task_id);
+  }
+
+  return Astro.redirect(`/portal/admin/klant/${id}${success ? '?ok=1' : ''}`);
+}
+
+/* ── Data ophalen ────────────────────────────────────────── */
+const { data: client } = await admin.from('clients').select('*').eq('id', id).single();
+if (!client) return Astro.redirect('/portal/admin');
+
+const { data: projects } = await admin
+  .from('projects')
+  .select('*, tasks(*)')
+  .eq('client_id', id)
+  .order('created_at');
+
+const { data: timeLogs } = await admin
+  .from('time_logs')
+  .select('*')
+  .eq('client_id', id)
+  .order('logged_at', { ascending: false })
+  .limit(20);
+
+const ok = new URL(Astro.request.url).searchParams.get('ok');
+---
+
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{client.contact_name} — weit.be admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    .two-col { display: grid; grid-template-columns: 1fr 340px; gap: 24px; align-items: start; }
+    details[open] summary { margin-bottom: 16px; }
+    summary { cursor: pointer; font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; list-style: none; }
+    summary::before { content: '▶ '; }
+    details[open] summary::before { content: '▼ '; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+    .form-row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .fg { display: flex; flex-direction: column; gap: 4px; }
+    label { font-size: 11px; font-weight: 500; color: var(--text); }
+    input[type=text], input[type=number], input[type=date], select, textarea {
+      padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px;
+      font-size: 13px; font-family: inherit; width: 100%; outline: none;
+    }
+    input:focus, select:focus, textarea:focus { border-color: var(--teal); }
+    textarea { resize: vertical; min-height: 60px; }
+    .btn-sm { padding: 7px 16px; background: var(--teal); color: #fff; border: none; border-radius: 5px; font-size: 13px; cursor: pointer; }
+    .btn-sm:hover { opacity: 0.85; }
+    .btn-danger { background: #e74c3c; }
+    .task-row-admin { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .task-row-admin:last-child { border-bottom: none; }
+    .task-row-admin span { font-size: 13px; flex: 1; }
+    .owner-tag { font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .timelog-small { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid var(--border); }
+    .flash-ok { background: #eafaf1; color: #1e8449; border-radius: 6px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+    .flash-err { background: #fdf0ed; color: #c0392b; border-radius: 6px; padding: 10px 14px; font-size: 13px; margin-bottom: 16px; }
+    @media (max-width: 700px) { .two-col { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <nav class="portal-nav">
+    <a href="/portal/admin" class="portal-nav-logo">// weit.be admin</a>
+    <div class="portal-nav-right">
+      <a href="/portal/logout">uitloggen</a>
+    </div>
+  </nav>
+
+  <div style="max-width:1100px; margin:0 auto; padding:28px 24px;">
+
+    <a href="/portal/admin" style="font-size:13px; color:var(--muted); display:inline-block; margin-bottom:20px;">← klanten</a>
+
+    <div style="display:flex; align-items:baseline; gap:16px; margin-bottom:6px;">
+      <h1 style="font-size:22px; font-weight:500;">{client.contact_name}</h1>
+      {client.company_name && <span style="font-size:14px; color:var(--muted);">{client.company_name}</span>}
+    </div>
+    <p style="font-size:13px; color:var(--muted); margin-bottom:24px;">{client.email}{client.phone ? ` · ${client.phone}` : ''}</p>
+
+    {ok && <div class="flash-ok">✓ Opgeslagen.</div>}
+    {error && <div class="flash-err">{error}</div>}
+
+    <div class="two-col">
+
+      <!-- ── Linkerkant: projecten ── -->
+      <div>
+
+        {/* Projecten */}
+        {(!projects || projects.length === 0) ? (
+          <div class="card"><p class="empty-state">Nog geen projecten.</p></div>
+        ) : (
+          (projects as any[]).map(project => (
+            <div class="card" style="margin-bottom:16px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                <div>
+                  <span style="font-weight:500;">{project.title}</span>
+                  <span class="phase-badge" style="margin-left:10px;">{project.phase}</span>
+                </div>
+              </div>
+
+              {project.notes && (
+                <p style="font-size:13px; color:var(--muted); margin-bottom:12px;">{project.notes}</p>
+              )}
+
+              <div class="tasks-label">// taken</div>
+
+              {(project.tasks as any[])?.map((task: any) => (
+                <div class="task-row-admin">
+                  <span class={task.satisfied ? 'done' : ''}>{task.title}</span>
+                  <span class="owner-tag">{task.owner}</span>
+                  {task.time_estimate && <span class="owner-tag">{task.time_estimate}u</span>}
+                  <form method="POST" style="margin:0;">
+                    <input type="hidden" name="action" value="delete-task" />
+                    <input type="hidden" name="task_id" value={task.id} />
+                    <button type="submit" style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:13px;" title="Verwijder taak">×</button>
+                  </form>
+                </div>
+              ))}
+
+              {/* Taak toevoegen */}
+              <details style="margin-top:14px;">
+                <summary>+ taak toevoegen</summary>
+                <form method="POST">
+                  <input type="hidden" name="action" value="add-task" />
+                  <input type="hidden" name="project_id" value={project.id} />
+                  <div class="form-row three">
+                    <div class="fg">
+                      <label>Titel *</label>
+                      <input type="text" name="title" required placeholder="Taakbeschrijving" />
+                    </div>
+                    <div class="fg">
+                      <label>Wie</label>
+                      <select name="owner">
+                        <option value="johan">johan</option>
+                        <option value="klant">klant</option>
+                        <option value="beiden">beiden</option>
+                      </select>
+                    </div>
+                    <div class="fg">
+                      <label>Uren (schatting)</label>
+                      <input type="number" name="time_estimate" min="0" step="0.5" placeholder="—" />
+                    </div>
+                  </div>
+                  <button type="submit" class="btn-sm">Toevoegen</button>
+                </form>
+              </details>
+
+            </div>
+          ))
+        )}
+
+        {/* Project toevoegen */}
+        <div class="card">
+          <details>
+            <summary>+ nieuw project</summary>
+            <form method="POST">
+              <input type="hidden" name="action" value="add-project" />
+              <div class="form-row">
+                <div class="fg">
+                  <label>Projectnaam *</label>
+                  <input type="text" name="title" required placeholder="Website redesign" />
+                </div>
+                <div class="fg">
+                  <label>Fase</label>
+                  <select name="phase">
+                    <option value="planning">planning</option>
+                    <option value="design">design</option>
+                    <option value="development">development</option>
+                    <option value="review">review</option>
+                    <option value="live">live</option>
+                  </select>
+                </div>
+              </div>
+              <div class="fg" style="margin-bottom:12px;">
+                <label>Notities</label>
+                <textarea name="notes" placeholder="Optionele beschrijving..."></textarea>
+              </div>
+              <button type="submit" class="btn-sm">Project aanmaken</button>
+            </form>
+          </details>
+        </div>
+
+      </div>
+
+      <!-- ── Rechterkant: credits + uren ── -->
+      <div>
+
+        {/* Credits beheren */}
+        <div class="card" style="margin-bottom:16px;">
+          <div class="section-label-sm" style="font-family:var(--mono); font-size:11px; color:var(--teal); margin-bottom:14px;">// credits</div>
+          <form method="POST">
+            <input type="hidden" name="action" value="update-credits" />
+            <div class="fg" style="margin-bottom:10px;">
+              <label>Saldo (uren)</label>
+              <input type="number" name="credit_balance" min="0" step="0.5" value={client.credit_balance ?? 0} />
+            </div>
+            <div class="fg" style="margin-bottom:10px;">
+              <label>Vervaldatum</label>
+              <input type="date" name="credit_expiry" value={client.credit_expiry?.split('T')[0] ?? ''} />
+            </div>
+            <div class="fg" style="margin-bottom:10px;">
+              <label>Max cumuleerbaar</label>
+              <input type="number" name="credit_max_cumulative" min="0" step="0.5" value={client.credit_max_cumulative ?? ''} placeholder="onbeperkt" />
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:14px;">
+              <input type="checkbox" id="ct" name="credit_transferable" checked={client.credit_transferable} style="width:16px; height:16px;" />
+              <label for="ct" style="cursor:pointer;">Overdraagbaar</label>
+            </div>
+            <button type="submit" class="btn-sm">Opslaan</button>
+          </form>
+        </div>
+
+        {/* Uren registreren */}
+        <div class="card" style="margin-bottom:16px;">
+          <details>
+            <summary>+ uren registreren</summary>
+            <form method="POST">
+              <input type="hidden" name="action" value="add-timelog" />
+              <div class="form-row" style="margin-bottom:10px;">
+                <div class="fg">
+                  <label>Uren *</label>
+                  <input type="number" name="hours" min="0.25" step="0.25" required placeholder="1.5" />
+                </div>
+                <div class="fg" style="justify-content:flex-end;">
+                  <div style="display:flex; align-items:center; gap:8px; margin-top:auto; padding-bottom:2px;">
+                    <input type="checkbox" id="inv" name="invoicable" style="width:16px; height:16px;" />
+                    <label for="inv" style="cursor:pointer;">Aanrekenen</label>
+                  </div>
+                </div>
+              </div>
+              <div class="fg" style="margin-bottom:12px;">
+                <label>Omschrijving</label>
+                <input type="text" name="description" placeholder="Wat heb je gedaan?" />
+              </div>
+              <button type="submit" class="btn-sm">Registreren</button>
+            </form>
+          </details>
+        </div>
+
+        {/* Recente uren */}
+        {timeLogs && timeLogs.length > 0 && (
+          <div class="card">
+            <div style="font-family:var(--mono); font-size:11px; color:var(--teal); margin-bottom:10px;">// recente uren</div>
+            {(timeLogs as any[]).map(log => (
+              <div class="timelog-small">
+                <span>{log.description ?? '—'}</span>
+                <span style="white-space:nowrap; margin-left:10px;">{log.hours}u {log.invoicable ? '· €' : '· gratis'}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+      </div>
+
+    </div>
+
+  </div>
+
+</body>
+</html>
