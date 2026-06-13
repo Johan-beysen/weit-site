@@ -23,7 +23,7 @@ if (Astro.request.method === 'POST') {
   const credit_transferable  = form.get('credit_transferable') === 'on';
   const credit_max_cumulative = parseFloat(form.get('credit_max_cumulative')?.toString() ?? '') || null;
 
-  const admin = getServiceClient();
+  const admin = getServiceClient((Astro.locals as any).runtime?.env);
 
   // Stuur invite mail + maak Supabase user aan
   const { data: inviteData, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, {

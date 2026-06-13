@@ -13,7 +13,7 @@ if (!user) return Astro.redirect('/portal/login');
 if (Astro.request.method === 'POST') {
   const form  = await Astro.request.formData();
   const action = form.get('action')?.toString();
-  const admin  = getServiceClient();
+  const admin  = getServiceClient((Astro.locals as any).runtime?.env);
 
   if (action === 'toggle-satisfied') {
     const taskId = form.get('task_id')?.toString();
