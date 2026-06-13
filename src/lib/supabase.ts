@@ -1,5 +1,6 @@
 import { createServerClient, parseCookieHeader, serializeCookieHeader } from '@supabase/ssr';
 import { createClient } from '@supabase/supabase-js';
+import { env } from 'cloudflare:workers';
 
 const supabaseUrl  = import.meta.env.PUBLIC_SUPABASE_URL;
 const supabaseAnon = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
@@ -20,12 +21,11 @@ export function createSupabaseServerClient(request: Request, responseHeaders: He
   });
 }
 
-/* Admin client — bypast RLS, enkel server-side gebruiken.
-   runtimeEnv = Astro.locals.runtime.env (Cloudflare Worker secrets zijn
-   niet beschikbaar via import.meta.env, alleen via de runtime) */
-export function getServiceClient(runtimeEnv?: Record<string, string>) {
-  const key = runtimeEnv?.SUPABASE_SERVICE_ROLE_KEY ?? import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
-  return createClient(supabaseUrl, key, {
+/* Admin client — bypast RLS, enkel server-side gebruiken */
+export function getServiceClient() {
+  return createClient(supabaseUrl, env.SUPABASE_SERVICE_ROLE_KEY as string, {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 }
+
+export { env };

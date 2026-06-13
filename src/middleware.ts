@@ -21,7 +21,8 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   // Admin routes — check of user het Johan-email heeft
   if (pathname.startsWith('/portal/admin')) {
-    const adminEmail = import.meta.env.ADMIN_EMAIL ?? 'johan@weit.be';
+    const { env } = await import('cloudflare:workers');
+    const adminEmail = (env.ADMIN_EMAIL as string) ?? 'johan@weit.be';
     if (user.email !== adminEmail) {
       return context.redirect('/portal');
     }
