@@ -40,12 +40,12 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 <body>
   <p>Even geduld, je wordt aangemeld...</p>
 
-  <script id="cfg" type="application/json" set:text={JSON.stringify({ supabaseUrl, supabaseKey })}></script>
+  <meta id="cfg" data-url={supabaseUrl} data-key={supabaseKey} />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script>
     (async function () {
-      const cfg    = JSON.parse(document.getElementById('cfg').textContent);
-      const sb     = supabase.createClient(cfg.supabaseUrl, cfg.supabaseKey);
+      const cfg = document.getElementById('cfg');
+      const sb  = supabase.createClient(cfg.dataset.url, cfg.dataset.key);
       const hash   = window.location.hash.substring(1);
       const params = new URLSearchParams(hash);
 
