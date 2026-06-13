@@ -2,29 +2,23 @@
 export const prerender = false;
 import { createSupabaseServerClient } from '../../../lib/supabase';
 
-const url      = new URL(Astro.request.url);
-const code     = url.searchParams.get('code');
-const type     = url.searchParams.get('type');
+// PKCE flow: ?code= in URL — server-side afhandeling
+const url  = new URL(Astro.request.url);
+const code = url.searchParams.get('code');
+const type = url.searchParams.get('type');
 const responseHeaders = new Headers();
 
-// PKCE flow: ?code= in URL — server-side exchange
 if (code) {
   const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
   await supabase.auth.exchangeCodeForSession(code);
-
-  const dest = (type === 'recovery' || type === 'invite')
-    ? '/portal/auth/set-password'
-    : '/portal';
-
+  const dest = (type === 'recovery' || type === 'invite') ? '/portal/auth/set-password' : '/portal';
   return new Response(null, {
     status: 302,
     headers: { ...Object.fromEntries(responseHeaders), Location: dest },
   });
 }
 
-// Implicit flow: tokens in hash (#access_token=...) — client-side afhandeling
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
-const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+// Geen code = implicit flow (hash tokens) — client doet fetch naar /portal/auth/set-session
 ---
 <!DOCTYPE html>
 <html lang="nl">
@@ -33,36 +27,41 @@ const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Aanmelden...</title>
   <style>
-    body { font-family: Inter, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f5f5f5; }
-    p { color: #666; font-size: 14px; }
+    body { font-family: Inter, sans-serif; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; background: #f5f5f5; color: #555; font-size: 14px; }
   </style>
 </head>
 <body>
-  <p>Even geduld, je wordt aangemeld...</p>
-
-  <meta id="cfg" data-url={supabaseUrl} data-key={supabaseKey} />
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <p id="msg">Even geduld, je wordt aangemeld...</p>
   <script>
     (async function () {
-      const cfg = document.getElementById('cfg');
-      const sb  = supabase.createClient(cfg.dataset.url, cfg.dataset.key);
-      const hash   = window.location.hash.substring(1);
-      const params = new URLSearchParams(hash);
-
+      const params = new URLSearchParams(window.location.hash.substring(1));
       const access_token  = params.get('access_token');
       const refresh_token = params.get('refresh_token');
       const type          = params.get('type');
+      const error         = params.get('error');
+      const msg           = document.getElementById('msg');
 
-      if (access_token && refresh_token) {
-        await sb.auth.setSession({ access_token, refresh_token });
+      if (error) {
+        msg.textContent = 'Link ongeldig of verlopen. Vraag een nieuwe aan.';
+        return;
+      }
 
-        if (type === 'recovery' || type === 'invite') {
-          window.location.href = '/portal/auth/set-password';
-        } else {
-          window.location.href = '/portal';
-        }
-      } else {
+      if (!access_token || !refresh_token) {
         window.location.href = '/portal/login';
+        return;
+      }
+
+      const res  = await fetch('/portal/auth/set-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ access_token, refresh_token, type }),
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        window.location.href = data.redirect;
+      } else {
+        msg.textContent = 'Aanmelden mislukt: ' + (data.error ?? 'onbekende fout');
       }
     })();
   </script>
