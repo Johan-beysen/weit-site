@@ -7,6 +7,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
   if (!pathname.startsWith('/portal')) return next();
   if (pathname === '/portal/login') return next();
+  if (pathname === '/portal/auth/callback') return next();
 
   const responseHeaders = new Headers();
   const supabase = createSupabaseServerClient(context.request, responseHeaders);

@@ -27,7 +27,7 @@ if (Astro.request.method === 'POST') {
 
   // Stuur invite mail + maak Supabase user aan
   const { data: inviteData, error: inviteError } = await admin.auth.admin.inviteUserByEmail(email, {
-    redirectTo: 'https://weit.be/portal',
+    redirectTo: 'https://weit.be/portal/auth/callback',
   });
 
   if (inviteError) {
