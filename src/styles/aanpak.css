@@ -3,7 +3,7 @@
 }
 
 .blok {
-  padding: 56px var(--px);
+  padding: 56px var(--gutter);
   border-bottom: 1px solid var(--border);
   display: grid;
   grid-template-columns: 200px 1fr;
@@ -86,7 +86,7 @@
 }
 
 .aanpak-cta {
-  padding: 56px var(--px);
+  padding: 56px var(--gutter);
   background: var(--gray-100);
 }
 

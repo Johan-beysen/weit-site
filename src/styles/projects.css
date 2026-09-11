@@ -3,7 +3,7 @@
    ============================================================= */
 
 /* Wrapper voor de volledige projectenlijst */
-.projects-list { padding: 56px var(--px); }
+.projects-list { padding: 56px var(--gutter); }
 
 /* Lege staat wanneer er nog geen projecten zijn */
 .empty { max-width: 480px; }

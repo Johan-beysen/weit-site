@@ -8,6 +8,8 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
+  max-width: var(--content-max);
+  margin-inline: auto;
   border-bottom: 1px solid var(--border);
   min-height: 600px;
 }

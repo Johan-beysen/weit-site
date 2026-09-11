@@ -7,7 +7,7 @@
 /* Donkere hero met intro tekst links en code-display rechts */
 .hero {
   background: #111;
-  padding: 72px var(--px) 64px;
+  padding: 72px var(--gutter) 64px;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -59,7 +59,7 @@
 
 /* Sectie met drie dienstenkaarten */
 .diensten {
-  padding: 56px var(--px);
+  padding: 56px var(--gutter);
   border-bottom: 1px solid var(--border);
 }
 
@@ -100,7 +100,7 @@
 /* --- Projecten preview ------------------------------------- */
 
 .projecten {
-  padding: 56px var(--px);
+  padding: 56px var(--gutter);
   border-bottom: 1px solid var(--border);
 }
 
@@ -145,7 +145,7 @@
 /* --- Contact CTA ------------------------------------------- */
 
 /* Afsluitend blok met uitnodiging om contact op te nemen */
-.contact-cta { padding: 56px var(--px); background: var(--gray-100); }
+.contact-cta { padding: 56px var(--gutter); background: var(--gray-100); }
 .contact-cta h2 { font-size: 22px; font-weight: 500; margin-bottom: 8px; }
 .contact-cta p  { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; }
 

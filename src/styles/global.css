@@ -19,6 +19,11 @@
   --mono: 'JetBrains Mono', monospace;
   --sans: 'Inter', sans-serif;
   --px: 48px;
+  /* Leesbreedte: secties mogen full-bleed blijven (achtergrond tot de
+     rand), maar --gutter zorgt dat de inhoud erbinnen nooit breder
+     wordt dan --content-max, gecentreerd via symmetrische padding. */
+  --content-max: 1280px;
+  --gutter: max(var(--px), calc((100% - var(--content-max)) / 2));
 }
 
 @media (max-width: 768px) {
