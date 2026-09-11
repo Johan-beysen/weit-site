@@ -11,7 +11,7 @@ stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Calendly", "GitHub
 
 Liesbeth en ik kenden elkaar al - zij had me op weg geholpen richting een nieuwe carrière, ik had haar geholpen nadenken over de hare. Toen ze besliste om zelfstandig te gaan als loopbaanbegeleidster en een website nodig had, was de deal snel gemaakt.
 
-Omdat ze mij eerder al op weg had geholpen, bouwde ik haar website pro bono - een kwestie van iets teruggeven.
+Omdat ze mij eerder al op weg had geholpen, bouwde ik haar website met veel plezier - een kwestie van iets teruggeven.
 
 ## Aanpak
 

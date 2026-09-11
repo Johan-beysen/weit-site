@@ -2,22 +2,25 @@
 title: "OSINT Automation Engine"
 category: "security / osint"
 year: 2026
-client: "Fox & Fish Cyberdefence"
+client: "Internship Fox&Fish Cyberdefence"
 summary: "Modulaire reconnaissance pipeline voor pentesttrajecten. Vertrekt vanuit een btw-nummer of domeinnaam en verrijkt recursief - elk nieuw datapunt triggert automatisch een volgende onderzoeksronde."
 stack: ["n8n", "PostgreSQL", "Docker", "Python", "WhoisXML", "Shodan"]
 ---
 
 ## Wat het doet
 
+Van Bedrijfsnaam, of website adres naar een lijst van alle betrokken personen, potentiele mail adressen en ooit gelekte wachtwoorden gekoppeld aan die mail adressen. 
+
 Eén geautomatiseerde pipeline die alle relevante OSINT-data over een doelwit verzamelt, verbindt en scoort. Vertrekt vanuit een btw-nummer of domeinnaam - van daaruit wordt recursief verrijkt. Elk gevonden datapunt kan een nieuwe onderzoeksronde triggeren.
 
 Het resultaat is geen ruwe datadump maar een gescoord overzicht: elk feit draagt een betrouwbaarheidsscore op basis van de bron en kruisvalidatie met andere vondsten.
 
+
 ## Architectuur
 
 Eén Docker container met n8n als orkestrator. Elke databron heeft een eigen afgeschermde flow - modulair opgezet zodat flows onafhankelijk onderhouden en uitgebreid kunnen worden zonder de rest te raken.
-
-PostgreSQL fungeert als centrale hub. Engagement data wordt volledig gewist na afloop.
+Api calls naar externe bronnen daar waar mogelijk, google Dorking naar andere. 
+PostgreSQL fungeert als centrale hub. Engagement data wordt volledig gewist na afloop en oplevering van het engagement.
 
 ## Integraties
 
@@ -32,4 +35,4 @@ PostgreSQL fungeert als centrale hub. Engagement data wordt volledig gewist na a
 
 ## Status
 
-Actief in ontwikkeling. Gebruikt tijdens stage bij Fox & Fish Cyberdefence.
+Mits voorziening van de nodige licenties/API key's is deze instant heractiveerbaar 
