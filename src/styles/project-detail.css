@@ -34,25 +34,42 @@
 
 .back-link { display: block; margin-top: 20px; }
 
-/* Markdown opmaak binnen het artikel — elke ## opent een nieuw "hoofdstuk"
-   met duidelijke scheiding, zodat lange projectomschrijvingen scanbaar
-   blijven in plaats van één blok tekst. */
-.project-content :global(h2) {
-  font-size: 20px;
+/* Markdown opmaak binnen het artikel. Let op: dit is een gewoon geïmporteerd
+   CSS-bestand, geen Astro-scoped <style>-blok — ":global(...)" bestaat hier
+   niet als selector en werd door de browser genegeerd, waardoor onderstaande
+   regels nooit toegepast werden en alle markdown-elementen terugvielen op de
+   margin:0-reset uit global.css. Vandaar gewone descendant-selectors.
+
+   Elke ## opent een nieuw "hoofdstuk" met duidelijke scheiding, en alle
+   tekstelementen delen dezelfde leesbreedte als de content-kolommen op de
+   dienstenpagina's (aanpak.css / rich-service.css: max-width 640px). */
+.project-content h2 {
+  /* Zelfde schaal als de h2's in de CTA-blokken elders (aanpak-cta,
+     detail-cta, contact-cta): font-size 22px / weight 500. */
+  font-size: 22px;
   font-weight: 500;
+  max-width: 640px;
   margin: 48px 0 16px;
   padding-top: 32px;
   border-top: 1px solid var(--border);
 }
-.project-content :global(h2:first-child) { margin-top: 0; padding-top: 0; border-top: none; }
+.project-content h2:first-child { margin-top: 0; padding-top: 0; border-top: none; }
 
-.project-content :global(h3) { font-size: 16px; font-weight: 500; margin: 28px 0 12px; }
-.project-content :global(p)  { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; max-width: 640px; }
+.project-content h3 { font-size: 16px; font-weight: 500; max-width: 640px; margin: 28px 0 12px; }
+
+.project-content p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 640px;
+  margin-bottom: 16px;
+}
+.project-content p:last-child { margin-bottom: 0; }
 
 /* Lijstitems met teal accentlijn i.p.v. bullets — zelfde patroon als de
    "voor wie"-lijsten op de dienstenpagina's */
-.project-content :global(ul) { list-style: none; margin: 0 0 16px; max-width: 640px; }
-.project-content :global(li) {
+.project-content ul { list-style: none; max-width: 640px; margin: 0 0 16px; }
+.project-content li {
   font-size: 15px;
   color: var(--text-muted);
   line-height: 1.7;
@@ -62,7 +79,7 @@
 }
 
 /* Inline code binnen markdown */
-.project-content :global(code) {
+.project-content code {
   font-family: var(--mono);
   font-size: 13px;
   background: var(--gray-100);
@@ -70,18 +87,42 @@
   border-radius: 4px;
 }
 
-/* Integrations / stacks als tabel */
-.project-content :global(table) {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 20px 0 32px;
+/* Tabellen (bv. "wat er gebouwd is") worden herschikt tot een scanbare lijst
+   van label + beschrijving per rij, i.p.v. een platte tabel-layout — de
+   <table>-opmaak blijft semantisch overeind, enkel het display-model
+   verandert naar een tweekolomsgrid per rij. */
+.project-content table,
+.project-content thead,
+.project-content tbody,
+.project-content tr,
+.project-content th,
+.project-content td {
+  display: block;
 }
 
-.project-content :global(thead tr) {
+.project-content table {
+  width: 100%;
+  max-width: 760px;
+  margin: 24px 0 32px;
+}
+
+.project-content tr {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 8px 20px;
+  padding: 16px 0;
   border-bottom: 1px solid var(--border);
 }
 
-.project-content :global(th) {
+.project-content thead tr {
+  padding-bottom: 10px;
+}
+
+.project-content tbody tr:last-child {
+  border-bottom: none;
+}
+
+.project-content th {
   font-family: var(--mono);
   font-size: 11px;
   font-weight: 400;
@@ -89,33 +130,26 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   text-align: left;
-  padding: 0 16px 10px 0;
 }
 
-.project-content :global(td) {
+.project-content td {
   font-size: 14px;
-  color: var(--text-muted);
-  padding: 14px 16px 14px 0;
-  border-bottom: 1px solid var(--border);
-  vertical-align: top;
   line-height: 1.6;
 }
 
-.project-content :global(td:first-child) {
+.project-content td:first-child {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   color: var(--text);
-  white-space: nowrap;
-  width: 190px;
 }
 
-.project-content :global(tr:last-child td) {
-  border-bottom: none;
+.project-content td:last-child {
+  color: var(--text-muted);
 }
 
 /* Status blok */
-.project-content :global(.status) {
+.project-content .status {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -127,7 +161,7 @@
   margin-top: 8px;
 }
 
-.project-content :global(.status-indicator) {
+.project-content .status-indicator {
   font-family: var(--mono);
   font-size: 12px;
   color: var(--teal);
@@ -138,4 +172,9 @@
 @media (max-width: 768px) {
   /* Zijbalk stapelt onder het artikel — sticky heeft dan geen zin meer */
   .project-aside { position: static; }
+}
+
+@media (max-width: 640px) {
+  /* Label + beschrijving stapelen i.p.v. naast elkaar in de rij */
+  .project-content tr { grid-template-columns: 1fr; gap: 4px; }
 }
