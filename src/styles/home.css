@@ -8,6 +8,7 @@
 .hero {
   background: #111;
   padding: 72px var(--gutter) 64px;
+  min-height: var(--hero-height);
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
@@ -141,7 +142,10 @@
 }
 
 @media (max-width: 768px) {
-  .hero { flex-direction: column; padding-top: 48px; padding-bottom: 40px; gap: 0; }
+  /* Vaste hero-hoogte enkel op desktop — op mobiel stapelt de layout
+     toch (geen hero-code meer naast de tekst), dus laten we de hoogte
+     hier gewoon meegroeien met de inhoud. */
+  .hero { flex-direction: column; padding-top: 48px; padding-bottom: 40px; gap: 0; min-height: 0; }
   .hero h1 { font-size: 32px; }
   .diensten  { padding-top: 40px; padding-bottom: 40px; }
   .projecten { padding-top: 40px; padding-bottom: 40px; }
