@@ -2,7 +2,7 @@
 title: "Private Knowledge Base"
 category: "security / knowledge"
 year: 2026
-summary: "Persoonlijke documentatiehub voor technische kennis, pentest-notities, hacking manuals en systeembeheerreferenties. Niet publiek toegankelijk - achter Cloudflare Zero Trust."
+summary: "Persoonlijke documentatiehub voor technische kennis, pentest-notities, hacking manuals en systeembeheerreferenties. De sectie Ethisch hacken staat achter Cloudflare Zero Trust, de rest is publiek raadpleegbaar."
 stack: ["MkDocs Material", "Markdown", "GitHub", "Cloudflare Zero Trust", "Python"]
 ---
 
@@ -16,9 +16,9 @@ De focus ligt op bruikbare operationele kennis: stappenplannen, cheatsheets, tes
 
 ## Toegangsbeveiliging
 
-Omdat de kennisbank gevoelige inhoud bevat - hacking manuals en pentest-technieken - staat de gepubliceerde versie achter **Cloudflare Zero Trust**. De site is niet publiek toegankelijk: alleen gebruikers die expliciet toegang gekregen hebben, kunnen de documentatie raadplegen.
+De sectie **Ethisch hacken** bevat gevoelige inhoud - hacking manuals en pentest-technieken - en staat daarom achter **Cloudflare Zero Trust**. Enkel gebruikers die daar expliciet toegang toe gekregen hebben, kunnen die documentatie raadplegen. De rest van de kennisbank (web application security, API security, tooling, Linux, enterprise networking, databanken en regelgeving) is gewoon publiek raadpleegbaar.
 
-Zo blijft de workflow praktisch bruikbaar als online kennisplatform, zonder gevoelige security-inhoud open op het internet te zetten. Operational security als ontwerpkeuze, niet als afterthought.
+Zo blijft de workflow praktisch bruikbaar als online kennisplatform, zonder de gevoeligste security-inhoud open op het internet te zetten. Operational security als ontwerpkeuze, niet als afterthought.
 
 ## Technische stack
 
@@ -39,4 +39,4 @@ Dit project toont mijn aandacht voor kennisbeheer en operational security. Ik do
 
 ## Status
 
-Actief in gebruik en continu uitgebreid. Toegankelijk via knowledge.johanbeysen.be - enkel op uitnodiging.
+Actief in gebruik en continu uitgebreid. Publiek raadpleegbaar via knowledge.johanbeysen.be, met uitzondering van de sectie Ethisch hacken - die werkt enkel op uitnodiging.

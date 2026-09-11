@@ -22,7 +22,7 @@ const { title, category, year, summary, client, stack } = project.frontmatter;
 const Content = project.default ?? (() => null);
 ---
 
-<Base title={title}>
+<Base title={title} description={summary}>
   <Nav slot="nav" />
 
   <section class="page-hero">
