@@ -29,28 +29,32 @@
 }
 .btn-primary:hover { background: var(--teal-dark); }
 
-/* Donkere hero bovenaan elke pagina — kleiner dan de homepage hero,
-   zonder code-snippet. Achtergrond is full-width, tekst beperkt tot
-   680px zodat lange regels vermeden worden op brede schermen. */
+/* Donkere hero bovenaan elke pagina. Achtergrond is full-width (via
+   var(--gutter), zie global.css), en heeft dezelfde flex-opbouw als de
+   homepage-hero: tekstkolom links, optioneel het <HeroCode />-blok rechts.
+   Zo heeft de zwarte banner overal dezelfde breedte/opbouw. */
 .page-hero {
   background: #111;
   padding: 56px var(--gutter) 48px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
 }
 
-/* Breedte beperken op de tekstelementen, niet op de sectie zelf */
-.page-hero .label,
-.page-hero h1,
-.page-hero p { max-width: 680px; }
+/* Tekstkolom — zelfde breedte als .hero-content op de homepage, zodat
+   elke pagina dezelfde leesbreedte heeft in de zwarte banner. */
+.page-hero-content { max-width: 520px; }
 
 /* Kleine teal label bv. "// consulting" */
-.page-hero .label {
+.page-hero-content .label {
   font-size: 11px;
   color: var(--teal);
   letter-spacing: 0.08em;
   margin-bottom: 16px;
 }
 
-.page-hero h1 {
+.page-hero-content h1 {
   font-size: 36px;
   font-weight: 500;
   line-height: 1.2;
@@ -58,19 +62,35 @@
   margin-bottom: 20px;
 }
 
-.page-hero p {
+.page-hero-content p {
   font-size: 15px;
   color: #888780;
   line-height: 1.7;
 }
 
+/* Decoratief code-blok (<HeroCode />) — verborgen op mobiel, zie hieronder */
+.hero-code {
+  font-size: 12px;
+  color: #2C2C2A;
+  line-height: 2;
+  padding-top: 8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.hero-code .kw  { color: #534AB7; } /* keyword */
+.hero-code .fn  { color: #5DCAA5; } /* function */
+.hero-code .key { color: #7dd3fc; } /* object keys */
+.hero-code .str { color: #EF9F27; } /* string */
+.hero-code .val { color: #EF9F27; } /* value */
+
 /* Responsive — tablet */
 @media (max-width: 768px) {
-  .page-hero { padding-top: 40px; padding-bottom: 32px; }
-  .page-hero h1 { font-size: 28px; }
+  .page-hero { flex-direction: column; padding-top: 40px; padding-bottom: 32px; gap: 0; }
+  .page-hero-content h1 { font-size: 28px; }
+  .hero-code { display: none; }
 }
 
 /* Responsive — mobiel */
 @media (max-width: 640px) {
-  .page-hero h1 { font-size: 24px; }
+  .page-hero-content h1 { font-size: 24px; }
 }

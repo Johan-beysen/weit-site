@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import HeroCode from "../components/HeroCode.astro";
 import "../styles/shared.css";
 import "../styles/services.css";
 ---
@@ -10,9 +11,12 @@ import "../styles/services.css";
   <Nav slot="nav" />
 
   <section class="page-hero">
-    <div class="label mono">// development</div>
-    <h1>Bouwen wat werkt.</h1>
-    <p>Geen overengineering, geen onnodige frameworks. Ik bouw wat je nodig hebt — clean, onderhoudbaar, en klaar om op door te bouwen.</p>
+    <div class="page-hero-content">
+      <div class="label mono">// development</div>
+      <h1>Bouwen wat werkt.</h1>
+      <p>Geen overengineering, geen onnodige frameworks. Ik bouw wat je nodig hebt — clean, onderhoudbaar, en klaar om op door te bouwen.</p>
+    </div>
+    <HeroCode />
   </section>
 
   <section class="content">

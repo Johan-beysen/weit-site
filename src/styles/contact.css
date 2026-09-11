@@ -26,17 +26,19 @@
   background: var(--gray-100);
 }
 
-/* Container voor de Cal.eu inline embed — min-height zodat de
-   volledige maand zichtbaar is, overflow visible om afkappen
-   te vermijden */
+/* Container voor de Cal.eu iframe — min-height zodat de volledige
+   maand zichtbaar is. We embedden via een gewone <iframe> i.p.v. de
+   Cal.eu JS-snippet: die injecteert inline <script>/<style>-tags in
+   onze eigen pagina, wat botst met onze Content-Security-Policy
+   (geen 'unsafe-inline'). Een iframe naar app.cal.eu draait in zijn
+   eigen origin/CSP-context, dus dat probleem doet zich niet voor. */
 .cal-wrapper {
   min-height: 580px;
   border-radius: 12px;
-  overflow: visible;
+  overflow: hidden;
 }
 
-/* Binnenste div van de Cal embed — dimensies voor de widget */
-.cal-inner { width: 100%; height: 100%; overflow: scroll; }
+.cal-iframe { display: block; width: 100%; height: 100%; min-height: 580px; border: none; }
 
 /* --- Formuliervelden --------------------------------------- */
 

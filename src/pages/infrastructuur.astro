@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import HeroCode from "../components/HeroCode.astro";
 import "../styles/shared.css";
 import "../styles/services.css";
 import "../styles/rich-service.css";
@@ -11,9 +12,12 @@ import "../styles/rich-service.css";
   <Nav slot="nav" />
 
   <section class="page-hero">
-    <div class="label mono">// infrastructuur</div>
-    <h1>Een stevig fundament<br />onder elk beleid.</h1>
-    <p>Een stevig beveiligingsbeleid staat of valt met de infrastructuur eronder. Wij bouwen en beheren de systemen die overeind moeten blijven.</p>
+    <div class="page-hero-content">
+      <div class="label mono">// infrastructuur</div>
+      <h1>Een stevig fundament<br />onder elk beleid.</h1>
+      <p>Een stevig beveiligingsbeleid staat of valt met de infrastructuur eronder. Wij bouwen en beheren de systemen die overeind moeten blijven.</p>
+    </div>
+    <HeroCode />
   </section>
 
   <section class="diensten-detail">

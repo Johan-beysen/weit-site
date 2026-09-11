@@ -2,6 +2,7 @@
 import Base from "../../layouts/Base.astro";
 import Nav from "../../components/Nav.astro";
 import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
 import "../../styles/shared.css";
 import "../../styles/services.css";
 import "../../styles/project-detail.css";
@@ -25,12 +26,15 @@ const Content = project.default ?? (() => null);
   <Nav slot="nav" />
 
   <section class="page-hero">
-    <div class="meta">
-      <span class="tag mono">{category}</span>
-      {year && <span class="year mono">{year}</span>}
+    <div class="page-hero-content">
+      <div class="meta">
+        <span class="tag mono">{category}</span>
+        {year && <span class="year mono">{year}</span>}
+      </div>
+      <h1>{title}</h1>
+      <p>{summary}</p>
     </div>
-    <h1>{title}</h1>
-    <p>{summary}</p>
+    <HeroCode />
   </section>
 
   <section class="content">

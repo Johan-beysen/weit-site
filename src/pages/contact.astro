@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import HeroCode from "../components/HeroCode.astro";
 import "../styles/shared.css";
 import "../styles/contact.css";
 ---
@@ -10,9 +11,12 @@ import "../styles/contact.css";
   <Nav slot="nav" />
 
   <section class="page-hero">
-    <div class="label mono">// contact</div>
-    <h1>Een project in gedachten?</h1>
-    <p>Heb je een project in gedachten, wil je eens zonder verplichtingen brainstormen over een idee, stuur me een berichtje of plan een meeting in, no strings attached.</p>
+    <div class="page-hero-content">
+      <div class="label mono">// contact</div>
+      <h1>Een project in gedachten?</h1>
+      <p>Heb je een project in gedachten, wil je eens zonder verplichtingen brainstormen over een idee, stuur me een berichtje of plan een meeting in, no strings attached.</p>
+    </div>
+    <HeroCode />
   </section>
 
   <section class="contact-grid">
@@ -53,7 +57,12 @@ import "../styles/contact.css";
     <div class="cal-block">
       <div class="mono section-label">// plan een gesprek</div>
       <div class="cal-wrapper">
-        <div class="cal-inner" id="my-cal-inline-project-intake"></div>
+        <iframe
+          class="cal-iframe"
+          src="https://app.cal.eu/johan-beysen-3rh9fy/project-intake?embed=true&amp;layout=month_view"
+          title="Plan een gesprek"
+          loading="lazy"
+        ></iframe>
       </div>
     </div>
 
@@ -61,44 +70,6 @@ import "../styles/contact.css";
 
   <Footer slot="footer" />
 </Base>
-
-<script type="text/javascript">
-  (function (C, A, L) {
-    let p = function (a, ar) { a.q.push(ar); };
-    let d = C.document;
-    C.Cal = C.Cal || function () {
-      let cal = C.Cal; let ar = arguments;
-      if (!cal.loaded) {
-        cal.ns = {}; cal.q = cal.q || [];
-        d.head.appendChild(d.createElement("script")).src = A;
-        cal.loaded = true;
-      }
-      if (ar[0] === L) {
-        const api = function () { p(api, arguments); };
-        const namespace = ar[1];
-        api.q = api.q || [];
-        if (typeof namespace === "string") {
-          cal.ns[namespace] = cal.ns[namespace] || api;
-          p(cal.ns[namespace], ar);
-          p(cal, ["initNamespace", namespace]);
-        } else p(cal, ar);
-        return;
-      }
-      p(cal, ar);
-    };
-  })(window, "https://app.cal.eu/embed/embed.js", "init");
-
-  Cal("init", "project-intake", { origin: "https://app.cal.eu" });
-  Cal.ns["project-intake"]("inline", {
-    elementOrSelector: "#my-cal-inline-project-intake",
-    config: { layout: "month_view", useSlotsViewOnSmallScreen: "true" },
-    calLink: "johan-beysen-3rh9fy/project-intake",
-  });
-  Cal.ns["project-intake"]("ui", {
-    hideEventTypeDetails: false,
-    layout: "month_view",
-  });
-</script>
 
 <script>
   const form = document.getElementById("contact-form") as HTMLFormElement;

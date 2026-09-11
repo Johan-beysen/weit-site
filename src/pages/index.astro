@@ -2,6 +2,7 @@
 import Base from "../layouts/Base.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import HeroCode from "../components/HeroCode.astro";
 import "../styles/shared.css";
 import "../styles/home.css";
 
@@ -22,13 +23,7 @@ const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
         <a href="/projects" class="mono subtle">↓ bekijk projecten</a>
       </div>
     </div>
-    <div class="hero-code mono" aria-hidden="true">
-      <span class="kw">const</span> <span class="fn">weit</span> = &#123;<br />
-      &nbsp;&nbsp;focus: <span class="str">"resultaat"</span>,<br />
-      &nbsp;&nbsp;aanpak: <span class="str">"pragmatisch"</span>,<br />
-      &nbsp;&nbsp;transparancy: <span class="val">true</span><br />
-      &#125;
-    </div>
+    <HeroCode />
   </section>
 
   <section class="diensten">
@@ -37,43 +32,37 @@ const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
     <div class="diensten-grid">
 
       <a href="/security" class="dienst-card featured">
-        <div class="icon">&#x1F6E1;&#xFE0F;</div>
-        <h3>security</h3>
+        <h3>[Security]</h3>
         <p>Kwetsbaarheden opsporen voor iemand anders dat doet. Pentesting, security audits en NIS2/Cyfun-begeleiding.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
       <a href="/infrastructuur" class="dienst-card">
-        <div class="icon">&#x1F5A5;&#xFE0F;</div>
-        <h3>infrastructuur</h3>
+        <h3>[Infrastructuur]</h3>
         <p>Servers, netwerken, cloud en Microsoft 365 — stevig ingericht en overzichtelijk beheerd.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
       <a href="/development" class="dienst-card">
-        <div class="icon">&#x1F4BB;</div>
-        <h3>development</h3>
+        <h3>[Development]</h3>
         <p>Webapplicaties, tools en integraties. Clean code, geen overbodige complexiteit.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
       <a href="/automation" class="dienst-card">
-        <div class="icon">&#x2699;&#xFE0F;</div>
-        <h3>automation</h3>
+        <h3>[Automation]</h3>
         <p>Repetitief werk uit handen nemen. Workflows, scripts en slimme koppelingen.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
       <a href="/ai-integratie" class="dienst-card">
-        <div class="icon">&#x1F916;</div>
-        <h3>ai-integratie</h3>
+        <h3>[AI-integratie]</h3>
         <p>Workflows die zelfstandig taken uitvoeren — van agentic automatisering tot AI-ondersteunde security tooling.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
       <a href="/consulting" class="dienst-card">
-        <div class="icon">&#x1F4A1;</div>
-        <h3>consulting</h3>
+        <h3>[Consulting]</h3>
         <p>Meedenken over digitale vraagstukken. Van procesanalyse tot technische roadmap.</p>
         <span class="mono arrow">→ meer</span>
       </a>
