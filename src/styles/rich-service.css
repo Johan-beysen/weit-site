@@ -1,5 +1,5 @@
 /* =============================================================
-   rich-service.css — layout voor dienstenpagina's met meerdere
+   rich-service.css - layout voor dienstenpagina's met meerdere
    subcategorieën (security, infrastructure). Gebruikt de .items/
    .item klassen uit services.css binnen gestapelde secties, en de
    .content/.block/.aside grid uit services.css als buitenste layout
@@ -14,7 +14,7 @@
   margin-bottom: 32px;
 }
 
-/* Meerdere subsecties gestapeld binnen één .block — elke volgende
+/* Meerdere subsecties gestapeld binnen één .block - elke volgende
    subsectie opent als een nieuw "hoofdstuk". */
 .sub-sectie + .sub-sectie {
   margin-top: 48px;

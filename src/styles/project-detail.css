@@ -1,5 +1,5 @@
 /* =============================================================
-   project-detail.css — stijlen voor een individuele projectpagina
+   project-detail.css - stijlen voor een individuele projectpagina
    (projects/[slug].astro)
    ============================================================= */
 
@@ -24,10 +24,15 @@
 
 /* Kleine teal label "// client" of "// stack" */
 .label { font-size: 22px; font-weight: 700; color: var(--teal); letter-spacing: 0.08em; }
-.detail span:last-child { font-size: 13px; color: var(--text-muted); }
+/* Direct-child selector: mag niet de laatste .tag binnen .stack-tags raken */
+.detail > span:last-child { font-size: 13px; color: var(--text-muted); }
 
-/* Stack-onderdelen als kleine teal pills, zelfde stijl als de category-tag */
-.stack-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+/* Stack-onderdelen als kleine teal pills, zelfde stijl als de category-tag -
+   flex-wrap + gap (horizontaal én verticaal) i.p.v. losse margins, zodat
+   elke tag exact dezelfde padding/border-radius/spacing krijgt, ongeacht
+   hoeveel tags er zijn of waar de regel breekt. */
+.stack-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.stack-tags .tag { flex: 0 0 auto; }
 
 /* Zijbalk blijft in beeld terwijl het artikel scrollt */
 .project-aside { position: sticky; top: 24px; }
@@ -35,7 +40,7 @@
 .back-link { display: block; margin-top: 20px; }
 
 /* Markdown opmaak binnen het artikel. Let op: dit is een gewoon geïmporteerd
-   CSS-bestand, geen Astro-scoped <style>-blok — ":global(...)" bestaat hier
+   CSS-bestand, geen Astro-scoped <style>-blok - ":global(...)" bestaat hier
    niet als selector en werd door de browser genegeerd, waardoor onderstaande
    regels nooit toegepast werden en alle markdown-elementen terugvielen op de
    margin:0-reset uit global.css. Vandaar gewone descendant-selectors.
@@ -66,7 +71,7 @@
 }
 .project-content p:last-child { margin-bottom: 0; }
 
-/* Lijstitems met teal accentlijn i.p.v. bullets — zelfde patroon als de
+/* Lijstitems met teal accentlijn i.p.v. bullets - zelfde patroon als de
    "voor wie"-lijsten op de dienstenpagina's */
 .project-content ul { list-style: none; max-width: 640px; margin: 0 0 16px; }
 .project-content li {
@@ -88,7 +93,7 @@
 }
 
 /* Tabellen (bv. "wat er gebouwd is") worden herschikt tot een scanbare lijst
-   van label + beschrijving per rij, i.p.v. een platte tabel-layout — de
+   van label + beschrijving per rij, i.p.v. een platte tabel-layout - de
    <table>-opmaak blijft semantisch overeind, enkel het display-model
    verandert naar een tweekolomsgrid per rij. */
 .project-content table,
@@ -170,7 +175,7 @@
 /* --- Responsive -------------------------------------------- */
 
 @media (max-width: 768px) {
-  /* Zijbalk stapelt onder het artikel — sticky heeft dan geen zin meer */
+  /* Zijbalk stapelt onder het artikel - sticky heeft dan geen zin meer */
   .project-aside { position: static; }
 }
 

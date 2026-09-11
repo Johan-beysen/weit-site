@@ -2,7 +2,7 @@
 export const prerender = false;
 import { createSupabaseServerClient } from '../../../lib/supabase';
 
-// PKCE flow: ?code= in URL — server-side afhandeling
+// PKCE flow: ?code= in URL - server-side afhandeling
 const url  = new URL(Astro.request.url);
 const code = url.searchParams.get('code');
 const type = url.searchParams.get('type');
@@ -18,7 +18,7 @@ if (code) {
   });
 }
 
-// Geen code = implicit flow (hash tokens) — client doet fetch naar /portal/auth/set-session
+// Geen code = implicit flow (hash tokens) - client doet fetch naar /portal/auth/set-session
 ---
 <!DOCTYPE html>
 <html lang="nl">

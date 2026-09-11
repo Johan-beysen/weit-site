@@ -1,5 +1,5 @@
 /* =============================================================
-   contact.css — stijlen voor de contactpagina
+   contact.css - stijlen voor de contactpagina
    Bevat: formulierlayout, velden, "wat mag je verwachten"-lijst
    ============================================================= */
 
@@ -65,7 +65,7 @@ label {
   font-family: var(--mono);
 }
 
-/* Optioneel veld — grijs (optioneel) naast het label */
+/* Optioneel veld - grijs (optioneel) naast het label */
 .optional { font-weight: 400; color: var(--text-muted); }
 
 input, textarea {
@@ -82,7 +82,7 @@ input, textarea {
 input:focus, textarea:focus { outline: none; border-color: var(--teal); }
 textarea { resize: vertical; }
 
-/* Verstuur-knop — volledige breedte */
+/* Verstuur-knop - volledige breedte */
 button[type="submit"] {
   background: var(--teal);
   color: #fff;
@@ -104,7 +104,7 @@ button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
 .form-result.success { color: var(--teal-dark); }
 .form-result.error   { color: #993C1D; }
 
-/* Honeypot veld voor spambeveiliging — nooit zichtbaar voor
+/* Honeypot veld voor spambeveiliging - nooit zichtbaar voor
    echte gebruikers, bots vullen het wel in */
 .honeypot { display: none; }
 

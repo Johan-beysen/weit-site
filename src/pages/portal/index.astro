@@ -15,7 +15,7 @@ if (!user) return Astro.redirect('/portal/login');
 
 const sb = getServiceClient();
 
-// Client ophalen vóór POST-handler — nodig voor ownership check
+// Client ophalen vóór POST-handler - nodig voor ownership check
 const { data: client } = await supabase
   .from('clients')
   .select('*')
@@ -141,7 +141,7 @@ const formatDate = (d: string) =>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portaal — weit.be</title>
+  <title>Portaal - weit.be</title>
   <style>
     /* Bijlagen rij in client view */
     .att-grid { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; }
@@ -219,7 +219,7 @@ const formatDate = (d: string) =>
           {timeLogs.map((log: any) => (
             <div class="timelog-item">
               <div class="timelog-top">
-                <span class="timelog-desc">{log.description ?? '—'}</span>
+                <span class="timelog-desc">{log.description ?? '-'}</span>
                 <span class="timelog-hours">{log.hours}u</span>
               </div>
               <div style="display:flex; gap:6px; align-items:center; margin-top:4px;">

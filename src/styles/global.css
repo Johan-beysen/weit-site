@@ -25,7 +25,7 @@
   --content-max: 1280px;
   --gutter: max(var(--px), calc((100% - var(--content-max)) / 2));
   /* Vaste hoogte voor de donkere hero-banner (homepage .hero en .page-hero
-     op elke andere pagina) — zodat de banner niet verspringt in hoogte al
+     op elke andere pagina) - zodat de banner niet verspringt in hoogte al
      naargelang de titel 1, 2 of 3 regels beslaat. */
   --hero-height: 460px;
 }

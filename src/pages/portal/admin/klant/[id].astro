@@ -215,7 +215,7 @@ const fmt = (d: string) =>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{client.contact_name} — weit.be admin</title>
+  <title>{client.contact_name} - weit.be admin</title>
   <style>
     .two-col { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
     details > summary { cursor: pointer; font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; list-style: none; user-select: none; }
@@ -460,7 +460,7 @@ const fmt = (d: string) =>
                       <option value="beiden">beiden</option>
                     </select>
                   </div>
-                  <div class="fg"><label>Schatting (u)</label><input type="number" name="time_estimate" min="0" step="0.5" placeholder="—" /></div>
+                  <div class="fg"><label>Schatting (u)</label><input type="number" name="time_estimate" min="0" step="0.5" placeholder="-" /></div>
                 </div>
                 <button type="submit" class="btn-sm">Toevoegen</button>
               </form>
@@ -481,7 +481,7 @@ const fmt = (d: string) =>
                     </div>
                   </div>
                 </div>
-                <div class="fg" style="margin-bottom:12px;"><label>Omschrijving</label><input type="text" name="description" placeholder={`${project.title} — `} /></div>
+                <div class="fg" style="margin-bottom:12px;"><label>Omschrijving</label><input type="text" name="description" placeholder={`${project.title} - `} /></div>
                 <button type="submit" class="btn-sm">Registreren</button>
               </form>
             </details>
@@ -548,7 +548,7 @@ const fmt = (d: string) =>
             <div class="mono-label">// recente uren</div>
             {(timeLogs as any[]).map(log => (
               <div class="timelog-row">
-                <span class="timelog-desc">{log.description ?? '—'}</span>
+                <span class="timelog-desc">{log.description ?? '-'}</span>
                 <span class="timelog-meta">{log.hours}u{log.invoicable ? ' ·€' : ''}</span>
               </div>
             ))}
