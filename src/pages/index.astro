@@ -14,9 +14,9 @@ const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
 
   <section class="hero">
     <div class="hero-content">
-      <div class="label mono">// consulting · development · automation</div>
+      <div class="label mono">// security · infrastructuur · development · automation</div>
       <h1>Digitale problemen<br />oplossen, van begin<br />tot einde.</h1>
-      <p>Ik help bedrijven bouwen wat werkt, automatiseren wat tijd kost, en denken over wat complex lijkt.</p>
+      <p>Wij helpen organisaties hun digitale omgeving begrijpen, beveiligen en efficiënter laten draaien — van kwetsbaarheden opsporen tot infrastructuur die overeind blijft.</p>
       <div class="hero-cta">
         <a href="/contact" class="btn-primary">Neem contact op</a>
         <a href="/projects" class="mono subtle">↓ bekijk projecten</a>
@@ -32,17 +32,25 @@ const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
   </section>
 
   <section class="diensten">
-    <div class="section-label mono">// wat ik doe</div>
+    <div class="section-label mono">// wat wij doen</div>
+    <p class="diensten-intro">Van offensieve security tot automatisatie en AI-integratie — hieronder een overzicht.</p>
     <div class="diensten-grid">
 
-      <a href="/consulting" class="dienst-card">
-        <div class="icon">&#x1F4A1;</div>
-        <h3>consulting</h3>
-        <p>Meedenken over digitale vraagstukken. Van procesanalyse tot technische roadmap.</p>
+      <a href="/security" class="dienst-card featured">
+        <div class="icon">&#x1F6E1;&#xFE0F;</div>
+        <h3>security</h3>
+        <p>Kwetsbaarheden opsporen voor iemand anders dat doet. Pentesting, security audits en NIS2/Cyfun-begeleiding.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
-      <a href="/development" class="dienst-card featured">
+      <a href="/infrastructuur" class="dienst-card">
+        <div class="icon">&#x1F5A5;&#xFE0F;</div>
+        <h3>infrastructuur</h3>
+        <p>Servers, netwerken, cloud en Microsoft 365 — stevig ingericht en overzichtelijk beheerd.</p>
+        <span class="mono arrow">→ meer</span>
+      </a>
+
+      <a href="/development" class="dienst-card">
         <div class="icon">&#x1F4BB;</div>
         <h3>development</h3>
         <p>Webapplicaties, tools en integraties. Clean code, geen overbodige complexiteit.</p>
@@ -53,6 +61,20 @@ const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
         <div class="icon">&#x2699;&#xFE0F;</div>
         <h3>automation</h3>
         <p>Repetitief werk uit handen nemen. Workflows, scripts en slimme koppelingen.</p>
+        <span class="mono arrow">→ meer</span>
+      </a>
+
+      <a href="/ai-integratie" class="dienst-card">
+        <div class="icon">&#x1F916;</div>
+        <h3>ai-integratie</h3>
+        <p>Workflows die zelfstandig taken uitvoeren — van agentic automatisering tot AI-ondersteunde security tooling.</p>
+        <span class="mono arrow">→ meer</span>
+      </a>
+
+      <a href="/consulting" class="dienst-card">
+        <div class="icon">&#x1F4A1;</div>
+        <h3>consulting</h3>
+        <p>Meedenken over digitale vraagstukken. Van procesanalyse tot technische roadmap.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
@@ -81,7 +103,7 @@ const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
   <section class="contact-cta">
     <div class="section-label mono">// contact</div>
     <h2>Een project in gedachten?</h2>
-    <p>Vertel me wat je nodig hebt — geen verplichtingen, gewoon een gesprek.</p>
+    <p>Vertel ons wat je nodig hebt — geen verplichtingen, gewoon een gesprek.</p>
     <a href="/contact" class="btn-primary">Stuur een bericht</a>
   </section>
 
