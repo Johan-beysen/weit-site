@@ -6,8 +6,14 @@
    een blogartikel heeft geen zijbalk met client/stack.
    ============================================================= */
 
+/* Let op: hier bewust var(--px) i.p.v. var(--gutter) - deze combineert
+   met een vaste max-width, en --gutter groeit op brede schermen. Met
+   box-sizing:border-box zou die groeiende padding de vaste max-width
+   opeten en de tekstkolom herleiden tot een paar tientallen pixels
+   (elk woord op zijn eigen regel). Zelfde reden waarom .project-content
+   in project-detail.css ook nooit --gutter gebruikt. */
 .blog-content {
-  padding: 56px var(--gutter);
+  padding: 56px var(--px);
   max-width: 840px;
   margin-inline: auto;
   border-bottom: 1px solid var(--border);
