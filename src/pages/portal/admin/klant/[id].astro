@@ -2,6 +2,11 @@
 export const prerender = false;
 import { createSupabaseServerClient, getServiceClient } from '../../../../lib/supabase';
 import '../../../../styles/portal.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-500.css';
 
 const { id } = Astro.params;
 const responseHeaders = new Headers();
@@ -211,9 +216,6 @@ const fmt = (d: string) =>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{client.contact_name} — weit.be admin</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     .two-col { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
     details > summary { cursor: pointer; font-family: var(--mono); font-size: 11px; color: var(--teal); letter-spacing: 0.06em; list-style: none; user-select: none; }

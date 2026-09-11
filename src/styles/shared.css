@@ -9,9 +9,10 @@
 .subtle { font-size: 12px; color: var(--text-muted); }
 .subtle:hover { color: var(--text); }
 
-/* Kleine teal sectielabel boven een blok — bv. "// wat ik doe" */
+/* Teal sectielabel boven een blok — bv. "// wat ik doe" */
 .section-label {
-  font-size: 11px;
+  font-size: 22px;
+  font-weight: 700;
   color: var(--teal);
   letter-spacing: 0.08em;
   margin-bottom: 24px;
@@ -47,9 +48,10 @@
    elke pagina dezelfde leesbreedte heeft in de zwarte banner. */
 .page-hero-content { max-width: 520px; }
 
-/* Kleine teal label bv. "// consulting" */
+/* Teal label bv. "// consulting" */
 .page-hero-content .label {
-  font-size: 11px;
+  font-size: 22px;
+  font-weight: 700;
   color: var(--teal);
   letter-spacing: 0.08em;
   margin-bottom: 16px;
@@ -67,6 +69,14 @@
   font-size: 15px;
   color: #888780;
   line-height: 1.7;
+  margin-bottom: 28px;
+}
+
+/* CTA-knop in de hero — op elke pagina behalve /contact zelf */
+.page-hero-content .hero-cta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 
 /* Decoratief code-blok (<HeroCode />) — verborgen op mobiel, zie hieronder */
@@ -83,6 +93,7 @@
 .hero-code .key { color: #7dd3fc; } /* object keys */
 .hero-code .str { color: #EF9F27; } /* string */
 .hero-code .val { color: #EF9F27; } /* value */
+.hero-code .op  { color: #F2C94C; } /* operators/punctuation: = { } : , */
 
 /* Responsive — tablet */
 @media (max-width: 768px) {

@@ -1,0 +1,33 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/projects.css";
+---
+
+<Base title="blog">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// blog</div>
+      <h1>Binnenkort.</h1>
+      <p>Artikels over security, infrastructuur en automatisering — geschreven vanuit de praktijk, niet vanuit een contentkalender.</p>
+      <div class="hero-cta">
+        <a href="/contact" class="btn-primary">Neem contact op</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="projects-list">
+    <div class="empty">
+      <div class="mono section-label">// wordt vervolgd</div>
+      <p>Eerste artikels komen eraan.</p>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

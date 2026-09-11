@@ -1,22 +1,68 @@
 ---
+const dienstenLinks = [
+  {
+    href: "/security",
+    title: "[Security]",
+    desc: "Kwetsbaarheden opsporen voor iemand anders dat doet. Pentesting, security audits en NIS2/Cyfun-begeleiding.",
+  },
+  {
+    href: "/infrastructuur",
+    title: "[Infrastructuur]",
+    desc: "Servers, netwerken, cloud en Microsoft 365 — stevig ingericht en overzichtelijk beheerd.",
+  },
+  {
+    href: "/development",
+    title: "[Development]",
+    desc: "Webapplicaties, tools en integraties. Clean code, geen overbodige complexiteit.",
+  },
+  {
+    href: "/automation",
+    title: "[Automation]",
+    desc: "Repetitief werk uit handen nemen. Workflows, scripts en slimme koppelingen.",
+  },
+  {
+    href: "/ai-integratie",
+    title: "[AI-integratie]",
+    desc: "Workflows die zelfstandig taken uitvoeren — van agentic automatisering tot AI-ondersteunde security tooling.",
+  },
+  {
+    href: "/consulting",
+    title: "[Consulting]",
+    desc: "Meedenken over digitale vraagstukken. Van procesanalyse tot technische roadmap.",
+  },
+];
+
 const navLinks = [
-  { href: "/security", label: "security" },
-  { href: "/infrastructuur", label: "infrastructuur" },
-  { href: "/development", label: "development" },
-  { href: "/automation", label: "automation" },
-  { href: "/ai-integratie", label: "ai-integratie" },
-  { href: "/consulting", label: "consulting" },
-  { href: "/aanpak", label: "aanpak" },
   { href: "/projects", label: "projects" },
+  { href: "/blog", label: "blog" },
+  { href: "/aanpak", label: "aanpak" },
   { href: "/contact", label: "contact" },
 ];
 
 const current = Astro.url.pathname;
+const dienstenActive = dienstenLinks.some(link => current.startsWith(link.href));
 ---
 
 <nav>
   <a href="/" class="logo">weit<span>.</span>be</a>
   <ul>
+    <li>
+      <details class="dropdown">
+        <summary class={dienstenActive ? "active" : ""}>
+          diensten <span class="mono arrow-down">▾</span>
+        </summary>
+        <div class="mega-menu">
+          <div class="mega-panel">
+            {dienstenLinks.map(item => (
+              <a href={item.href} class="mega-item">
+                <span class="mega-title mono">{item.title}</span>
+                <span class="mega-desc">{item.desc}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </details>
+    </li>
     {navLinks.map(link => (
       <li>
         <a href={link.href} class={current.startsWith(link.href) ? "active" : ""}>
@@ -35,6 +81,7 @@ const current = Astro.url.pathname;
     padding: 16px var(--gutter);
     border-bottom: 1px solid var(--border);
     background: #fff;
+    position: relative;
   }
   .logo {
     font-family: var(--mono);
@@ -43,17 +90,94 @@ const current = Astro.url.pathname;
     color: var(--text);
   }
   .logo span { color: var(--teal); }
+
   ul {
     display: flex;
+    align-items: center;
     gap: 32px;
     list-style: none;
   }
-  a {
-    font-size: 13px;
+
+  a { font-size: 15px; color: var(--text-muted); transition: color 0.15s; }
+  a:hover, a.active { color: var(--text); }
+
+  /* --- Diensten-dropdown --------------------------------------- */
+
+  .dropdown { position: relative; }
+
+  summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 15px;
     color: var(--text-muted);
+    cursor: pointer;
     transition: color 0.15s;
   }
-  a:hover, a.active { color: var(--text); }
+  summary::-webkit-details-marker { display: none; }
+  summary:hover, summary.active { color: var(--text); }
+
+  /* Pijltje in dezelfde teal/mono-taal als de "// labels" en
+     "[haakjes]" elders op de site */
+  .arrow-down {
+    font-size: 10px;
+    color: var(--teal);
+    transition: transform 0.15s;
+  }
+  .dropdown[open] .arrow-down { transform: rotate(180deg); }
+
+  /* Onzichtbare brug zonder gap, zodat hover niet wegvalt tussen
+     trigger en menu */
+  .mega-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    padding-top: 14px;
+    z-index: 20;
+  }
+  .dropdown:hover .mega-menu,
+  .dropdown[open] .mega-menu {
+    display: block;
+  }
+
+  .mega-panel {
+    width: 720px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
+  }
+
+  .mega-item {
+    display: block;
+    padding: 8px;
+    margin: -8px;
+    border-radius: 8px;
+    transition: background 0.15s;
+  }
+  .mega-item:hover { background: var(--gray-100); }
+
+  .mega-title {
+    display: block;
+    font-size: 13px;
+    color: var(--text);
+    margin-bottom: 6px;
+    transition: color 0.15s;
+  }
+  .mega-item:hover .mega-title { color: var(--teal); }
+
+  .mega-desc {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
 
   @media (max-width: 640px) {
     nav {
@@ -62,5 +186,15 @@ const current = Astro.url.pathname;
       gap: 14px;
     }
     ul { gap: 20px; flex-wrap: wrap; }
+
+    .mega-menu { position: static; padding-top: 10px; }
+    .mega-panel {
+      width: auto;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      box-shadow: none;
+      border: none;
+      padding: 10px 0 0 16px;
+    }
   }
 </style>

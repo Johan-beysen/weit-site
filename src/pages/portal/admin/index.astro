@@ -2,6 +2,11 @@
 export const prerender = false;
 import { createSupabaseServerClient, getServiceClient } from '../../../lib/supabase';
 import '../../../styles/portal.css';
+import '@fontsource/inter/latin-400.css';
+import '@fontsource/inter/latin-500.css';
+import '@fontsource/inter/latin-600.css';
+import '@fontsource/jetbrains-mono/latin-400.css';
+import '@fontsource/jetbrains-mono/latin-500.css';
 
 const responseHeaders = new Headers();
 const supabase = createSupabaseServerClient(Astro.request, responseHeaders);
@@ -30,9 +35,6 @@ const unreadCounts: Record<string, number> = {};
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Admin — weit.be portaal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
 

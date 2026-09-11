@@ -1,9 +1,9 @@
 /* =============================================================
    contact.css — stijlen voor de contactpagina
-   Bevat: formulierlayout, velden, Cal.eu embed wrapper
+   Bevat: formulierlayout, velden, "wat mag je verwachten"-lijst
    ============================================================= */
 
-/* Tweekolomslayout: formulier links, kalender rechts */
+/* Tweekolomslayout: formulier links, verwachtingen rechts */
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -20,25 +20,25 @@
   border-right: 1px solid var(--border);
 }
 
-/* Rechterkolom: Cal.eu kalender embed */
-.cal-block {
+/* Rechterkolom: wat de bezoeker mag verwachten na het versturen van een bericht */
+.expect-block {
   padding: 56px var(--px);
   background: var(--gray-100);
 }
 
-/* Container voor de Cal.eu iframe — min-height zodat de volledige
-   maand zichtbaar is. We embedden via een gewone <iframe> i.p.v. de
-   Cal.eu JS-snippet: die injecteert inline <script>/<style>-tags in
-   onze eigen pagina, wat botst met onze Content-Security-Policy
-   (geen 'unsafe-inline'). Een iframe naar app.cal.eu draait in zijn
-   eigen origin/CSP-context, dus dat probleem doet zich niet voor. */
-.cal-wrapper {
-  min-height: 580px;
-  border-radius: 12px;
-  overflow: hidden;
+.expect-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-
-.cal-iframe { display: block; width: 100%; height: 100%; min-height: 580px; border: none; }
+.expect-list li {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  padding-left: 16px;
+  border-left: 2px solid var(--teal);
+}
 
 /* --- Formuliervelden --------------------------------------- */
 
@@ -102,9 +102,8 @@ button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
 /* --- Responsive -------------------------------------------- */
 
 @media (max-width: 768px) {
-  /* Kalender stapelt onder het formulier */
+  /* Verwachtingenlijst stapelt onder het formulier */
   .contact-grid { grid-template-columns: 1fr; min-height: unset; }
   .form-block { border-right: none; border-bottom: 1px solid var(--border); padding-top: 40px; padding-bottom: 40px; }
-  .cal-block  { padding-top: 40px; padding-bottom: 40px; }
-  .cal-wrapper { min-height: 500px; }
+  .expect-block { padding-top: 40px; padding-bottom: 40px; }
 }

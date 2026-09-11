@@ -23,7 +23,7 @@
 .detail { display: flex; flex-direction: column; gap: 4px; }
 
 /* Kleine teal label "// client" of "// stack" */
-.label { font-size: 11px; color: var(--teal); letter-spacing: 0.08em; }
+.label { font-size: 22px; font-weight: 700; color: var(--teal); letter-spacing: 0.08em; }
 .detail span:last-child { font-size: 13px; color: var(--text-muted); }
 
 /* Stack-onderdelen als kleine teal pills, zelfde stijl als de category-tag */
