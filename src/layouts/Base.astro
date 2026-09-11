@@ -7,12 +7,13 @@ import '@fontsource/jetbrains-mono/latin-500.css';
 
 const {
   title = "WeIT.be",
-  description = "Security, infrastructure, development en automation - pragmatisch en zonder fluff.",
+  titleOverride,
+  description = "Cybersecurity, infrastructuur, maatwerk en automatisering - pragmatisch en zonder fluff.",
   image = "/og-image.png",
 } = Astro.props;
 
 const siteName = "WeIT.be";
-const pageTitle = title === "home" ? siteName : `${title} - ${siteName}`;
+const pageTitle = titleOverride ?? (title === "home" ? siteName : `${title} - ${siteName}`);
 const canonicalURL = new URL(Astro.url.pathname, "https://weit.be");
 const imageURL = new URL(image, "https://weit.be");
 ---

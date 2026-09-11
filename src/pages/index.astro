@@ -10,29 +10,33 @@ const projectFiles = import.meta.glob("../content/projects/*.md", { eager: true 
 const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
 ---
 
-<Base title="home" description="Wij helpen organisaties hun digitale omgeving begrijpen, beveiligen en efficiënter laten draaien - van kwetsbaarheden opsporen tot infrastructure die overeind blijft.">
+<Base
+  title="home"
+  titleOverride="Cybersecurity en pragmatische IT voor kmo's | WeIT.be"
+  description="WeIT helpt kmo's kwetsbaarheden opsporen, systemen betrouwbaar inrichten en tijdrovend werk automatiseren - één technisch aanspreekpunt, duidelijke afspraken."
+>
   <Nav slot="nav" />
 
   <section class="hero">
     <div class="hero-content">
-      <div class="label mono">// security · infrastructure · development · automation</div>
-      <h1>Digitale problemen<br />oplossen, van begin<br />tot einde.</h1>
-      <p>Wij helpen organisaties hun digitale omgeving begrijpen, beveiligen en efficiënter laten draaien - van kwetsbaarheden opsporen tot infrastructure die overeind blijft.</p>
+      <div class="label mono">// cybersecurity · infrastructuur · maatwerk · automatisering</div>
+      <h1>Veilige IT die werkt<br />voor je bedrijf.</h1>
+      <p>WeIT helpt kmo's kwetsbaarheden opsporen, systemen betrouwbaar inrichten en tijdrovend werk automatiseren. Je krijgt één technisch aanspreekpunt, duidelijke afspraken en een oplossing die volledig van jou blijft.</p>
       <div class="hero-cta">
-        <a href="/contact" class="btn-primary">Neem contact op</a>
+        <a href="/contact" class="btn-primary">Plan een gratis kennismaking</a>
       </div>
     </div>
     <HeroCode />
   </section>
 
   <section class="diensten">
-    <div class="section-label mono">// wat wij doen</div>
-    <p class="diensten-intro">Van offensieve security tot automatisatie en AI-integratie - hieronder een overzicht.</p>
+    <div class="section-label mono">// diensten</div>
+    <p class="diensten-intro">Start bij het probleem, niet bij de technologie. WeIT onderzoekt wat er werkelijk nodig is en kiest daarna de eenvoudigste oplossing die veilig, onderhoudbaar en overdraagbaar is.</p>
     <div class="diensten-grid">
 
       <a href="/security" class="dienst-card featured">
         <h3>[Security]</h3>
-        <p>Kwetsbaarheden opsporen vóór anderen ze misbruiken. Pentesting, security audits en NIS2/Cyfun-begeleiding.</p>
+        <p>Kwetsbaarheden opsporen vóór anderen ze misbruiken. Pentesting, security audits en NIS2/CyFun®-begeleiding.</p>
         <span class="mono arrow">→ meer</span>
       </a>
 
@@ -90,8 +94,8 @@ const featuredProjects = (Object.values(projectFiles) as any[]).slice(0, 3);
 
   <section class="contact-cta">
     <div class="section-label mono">// contact</div>
-    <h2>Een project in gedachten?</h2>
-    <p>Vertel ons wat je nodig hebt - geen verplichtingen, gewoon een gesprek.</p>
+    <h2>Leg je digitale vraag voor.</h2>
+    <p>Je krijgt binnen één werkdag een eerlijk eerste antwoord. Als het zinvol is, plannen we een gratis kennismaking van een uur.</p>
     <a href="/contact" class="btn-primary">Stuur een bericht</a>
   </section>
 

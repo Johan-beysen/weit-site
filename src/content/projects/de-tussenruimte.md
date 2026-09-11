@@ -3,7 +3,7 @@ title: "De Tussenruimte"
 category: "development"
 year: 2026
 client: "Liesbeth - De Tussenruimte"
-summary: "Website voor een startende loopbaanbegeleidster. Van eerste gesprek tot live - volledig handgebouwd, zonder website builders. Inclusief volledige digitale onboarding."
+summary: "Website voor een startende loopbaanbegeleidster. Van eerste gesprek tot live - volledig handgebouwd, zonder websitebouwers. Inclusief volledige digitale onboarding."
 stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Calendly", "GitHub"]
 ---
 
@@ -11,7 +11,7 @@ stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Calendly", "GitHub
 
 Liesbeth en ik kenden elkaar al - zij had me op weg geholpen richting een nieuwe carrière, ik had haar geholpen nadenken over de hare. Toen ze besliste om zelfstandig te gaan als loopbaanbegeleidster en een website nodig had, was de deal snel gemaakt.
 
-Van betalen wou ze niets weten. Dat heb ik geaccepteerd.
+Omdat ze mij eerder al op weg had geholpen, bouwde ik haar website pro bono - een kwestie van iets teruggeven.
 
 ## Aanpak
 
@@ -21,7 +21,7 @@ Daarna gewacht op de fotograaf. Finale foto's en teksten gekregen, geïmplemente
 
 ## Wat er gebouwd is
 
-Volledig handgeschreven HTML, CSS en JavaScript - geen website builders, geen thema's, geen shortcuts. Een statische site die snel laadt en makkelijk te onderhouden is.
+Volledig handgeschreven HTML, CSS en JavaScript - geen websitebouwers, geen thema's, geen shortcuts. Een statische site die snel laadt en makkelijk te onderhouden is.
 
 | Onderdeel | Wat het doet |
 |-----------|------|

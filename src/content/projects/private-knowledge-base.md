@@ -18,7 +18,7 @@ De focus ligt op bruikbare operationele kennis: stappenplannen, cheatsheets, tes
 
 De sectie **Ethisch hacken** bevat gevoelige inhoud - hacking manuals en pentest-technieken - en staat daarom achter **Cloudflare Zero Trust**. Enkel gebruikers die daar expliciet toegang toe gekregen hebben, kunnen die documentatie raadplegen. De rest van de kennisbank (web application security, API security, tooling, Linux, enterprise networking, databanken en regelgeving) is gewoon publiek raadpleegbaar.
 
-Zo blijft de workflow praktisch bruikbaar als online kennisplatform, zonder de gevoeligste security-inhoud open op het internet te zetten. Operational security als ontwerpkeuze, niet als afterthought.
+Zo blijft de workflow praktisch bruikbaar als online kennisplatform, zonder de gevoeligste security-inhoud open op het internet te zetten. Operational security als ontwerpkeuze, niet als bijzaak.
 
 ## Technische stack
 
