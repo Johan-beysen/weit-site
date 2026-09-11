@@ -1,0 +1,22 @@
+/* =============================================================
+   blog-detail.css - stijlen voor een individueel blogartikel
+   (blog/[slug].astro). Hergebruikt de typografie-regels van
+   .project-content uit project-detail.css (leesbreedte, koppen,
+   tabellen, lijsten) - hier enkel de buitenste kolomlayout, want
+   een blogartikel heeft geen zijbalk met client/stack.
+   ============================================================= */
+
+.blog-content {
+  padding: 56px var(--gutter);
+  max-width: 840px;
+  margin-inline: auto;
+  border-bottom: 1px solid var(--border);
+}
+
+.blog-back { padding: 32px var(--gutter); }
+.blog-back a { font-size: 13px; color: var(--text-muted); }
+.blog-back a:hover { color: var(--teal); }
+
+@media (max-width: 768px) {
+  .blog-content { padding-top: 40px; padding-bottom: 40px; }
+}

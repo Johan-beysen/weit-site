@@ -5,6 +5,9 @@ import Footer from "../../components/Footer.astro";
 import HeroCode from "../../components/HeroCode.astro";
 import "../../styles/shared.css";
 import "../../styles/projects.css";
+
+const blogFiles = import.meta.glob("../../content/blog/*.md", { eager: true });
+const posts = Object.values(blogFiles);
 ---
 
 <Base title="blog" description="Artikels over security, infrastructure en automatisering - geschreven vanuit de praktijk, niet vanuit een contentkalender.">
@@ -13,7 +16,7 @@ import "../../styles/projects.css";
   <section class="page-hero">
     <div class="page-hero-content">
       <div class="label mono">// blog</div>
-      <h1>Binnenkort.</h1>
+      <h1>Geschreven vanuit<br />de praktijk.</h1>
       <p>Artikels over security, infrastructure en automatisering - geschreven vanuit de praktijk, niet vanuit een contentkalender.</p>
       <div class="hero-cta">
         <a href="/contact" class="btn-primary">Neem contact op</a>
@@ -23,10 +26,26 @@ import "../../styles/projects.css";
   </section>
 
   <section class="projects-list">
-    <div class="empty">
-      <div class="mono section-label">// wordt vervolgd</div>
-      <p>Eerste artikels komen eraan.</p>
-    </div>
+    {posts.length === 0 ? (
+      <div class="empty">
+        <div class="mono section-label">// wordt vervolgd</div>
+        <p>Eerste artikels komen eraan.</p>
+      </div>
+    ) : (
+      <div class="grid">
+        {(posts as any[]).map(post => (
+          <a href={`/blog/${post.file.split('/').pop().replace('.md', '')}`} class="project-card">
+            <div class="card-top">
+              <span class="tag mono">{post.frontmatter.category}</span>
+              {post.frontmatter.year && <span class="year mono">{post.frontmatter.year}</span>}
+            </div>
+            <h3>{post.frontmatter.title}</h3>
+            <p>{post.frontmatter.summary}</p>
+            <span class="mono arrow">→ lees meer</span>
+          </a>
+        ))}
+      </div>
+    )}
   </section>
 
   <Footer slot="footer" />

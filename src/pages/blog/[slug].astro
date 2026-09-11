@@ -1,0 +1,52 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/project-detail.css";
+import "../../styles/blog-detail.css";
+
+export async function getStaticPaths() {
+  const blogFiles = import.meta.glob("../../content/blog/*.md", { eager: true });
+  return Object.entries(blogFiles).map(([path, post]) => ({
+    params: {
+      slug: (path.split('/').pop() as string).replace('.md', '')
+    },
+    props: { post: post as any }
+  }));
+}
+
+const { post } = Astro.props;
+const { title, category, year, summary } = post.frontmatter;
+const Content = post.default ?? (() => null);
+---
+
+<Base title={title} description={summary}>
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="meta">
+        <span class="tag mono">{category}</span>
+        {year && <span class="year mono">{year}</span>}
+      </div>
+      <h1>{title}</h1>
+      <p>{summary}</p>
+      <div class="hero-cta">
+        <a href="/contact" class="btn-primary">Neem contact op</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <article class="project-content blog-content">
+    <Content />
+  </article>
+
+  <div class="blog-back">
+    <a href="/blog" class="mono">← alle artikels</a>
+  </div>
+
+  <Footer slot="footer" />
+</Base>
