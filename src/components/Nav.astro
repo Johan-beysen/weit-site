@@ -6,8 +6,8 @@ const dienstenLinks = [
     desc: "Kwetsbaarheden opsporen voor iemand anders dat doet. Pentesting, security audits en NIS2/Cyfun-begeleiding.",
   },
   {
-    href: "/infrastructuur",
-    title: "[Infrastructuur]",
+    href: "/infrastructure",
+    title: "[Infrastructure]",
     desc: "Servers, netwerken, cloud en Microsoft 365 — stevig ingericht en overzichtelijk beheerd.",
   },
   {
@@ -143,14 +143,14 @@ const dienstenActive = dienstenLinks.some(link => current.startsWith(link.href))
   }
 
   .mega-panel {
-    width: 720px;
+    width: 480px;
     background: #fff;
     border: 1px solid var(--border);
     border-radius: 12px;
     padding: 24px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 24px;
     box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
   }
 

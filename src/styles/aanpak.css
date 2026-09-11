@@ -5,10 +5,6 @@
 .blok {
   padding: 56px var(--gutter);
   border-bottom: 1px solid var(--border);
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  gap: 48px;
-  align-items: start;
 }
 
 .blok.alt {
@@ -60,19 +56,6 @@
   max-width: 640px;
 }
 
-.stap {
-  display: grid;
-  grid-template-columns: 40px 1fr;
-  gap: 20px;
-  align-items: start;
-}
-
-.stap-nr {
-  font-size: 12px;
-  color: var(--teal);
-  padding-top: 3px;
-}
-
 .stap h3 {
   font-size: 15px;
   font-weight: 500;
@@ -106,8 +89,6 @@
 
 @media (max-width: 768px) {
   .blok {
-    grid-template-columns: 1fr;
-    gap: 20px;
     padding-top: 40px;
     padding-bottom: 40px;
   }

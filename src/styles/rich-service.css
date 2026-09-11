@@ -1,25 +1,10 @@
 /* =============================================================
    rich-service.css — layout voor dienstenpagina's met meerdere
-   subcategorieën (security, infrastructuur). Gebruikt de .items/
-   .item klassen uit services.css binnen gestapelde secties.
+   subcategorieën (security, infrastructure). Gebruikt de .items/
+   .item klassen uit services.css binnen gestapelde secties, en de
+   .content/.block/.aside grid uit services.css als buitenste layout
+   zodat de "voor wie"-zijbalk over de volledige hoogte doorloopt.
    ============================================================= */
-
-.diensten-detail {
-  border-bottom: 1px solid var(--border);
-}
-
-.sectie-blok {
-  padding: 56px var(--gutter);
-  border-bottom: 1px solid var(--border);
-}
-
-.sectie-blok.alt {
-  background: var(--gray-100);
-}
-
-.sectie-blok:last-child {
-  border-bottom: none;
-}
 
 .sectie-intro {
   font-size: 15px;
@@ -29,6 +14,14 @@
   margin-bottom: 32px;
 }
 
+/* Meerdere subsecties gestapeld binnen één .block — elke volgende
+   subsectie opent als een nieuw "hoofdstuk". */
+.sub-sectie + .sub-sectie {
+  margin-top: 48px;
+  padding-top: 48px;
+  border-top: 1px solid var(--border);
+}
+
 .detail-cta {
   padding: 56px var(--gutter);
   background: var(--gray-100);
@@ -36,7 +29,3 @@
 
 .detail-cta h2 { font-size: 22px; font-weight: 500; margin-bottom: 8px; }
 .detail-cta p  { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; max-width: 480px; }
-
-@media (max-width: 768px) {
-  .sectie-blok { padding-top: 40px; padding-bottom: 40px; }
-}
