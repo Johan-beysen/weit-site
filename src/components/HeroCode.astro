@@ -1,10 +1,13 @@
 ---
+import { useTranslations } from "../i18n";
+
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <div class="hero-code mono" aria-hidden="true">
   <span class="kw">const</span> <span class="fn">WeIT</span> <span class="op">=</span> <span class="op">&#123;</span><br />
-  &nbsp;&nbsp;<span class="key">focus</span><span class="op">:</span> <span class="str">"resultaat"</span><span class="op">,</span><br />
-  &nbsp;&nbsp;<span class="key">aanpak</span><span class="op">:</span> <span class="str">"pragmatisch"</span><span class="op">,</span><br />
-  &nbsp;&nbsp;<span class="key">transparantie</span><span class="op">:</span> <span class="val">true</span><br />
+  &nbsp;&nbsp;<span class="key">focus</span><span class="op">:</span> <span class="str">"{t("herocode.focus")}"</span><span class="op">,</span><br />
+  &nbsp;&nbsp;<span class="key">{t("herocode.aanpak.key")}</span><span class="op">:</span> <span class="str">"{t("herocode.aanpak.value")}"</span><span class="op">,</span><br />
+  &nbsp;&nbsp;<span class="key">{t("herocode.transparantie.key")}</span><span class="op">:</span> <span class="val">true</span><br />
   <span class="op">&#125;</span>
 </div>

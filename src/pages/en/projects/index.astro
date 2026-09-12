@@ -1,0 +1,52 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import HeroCode from "../../../components/HeroCode.astro";
+import "../../../styles/shared.css";
+import "../../../styles/projects.css";
+
+const projectFiles = import.meta.glob("../../../content/projects/en/*.md", { eager: true });
+const projects = Object.values(projectFiles);
+---
+
+<Base title="projects" description="Every project is a story - from question to delivery. No showreel, just honest cases about how it actually went.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// projects</div>
+      <h1>From concrete problem<br />to working solution.</h1>
+      <p>Every project is a story - from question to delivery. No showreel, just honest cases about how it actually went.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="projects-list">
+    {projects.length === 0 ? (
+      <div class="empty">
+        <div class="mono section-label">// to be continued</div>
+        <p>First projects are on their way. Portfolio grows project by project.</p>
+      </div>
+    ) : (
+      <div class="grid">
+        {(projects as any[]).map(project => (
+          <a href={`/en/projects/${project.file.split('/').pop().replace('.md', '')}`} class="project-card">
+            <div class="card-top">
+              <span class="tag mono">{project.frontmatter.category}</span>
+              {project.frontmatter.year && <span class="year mono">{project.frontmatter.year}</span>}
+            </div>
+            <h3>{project.frontmatter.title}</h3>
+            <p>{project.frontmatter.summary}</p>
+            <span class="mono arrow">→ read more</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <Footer slot="footer" />
+</Base>

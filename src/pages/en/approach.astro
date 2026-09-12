@@ -1,0 +1,89 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/aanpak.css";
+---
+
+<Base title="approach" description="No intake form, no quote after three emails. Just a conversation - you tell me what's going on, I listen and think along. Then we'll see.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// approach</div>
+      <h1>It starts with<br />a cup of coffee.</h1>
+      <p>No intake form, no quote after three emails. Just a conversation - you tell me what's going on, I listen and think along. Then we'll see.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="aanpak-blokken">
+
+    <div class="blok">
+      <div class="mono section-label">// who</div>
+      <div class="blok-content">
+        <p>I'm Johan - 25 years of commercial experience, retrained as a systems and network administrator, and today active as an ethical hacker. Not a straight line, but every step has added something.</p>
+        <p>An ethical hacker looks at systems differently. Not at what should work, but at what actually happens. I bring that perspective to every project - whether it's a website, an automated process, or a digital strategy.</p>
+      </div>
+    </div>
+
+    <div class="blok alt">
+      <div class="mono section-label">// how i think</div>
+      <div class="blok-content">
+        <div class="principe">
+          <h3>Tools should adapt to you, not the other way around.</h3>
+          <p>I don't show up with a favorite stack I apply everywhere. I look first at what you need - and only then at which tools fit.</p>
+        </div>
+        <div class="principe">
+          <h3>No vendor lock-in.</h3>
+          <p>Everything I build lives on your accounts, in your name. You own every line of code, every password, every domain. If you want someone else tomorrow, that's fine - no need to ask my permission.</p>
+        </div>
+        <div class="principe">
+          <h3>Transparency over comfort.</h3>
+          <p>I say what I think, even when it's not what you want to hear. A bad idea doesn't become a good idea because the client is enthusiastic about it. That's not arrogance - that's respect.</p>
+        </div>
+        <div class="principe">
+          <h3>No nonsense.</h3>
+          <p>No unnecessary meetings, no reports nobody reads, no invoices for work that delivered nothing. Time is valuable - yours and mine.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="blok">
+      <div class="mono section-label">// how i work</div>
+      <div class="stappen">
+        <div class="stap">
+          <h3>Introductory conversation</h3>
+          <p>An hour, free, no obligations. You tell me what's going on - I ask questions and think along. No pitch, no sales talk.</p>
+        </div>
+        <div class="stap">
+          <h3>Plan on the table</h3>
+          <p>A concrete proposal with scope, approach and price. No vague quote - a document we can both rely on.</p>
+        </div>
+        <div class="stap">
+          <h3>Building with you, not for you</h3>
+          <p>You stay involved. Tasks are mutual - some are mine, some are yours. Progress is visible, no black hole.</p>
+        </div>
+        <div class="stap">
+          <h3>Delivered and handed over</h3>
+          <p>Everything lives on your accounts. I explain how it works. After that you're free - call me if you want, but you don't have to.</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="aanpak-cta">
+    <div class="mono section-label">// ready?</div>
+    <h2>Shall we plan that cup of coffee?</h2>
+    <p>First conversation is free. No obligations, no sales talk - just seeing if there's a click.</p>
+    <a href="/en/contact" class="btn-primary">Schedule a conversation</a>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

@@ -1,0 +1,64 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/services.css";
+---
+
+<Base title="development" description="No overengineering, no unnecessary frameworks. I build what you need - clean, maintainable, and ready to build on.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// development</div>
+      <h1>Custom software that solves<br />a real problem.</h1>
+      <p>No overengineering, no unnecessary frameworks. I build what you need - clean, maintainable, and ready to build on.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="mono section-label">// what this covers</div>
+      <div class="items">
+        <div class="item">
+          <h3>Websites and web apps</h3>
+          <p>From a simple presentation site to a functional web application. Built on a solid foundation, without unnecessary complexity.</p>
+        </div>
+        <div class="item">
+          <h3>Custom tools</h3>
+          <p>Internal tools, dashboards or scripts that solve a specific problem - exactly what you need, nothing more.</p>
+        </div>
+        <div class="item">
+          <h3>Integrations</h3>
+          <p>Getting systems that don't talk to each other to talk. API integrations, webhooks, data flows between platforms.</p>
+        </div>
+        <div class="item">
+          <h3>Technical migrations</h3>
+          <p>From an outdated system to something ready for the future - without losing data or functionality.</p>
+        </div>
+        <div class="item">
+          <h3>DevOps / CI/CD Setup</h3>
+          <p>Setting up deployment pipelines (GitHub Actions) so updates roll out fast, consistently and without manual errors.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="mono section-label">// who this is for</div>
+      <ul>
+        <li>SMEs who need a website or tool without an in-house dev team</li>
+        <li>Entrepreneurs who want to turn an idea into a working product</li>
+        <li>Companies with legacy systems that need replacing</li>
+      </ul>
+      <a href="/en/contact" class="btn-primary">Discuss your project</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

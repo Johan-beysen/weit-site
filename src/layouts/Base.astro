@@ -4,6 +4,7 @@ import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
 import '@fontsource/jetbrains-mono/latin-500.css';
+import { getLocalizedPathname } from '../i18n';
 
 const {
   title = "WeIT.be",
@@ -16,15 +17,21 @@ const siteName = "WeIT.be";
 const pageTitle = titleOverride ?? (title === "home" ? siteName : `${title} - ${siteName}`);
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
+const locale = Astro.currentLocale === 'en' ? 'en' : 'nl';
+const nlAlternateURL = new URL(getLocalizedPathname(Astro.url.pathname, 'nl'), Astro.site);
+const enAlternateURL = new URL(getLocalizedPathname(Astro.url.pathname, 'en'), Astro.site);
 ---
 <!DOCTYPE html>
-<html lang="nl">
+<html lang={locale}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={canonicalURL} />
+  <link rel="alternate" hreflang="nl" href={nlAlternateURL} />
+  <link rel="alternate" hreflang="en" href={enAlternateURL} />
+  <link rel="alternate" hreflang="x-default" href={nlAlternateURL} />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
@@ -33,7 +40,7 @@ const imageURL = new URL(image, Astro.site);
   <meta property="og:description" content={description} />
   <meta property="og:url" content={canonicalURL} />
   <meta property="og:image" content={imageURL} />
-  <meta property="og:locale" content="nl_BE" />
+  <meta property="og:locale" content={locale === 'en' ? 'en_US' : 'nl_BE'} />
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image" />

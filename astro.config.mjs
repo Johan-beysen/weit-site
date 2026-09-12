@@ -16,11 +16,25 @@ export default defineConfig({
   session: {
     driver: 'cookie',
   },
+  i18n: {
+    locales: ['nl', 'en'],
+    defaultLocale: 'nl',
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   adapter: cloudflare(),
   integrations: [
     sitemap({
       // Klantportaal is niet publiek/indexeerbaar - hoort niet in de sitemap
       filter: (page) => !page.includes('/portal/'),
+      i18n: {
+        defaultLocale: 'nl',
+        locales: {
+          nl: 'nl-BE',
+          en: 'en',
+        },
+      },
     }),
   ],
 });

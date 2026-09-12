@@ -1,0 +1,52 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import HeroCode from "../../../components/HeroCode.astro";
+import "../../../styles/shared.css";
+import "../../../styles/projects.css";
+
+const blogFiles = import.meta.glob("../../../content/blog/en/*.md", { eager: true });
+const posts = Object.values(blogFiles);
+---
+
+<Base title="blog" description="Articles about security, infrastructure and automation - written from practice, not from a content calendar.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// blog</div>
+      <h1>Written from<br />practice.</h1>
+      <p>Articles about security, infrastructure and automation - written from practice, not from a content calendar.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="projects-list">
+    {posts.length === 0 ? (
+      <div class="empty">
+        <div class="mono section-label">// to be continued</div>
+        <p>First articles are on their way.</p>
+      </div>
+    ) : (
+      <div class="grid">
+        {(posts as any[]).map(post => (
+          <a href={`/en/blog/${post.file.split('/').pop().replace('.md', '')}`} class="project-card">
+            <div class="card-top">
+              <span class="tag mono">{post.frontmatter.category}</span>
+              {post.frontmatter.year && <span class="year mono">{post.frontmatter.year}</span>}
+            </div>
+            <h3>{post.frontmatter.title}</h3>
+            <p>{post.frontmatter.summary}</p>
+            <span class="mono arrow">→ read more</span>
+          </a>
+        ))}
+      </div>
+    )}
+  </section>
+
+  <Footer slot="footer" />
+</Base>

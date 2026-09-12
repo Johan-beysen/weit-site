@@ -1,0 +1,98 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/services.css";
+import "../../styles/rich-service.css";
+---
+
+<Base title="infrastructure" description="IT infrastructure your business can build on: servers, networks, cloud and Microsoft 365, solidly set up and clearly managed.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// infrastructure</div>
+      <h1>IT infrastructure your<br />business can build on.</h1>
+      <p>A solid security policy stands or falls with the infrastructure beneath it. I build and manage the systems that need to keep standing.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="sub-sectie">
+        <div class="mono section-label">// server &amp; network management</div>
+        <div class="items">
+          <div class="item">
+            <h3>Server &amp; Network Management</h3>
+            <p>Setup and management of Windows Server environments, Active Directory, Hyper-V virtualization, DHCP/DNS and VLAN segmentation.</p>
+          </div>
+          <div class="item">
+            <h3>Cloud &amp; Virtualization</h3>
+            <p>Setup of Azure and Entra ID environments, on-premise virtualization (TrueNAS, ESXi) and containerization with Docker.</p>
+          </div>
+          <div class="item">
+            <h3>Monitoring &amp; Logging Setup</h3>
+            <p>Setup of monitoring and logging solutions (e.g. Zabbix/SNMP) so anomalies become visible early - not just after an incident.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-sectie">
+        <div class="mono section-label">// microsoft 365 services</div>
+        <div class="items">
+          <div class="item">
+            <h3>M365 Migrations</h3>
+            <p>Guidance from on-premise to cloud, tenant-to-tenant migrations, and moving mailboxes, SharePoint and OneDrive without data loss or downtime.</p>
+          </div>
+          <div class="item">
+            <h3>Backup &amp; Disaster Recovery</h3>
+            <p>Setup of reliable backup solutions for Exchange, SharePoint, Teams and OneDrive, including retention policy and periodic restore testing.</p>
+          </div>
+          <div class="item">
+            <h3>Entra ID / Intune Management</h3>
+            <p>Identity governance, device management and conditional access, tailored to the size and risk profile of your organization.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-sectie">
+        <div class="mono section-label">// database management</div>
+        <div class="items">
+          <div class="item">
+            <h3>SQL Server Administration</h3>
+            <p>Installation, configuration, backup/restore strategies and performance tuning of SQL Server environments.</p>
+          </div>
+          <div class="item">
+            <h3>Data Migration &amp; Import/Export</h3>
+            <p>Safe and controlled movement of data between systems, with attention to integrity and minimal downtime.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="mono section-label">// who this is for</div>
+      <ul>
+        <li>Companies who want to outsource or co-manage their IT infrastructure</li>
+        <li>Organizations considering a migration to M365 or the cloud</li>
+        <li>SMEs who need stable databases without an in-house DBA</li>
+      </ul>
+      <a href="/en/contact" class="btn-primary">Schedule a conversation</a>
+    </div>
+  </section>
+
+  <section class="detail-cta">
+    <div class="mono section-label">// let's take a look?</div>
+    <h2>Infrastructure that grows with you?</h2>
+    <p>Whether it's a full migration or a small optimization - I think along from the very first question.</p>
+    <a href="/en/contact" class="btn-primary">Discuss infrastructure</a>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

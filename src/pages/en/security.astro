@@ -1,0 +1,90 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/services.css";
+import "../../styles/rich-service.css";
+---
+
+<Base title="security" description="Know where you're vulnerable before an attacker finds out. Pentesting, security audits and NIS2/CyFun® guidance, with a clear report as the result.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// security</div>
+      <h1>Know where you're vulnerable<br />before an attacker finds out.</h1>
+      <p>Targeted security tests give you a clear picture of your digital environment, with concrete and achievable improvements as the result.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="sub-sectie">
+        <div class="mono section-label">// offensive security &amp; pentesting</div>
+        <p class="sectie-intro">I test as if I were the attacker myself - realistic, methodical, and with a clear report as the result.</p>
+        <div class="items">
+          <div class="item">
+            <h3>Web Application Pentesting</h3>
+            <p>Thorough audit of web applications following OWASP methodology: SQL injection, XSS, broken access control (IDOR), authentication bypass, SSRF, path traversal and file upload vulnerabilities. Result: a clear report with findings, risk assessment and concrete remediation steps.</p>
+          </div>
+          <div class="item">
+            <h3>API Security Testing</h3>
+            <p>Testing REST and other APIs against the OWASP API Security Top 10 - from endpoint recon and parameter pollution to JWT implementation flaws (algorithm confusion, weak signing).</p>
+          </div>
+          <div class="item">
+            <h3>Network Pentesting</h3>
+            <p>Internal and external network audits: identifying misconfigurations, layer 2 vulnerabilities and attack paths within your network infrastructure.</p>
+          </div>
+          <div class="item">
+            <h3>Bug Bounty &amp; Vulnerability Research</h3>
+            <p>Active contribution to responsible disclosure programs. My experience as a bug bounty hunter (Intigriti) translates directly into sharper, more realistic pentests.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-sectie">
+        <div class="mono section-label">// security assessments &amp; advisory</div>
+        <p class="sectie-intro">Not every organization needs a full pentest - sometimes it starts with insight.</p>
+        <div class="items">
+          <div class="item">
+            <h3>Security Audit / Risk Assessment</h3>
+            <p>Evaluation of your current security posture based on the CIA triad (confidentiality, integrity, availability), with attention to GDPR compliance.</p>
+          </div>
+          <div class="item">
+            <h3>NIS2 / CyFun® Guidance</h3>
+            <p>Practical support in mapping out NIS2 obligations and the CyFun® framework - translated into achievable steps for SMEs, without unnecessary complexity.</p>
+          </div>
+          <div class="item">
+            <h3>Hardening &amp; Configuration Review</h3>
+            <p>Review of firewalls, IDS/IPS configurations and endpoint security, with concrete recommendations to reduce the attack surface.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="mono section-label">// who this is for</div>
+      <ul>
+        <li>Organizations that want to know if their systems can withstand a real attack</li>
+        <li>Companies that need to comply with NIS2 or start a CyFun® track</li>
+        <li>Teams that need an independent security audit before an audit or certification</li>
+      </ul>
+      <a href="/en/contact" class="btn-primary">Discuss security</a>
+    </div>
+  </section>
+
+  <section class="detail-cta">
+    <div class="mono section-label">// ready to test?</div>
+    <h2>Want to know where you're vulnerable?</h2>
+    <p>A pentest or security audit doesn't have to start complicated - a conversation is enough to define scope and approach.</p>
+    <a href="/en/contact" class="btn-primary">Request a pentest</a>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

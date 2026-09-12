@@ -1,0 +1,103 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/home.css";
+
+const projectFiles = import.meta.glob("../../content/projects/en/*.md", { eager: true });
+const featuredProjects = Object.values(projectFiles) as any[];
+---
+
+<Base
+  title="home"
+  titleOverride="Cybersecurity and pragmatic IT for SMEs | WeIT.be"
+  description="From cybersecurity and infrastructure to custom software and automation: WeIT builds technology around what your organization actually needs."
+>
+  <Nav slot="nav" />
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="label mono">// cybersecurity · infrastructure · custom software · automation</div>
+      <h1>Strong systems.<br />Smarter work.</h1>
+      <p>From cybersecurity and infrastructure to custom software and automation: WeIT builds technology around what your organization actually needs.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Plan a free introduction</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="diensten">
+    <div class="section-label mono">// services</div>
+    <p class="diensten-intro">Start with the problem, not the technology. WeIT looks at what's really needed, then picks the simplest solution that's secure, maintainable and transferable.</p>
+    <div class="diensten-grid">
+
+      <a href="/en/security" class="dienst-card featured">
+        <h3>[Security]</h3>
+        <p>Finding vulnerabilities before others exploit them. Pentesting, security audits and NIS2/CyFun® guidance.</p>
+        <span class="mono arrow">→ more</span>
+      </a>
+
+      <a href="/en/infrastructure" class="dienst-card">
+        <h3>[Infrastructure]</h3>
+        <p>Servers, networks, cloud and Microsoft 365 - solidly set up and clearly managed.</p>
+        <span class="mono arrow">→ more</span>
+      </a>
+
+      <a href="/en/development" class="dienst-card">
+        <h3>[Development]</h3>
+        <p>Web applications, tools and integrations. Clean code, no unnecessary complexity.</p>
+        <span class="mono arrow">→ more</span>
+      </a>
+
+      <a href="/en/automation" class="dienst-card">
+        <h3>[Automation]</h3>
+        <p>Taking repetitive work off your hands. Workflows, scripts and smart integrations.</p>
+        <span class="mono arrow">→ more</span>
+      </a>
+
+      <a href="/en/ai-integration" class="dienst-card">
+        <h3>[AI Integration]</h3>
+        <p>Workflows that carry out tasks independently - from agentic automation to AI-assisted security tooling.</p>
+        <span class="mono arrow">→ more</span>
+      </a>
+
+      <a href="/en/consulting" class="dienst-card">
+        <h3>[Consulting]</h3>
+        <p>Thinking along on digital questions. From process analysis to technical roadmap.</p>
+        <span class="mono arrow">→ more</span>
+      </a>
+
+    </div>
+  </section>
+
+  <section class="projecten">
+    <div class="section-header">
+      <div class="section-label mono">// projects</div>
+      <a href="/en/projects" class="mono subtle">all projects →</a>
+    </div>
+    <div class="projecten-grid">
+      {featuredProjects.map((project: any) => {
+        const slug = project.file.split('/').pop().replace('.md', '');
+        return (
+          <a href={`/en/projects/${slug}`} class="project-card">
+            <span class="tag mono">{project.frontmatter.category}</span>
+            <h4>{project.frontmatter.title}</h4>
+            <p>{project.frontmatter.summary}</p>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+
+  <section class="contact-cta">
+    <div class="section-label mono">// contact</div>
+    <h2>Bring me your digital question.</h2>
+    <p>You'll get an honest first answer within one business day. If it makes sense, we plan a free one-hour introduction.</p>
+    <a href="/en/contact" class="btn-primary">Send a message</a>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

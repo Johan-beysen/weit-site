@@ -1,55 +1,40 @@
 ---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { useTranslations, getLocalizedPathname, type Locale } from "../i18n";
+
+const lang = (Astro.currentLocale === "en" ? "en" : "nl") as Locale;
+const t = useTranslations(lang);
+const href = (path: string) => getRelativeLocaleUrl(lang, path);
+
 const dienstenLinks = [
-  {
-    href: "/security",
-    title: "[Security]",
-    desc: "Kwetsbaarheden opsporen vóór anderen ze misbruiken. Pentesting, security audits en NIS2/CyFun®-begeleiding.",
-  },
-  {
-    href: "/infrastructure",
-    title: "[Infrastructure]",
-    desc: "Servers, netwerken, cloud en Microsoft 365 - stevig ingericht en overzichtelijk beheerd.",
-  },
-  {
-    href: "/development",
-    title: "[Development]",
-    desc: "Webapplicaties, tools en integraties. Clean code, geen overbodige complexiteit.",
-  },
-  {
-    href: "/automation",
-    title: "[Automation]",
-    desc: "Repetitief werk uit handen nemen. Workflows, scripts en slimme koppelingen.",
-  },
-  {
-    href: "/ai-integratie",
-    title: "[AI-integratie]",
-    desc: "Workflows die zelfstandig taken uitvoeren - van agentic automatisering tot AI-ondersteunde security tooling.",
-  },
-  {
-    href: "/consulting",
-    title: "[Consulting]",
-    desc: "Meedenken over digitale vraagstukken. Van procesanalyse tot technische roadmap.",
-  },
+  { href: href("/security"), title: t("nav.security.title"), desc: t("nav.security.desc") },
+  { href: href("/infrastructure"), title: t("nav.infrastructure.title"), desc: t("nav.infrastructure.desc") },
+  { href: href("/development"), title: t("nav.development.title"), desc: t("nav.development.desc") },
+  { href: href("/automation"), title: t("nav.automation.title"), desc: t("nav.automation.desc") },
+  { href: href(lang === "en" ? "/ai-integration" : "/ai-integratie"), title: t("nav.ai.title"), desc: t("nav.ai.desc") },
+  { href: href("/consulting"), title: t("nav.consulting.title"), desc: t("nav.consulting.desc") },
 ];
 
 const navLinks = [
-  { href: "/projects", label: "projects" },
-  { href: "/blog", label: "blog" },
-  { href: "/aanpak", label: "aanpak" },
-  { href: "/contact", label: "contact" },
+  { href: href("/projects"), label: t("nav.projects") },
+  { href: href("/blog"), label: t("nav.blog") },
+  { href: href(lang === "en" ? "/approach" : "/aanpak"), label: t("nav.aanpak") },
+  { href: href("/contact"), label: t("nav.contact") },
 ];
 
 const current = Astro.url.pathname;
 const dienstenActive = dienstenLinks.some(link => current.startsWith(link.href));
+const otherLocale: Locale = lang === "nl" ? "en" : "nl";
+const otherLocaleHref = getLocalizedPathname(current, otherLocale);
 ---
 
 <nav>
-  <a href="/" class="logo">WeIT<span>.</span>be</a>
+  <a href={href("/")} class="logo">WeIT<span>.</span>be</a>
   <ul>
     <li>
       <details class="dropdown">
         <summary class={dienstenActive ? "active" : ""}>
-          diensten <span class="mono arrow-down">▾</span>
+          {t("nav.diensten")} <span class="mono arrow-down">▾</span>
         </summary>
         <div class="mega-menu">
           <div class="mega-panel">
@@ -70,6 +55,9 @@ const dienstenActive = dienstenLinks.some(link => current.startsWith(link.href))
         </a>
       </li>
     ))}
+    <li>
+      <a href={otherLocaleHref} class="lang-switch mono">{otherLocale.toUpperCase()}</a>
+    </li>
   </ul>
 </nav>
 
@@ -100,6 +88,15 @@ const dienstenActive = dienstenLinks.some(link => current.startsWith(link.href))
 
   a { font-size: 15px; color: var(--text-muted); transition: color 0.15s; }
   a:hover, a.active { color: var(--text); }
+
+  .lang-switch {
+    font-size: 12px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px 8px;
+  }
+  .lang-switch:hover { color: var(--teal); border-color: var(--teal); }
 
   /* --- Diensten-dropdown --------------------------------------- */
 

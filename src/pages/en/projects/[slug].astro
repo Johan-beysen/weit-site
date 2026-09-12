@@ -1,0 +1,73 @@
+---
+import Base from "../../../layouts/Base.astro";
+import Nav from "../../../components/Nav.astro";
+import Footer from "../../../components/Footer.astro";
+import HeroCode from "../../../components/HeroCode.astro";
+import "../../../styles/shared.css";
+import "../../../styles/services.css";
+import "../../../styles/project-detail.css";
+
+export async function getStaticPaths() {
+  const projectFiles = import.meta.glob("../../../content/projects/en/*.md", { eager: true });
+  return Object.entries(projectFiles).map(([path, project]) => ({
+    params: {
+      slug: (path.split('/').pop() as string).replace('.md', '')
+    },
+    props: { project: project as any }
+  }));
+}
+
+const { project } = Astro.props;
+const { title, category, year, summary, client, stack } = project.frontmatter;
+const Content = project.default ?? (() => null);
+---
+
+<Base title={title} description={summary}>
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="meta">
+        <span class="tag mono">{category}</span>
+        {year && <span class="year mono">{year}</span>}
+      </div>
+      <h1>{title}</h1>
+      <p>{summary}</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <article class="block project-content">
+      <Content />
+    </article>
+
+    <aside class="block aside project-aside">
+      {(client || stack) && (
+        <div class="details">
+          {client && (
+            <div class="detail">
+              <span class="mono label">// client</span>
+              <span>{client}</span>
+            </div>
+          )}
+          {stack && (
+            <div class="detail">
+              <span class="mono label">// stack</span>
+              <div class="stack-tags">
+                {stack.map((s: string) => <span class="tag mono">{s}</span>)}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      <a href="/en/contact" class="btn-primary">Similar project?</a>
+      <a href="/en/projects" class="mono subtle back-link">← all projects</a>
+    </aside>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

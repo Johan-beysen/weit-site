@@ -1,11 +1,14 @@
 ---
+import { useTranslations } from "../i18n";
+
 const year = new Date().getFullYear();
+const t = useTranslations(Astro.currentLocale);
 ---
 
 <footer>
   <div class="left">
     <span class="logo">WeIT<span>.</span>be</span>
-    <span class="tagline">cybersecurity · infrastructuur · maatwerk · automatisering</span>
+    <span class="tagline">{t("footer.tagline")}</span>
   </div>
   <div class="right">
     <span class="mono">// {year}</span>

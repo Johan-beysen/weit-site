@@ -1,0 +1,56 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/services.css";
+---
+
+<Base title="ai-integration" description="Using AI where it demonstrably adds value - not as hype, but as a tool within automation and security.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// ai integration</div>
+      <h1>Using AI where it<br />demonstrably adds value.</h1>
+      <p>Systems that don't just execute tasks, but also help support decisions. I use AI where it truly adds value - not as hype, but as a tool.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="mono section-label">// what this covers</div>
+      <div class="items">
+        <div class="item">
+          <h3>Agentic Workflows &amp; n8n Automation</h3>
+          <p>Connecting tools and data sources into workflows that carry out tasks independently - from simple triggers to more complex OSINT automation.</p>
+        </div>
+        <div class="item">
+          <h3>AI-Assisted Security Tooling</h3>
+          <p>Exploring and developing agentic pentesting frameworks and locally hosted AI stacks - AI used as a tool within the security process, not as a black box.</p>
+        </div>
+        <div class="item">
+          <h3>Process Automation for SMEs</h3>
+          <p>AI-driven workflows outside the security context: from document processing to internal reporting, tailored to your existing tools.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="mono section-label">// who this is for</div>
+      <ul>
+        <li>Companies that want to experiment with AI without getting locked into a black-box solution</li>
+        <li>Security teams who want to speed up repetitive analysis with agentic tooling</li>
+        <li>SMEs who want to automate processes with smart, context-aware workflows</li>
+      </ul>
+      <a href="/en/contact" class="btn-primary">Discuss AI integration</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

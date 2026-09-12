@@ -1,0 +1,60 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/services.css";
+---
+
+<Base title="automation" description="Repetitive work is expensive - in time, in errors, in frustration. I bring structure to your processes and let machines do what machines should do.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// automation</div>
+      <h1>Less manual work.<br />Fewer errors. More time.</h1>
+      <p>Repetitive work is expensive - in time, in errors, in frustration. I bring structure to your processes and let machines do what machines should do.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="mono section-label">// what this covers</div>
+      <div class="items">
+        <div class="item">
+          <h3>Workflow automation</h3>
+          <p>Making recurring tasks run automatically - from email processing to report generation and everything in between.</p>
+        </div>
+        <div class="item">
+          <h3>Data integrations</h3>
+          <p>Systems that live apart but should work together. Automatic data flows without manual intervention.</p>
+        </div>
+        <div class="item">
+          <h3>Scripts and batch processing</h3>
+          <p>Custom PowerShell and Python scripts for recurring tasks, AD management and process automation - automated on a schedule or trigger.</p>
+        </div>
+        <div class="item">
+          <h3>Process optimization</h3>
+          <p>First understand how it currently works, only then automate. Automating a bad process just makes it fail faster.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="mono section-label">// who this is for</div>
+      <ul>
+        <li>Companies that repeat the same actions every day</li>
+        <li>Teams that lose too much time on manual data processing</li>
+        <li>Entrepreneurs who want to scale without hiring proportionally more people</li>
+      </ul>
+      <a href="/en/contact" class="btn-primary">Discuss automation</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

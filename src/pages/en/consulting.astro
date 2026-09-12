@@ -1,0 +1,60 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import HeroCode from "../../components/HeroCode.astro";
+import "../../styles/shared.css";
+import "../../styles/services.css";
+---
+
+<Base title="consulting" description="Many digital projects fail not because of bad code, but because of an unclear question. I help you ask the right questions before you get started.">
+  <Nav slot="nav" />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// consulting</div>
+      <h1>Think before you build.</h1>
+      <p>Many digital projects fail not because of bad code, but because of an unclear question. I help you ask the right questions before you get started.</p>
+      <div class="hero-cta">
+        <a href="/en/contact" class="btn-primary">Get in touch</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="mono section-label">// what this covers</div>
+      <div class="items">
+        <div class="item">
+          <h3>Process analysis</h3>
+          <p>How does it work now, where does it pinch, and what's the most efficient solution? Without jumping straight to tooling.</p>
+        </div>
+        <div class="item">
+          <h3>Technical roadmap</h3>
+          <p>From a vague wish to a concrete plan. What do you build yourself, what do you buy, in what order do you tackle it.</p>
+        </div>
+        <div class="item">
+          <h3>Vendor and tool selection</h3>
+          <p>Which platform, which stack, which vendor - with sound reasoning, not gut feeling.</p>
+        </div>
+        <div class="item">
+          <h3>Second opinion</h3>
+          <p>Already received a plan or quote? I take a fresh look and tell you what I think.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="mono section-label">// who this is for</div>
+      <ul>
+        <li>SMEs who want to start a digital project but don't know where to begin</li>
+        <li>Companies unsure about a technical decision</li>
+        <li>Teams that are stuck and need an outside perspective</li>
+      </ul>
+      <a href="/en/contact" class="btn-primary">Schedule a conversation</a>
+    </div>
+  </section>
+
+  <Footer slot="footer" />
+</Base>
