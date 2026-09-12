@@ -5,3 +5,9 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-e6bpPHY6bliQXedLDjT3zH2/CEU9Rl2+RZ0SRJsdRWI=' 'sha256-S+baWO+2mehGOdYYUklpJZ+zVym+YQGKfCnjoY79joo='; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests
+
+# Klantportaal is privé - robots.txt Disallow voorkomt crawlen, deze header
+# voorkomt daarnaast dat een toevallig gelinkte portal-URL alsnog als kale
+# link in zoekresultaten verschijnt.
+/portal/*
+  X-Robots-Tag: noindex, nofollow
