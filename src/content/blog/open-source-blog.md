@@ -2,6 +2,7 @@
 title: "Open source: wat het écht betekent (en wanneer het de juiste keuze is)"
 category: "security / open source"
 year: 2026
+date: 2026-09-11
 summary: "Wat open source software echt betekent, welke risico's meespelen (Log4Shell, de xz-backdoor) en wanneer het de betere keuze is tegenover een beheerde oplossing."
 ---
 

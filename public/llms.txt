@@ -1,0 +1,28 @@
+# WeIT.be
+
+> WeIT helpt kmo's hun digitale omgeving veiliger, betrouwbaarder en efficiënter maken - van pentesting en infrastructuur tot maatwerk en automatisering. Eén technisch aanspreekpunt, heldere afspraken, volledige overdracht van elke oplossing aan de klant.
+
+WeIT.be is de site van Johan Beysen, ethisch hacker en IT-consultant gevestigd in België. De diensten draaien rond vijf pijlers: security (pentesting, audits, NIS2/CyFun®-begeleiding), infrastructuur (systeembeheer, cloud, Microsoft 365), development (maatwerk webapplicaties en integraties), automation (workflow- en procesautomatisering) en AI-integratie (agentic workflows, AI-ondersteunde tooling). Consulting is de werkwijze die alle diensten omkadert.
+
+## Diensten
+
+- [Security](https://weit.be/security/): pentesting, security audits, NIS2/CyFun®-begeleiding.
+- [Infrastructuur](https://weit.be/infrastructure/): servers, netwerken, cloud, Microsoft 365, databankbeheer.
+- [Development](https://weit.be/development/): webapplicaties, tools en integraties op maat.
+- [Automation](https://weit.be/automation/): workflow- en procesautomatisering.
+- [AI-integratie](https://weit.be/ai-integratie/): agentic workflows en AI-ondersteunde tooling.
+- [Consulting](https://weit.be/consulting/): onafhankelijk technisch advies.
+- [Aanpak](https://weit.be/aanpak/): wie Johan Beysen is en hoe een traject verloopt.
+- [Contact](https://weit.be/contact/): projectaanvraag of vrijblijvende kennismaking.
+
+## Projecten
+
+- [Projectenoverzicht](https://weit.be/projects/): eerlijke cases over uitgevoerde projecten, van vraagstelling tot oplevering.
+
+## Blog
+
+- [Blogoverzicht](https://weit.be/blog/): artikels over security, infrastructuur en automatisering, geschreven vanuit de praktijk.
+
+## Optioneel
+
+- Het klantenportaal (weit.be/portal/) is niet publiek en bevat geen inhoud die relevant is om te indexeren.

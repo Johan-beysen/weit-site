@@ -2,9 +2,12 @@
 import { defineConfig } from 'astro/config';
 
 import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 
 // https://astro.build/config
 export default defineConfig({
+  // Vereist voor @astrojs/sitemap (absolute URL's) en voor canonical/OG-URL's.
+  site: 'https://weit.be',
   build: {
     inlineStylesheets: 'never',
   },
@@ -14,4 +17,10 @@ export default defineConfig({
     driver: 'cookie',
   },
   adapter: cloudflare(),
+  integrations: [
+    sitemap({
+      // Klantportaal is niet publiek/indexeerbaar - hoort niet in de sitemap
+      filter: (page) => !page.includes('/portal/'),
+    }),
+  ],
 });

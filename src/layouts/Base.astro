@@ -14,8 +14,8 @@ const {
 
 const siteName = "WeIT.be";
 const pageTitle = titleOverride ?? (title === "home" ? siteName : `${title} - ${siteName}`);
-const canonicalURL = new URL(Astro.url.pathname, "https://weit.be");
-const imageURL = new URL(image, "https://weit.be");
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const imageURL = new URL(image, Astro.site);
 ---
 <!DOCTYPE html>
 <html lang="nl">
