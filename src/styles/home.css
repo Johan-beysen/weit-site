@@ -17,11 +17,14 @@
 
 .hero-content { max-width: 520px; }
 
+/* Lange mono-tagline - kleiner dan de andere section-labels (22px) omdat
+   deze tekst anders op de gewenste kolombreedte naar 2 lijnen omslaat. */
 .hero .label {
-  font-size: 22px;
+  font-size: 11px;
   font-weight: 700;
   color: var(--teal);
-  letter-spacing: 0.08em;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
   margin-bottom: 16px;
 }
 
@@ -157,7 +160,13 @@
   .hero h1 { font-size: 26px; }
   .hero p  { margin-bottom: 24px; }
   .hero-cta { flex-direction: column; align-items: flex-start; gap: 14px; }
+  /* Kleinere kolombreedte - tagline blijft op 1 lijn dankzij kleiner lettertype */
+  .hero .label { font-size: 8.5px; letter-spacing: 0.02em; }
   /* Alles naar 1 kolom op mobiel */
   .diensten-grid  { grid-template-columns: 1fr; }
   .projecten-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .hero .label { font-size: 7px; }
 }
