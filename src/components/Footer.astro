@@ -11,6 +11,10 @@ const t = useTranslations(Astro.currentLocale);
     <span class="tagline">{t("footer.tagline")}</span>
   </div>
   <div class="right">
+    <nav class="legal-links">
+      <a href="/privacyverklaring">privacyverklaring</a>
+      <a href="/algemene-voorwaarden">algemene voorwaarden</a>
+    </nav>
     <span class="mono">// {year}</span>
   </div>
 </footer>
@@ -40,6 +44,21 @@ const t = useTranslations(Astro.currentLocale);
     font-size: 12px;
     color: var(--text-muted);
   }
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .legal-links {
+    display: flex;
+    gap: 16px;
+  }
+  .legal-links a {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .legal-links a:hover { color: var(--teal); }
   .mono {
     font-family: var(--mono);
     font-size: 12px;
@@ -54,5 +73,6 @@ const t = useTranslations(Astro.currentLocale);
       padding-top: 20px;
       padding-bottom: 20px;
     }
+    .right { align-items: flex-start; }
   }
 </style>

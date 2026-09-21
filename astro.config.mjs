@@ -26,8 +26,14 @@ export default defineConfig({
   adapter: cloudflare(),
   integrations: [
     sitemap({
-      // Klantportaal is niet publiek/indexeerbaar - hoort niet in de sitemap
-      filter: (page) => !page.includes('/portal/'),
+      // Klantportaal is niet publiek/indexeerbaar - hoort niet in de sitemap.
+      // Privacyverklaring/algemene voorwaarden staan nog op "concept" (zie
+      // PUBLICATIECHECKLIST.md) - uitsluiten tot de placeholders zijn ingevuld
+      // en de status naar "actief" gaat, dan deze twee regels verwijderen.
+      filter: (page) =>
+        !page.includes('/portal/') &&
+        !page.includes('/privacyverklaring') &&
+        !page.includes('/algemene-voorwaarden'),
       i18n: {
         defaultLocale: 'nl',
         locales: {

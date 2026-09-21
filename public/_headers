@@ -4,10 +4,109 @@
   X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-e6bpPHY6bliQXedLDjT3zH2/CEU9Rl2+RZ0SRJsdRWI=' 'sha256-S+baWO+2mehGOdYYUklpJZ+zVym+YQGKfCnjoY79joo='; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests
 
-# Klantportaal is privé - robots.txt Disallow voorkomt crawlen, deze header
-# voorkomt daarnaast dat een toevallig gelinkte portal-URL alsnog als kale
-# link in zoekresultaten verschijnt.
+# --- Publieke marketingsite: strakke CSP + isolatie-headers -------------
+#
+# Cloudflare's _headers-syntax staat geen gedeeld headerblok toe voor
+# meerdere URL-patronen (elk blok = precies 1 patroon), dus onderstaande
+# CSP/COOP/CORP-headers staan hieronder herhaald per publiek toppad. Ze
+# staan bewust NIET onder de brede /* -regel hierboven: wanneer meerdere
+# blokken dezelfde headernaam matchen, voegt Cloudflare de waarden samen
+# met een komma (i.p.v. de meest specifieke regel te laten winnen), en de
+# browser handhaaft meerdere CSP-waarden dan als intersectie. Zou deze CSP
+# dus ook /portal/* matchen, dan zou de strengere policy ook daar gaan
+# gelden - terwijl /portal bewust buiten deze aanscherping blijft (zie
+# onderaan). Voeg bij een nieuwe publieke toppagina hetzelfde blok toe.
+#
+# Wijzigingen t.o.v. de vorige policy:
+# - de twee sha256-hashes in script-src waren restanten van een verwijderde
+#   Cal.com-widget (zie git-historiek) en beschermden niets meer - de site
+#   heeft geen enkel écht inline script meer (Astro bundelt gewone <script>
+#   naar een extern bestand; het JSON-LD-blok in blog/[slug].astro is
+#   application/ld+json, niet door script-src gedekt);
+# - img-src verloor "data:" - nergens in de publieke pagina's of CSS wordt
+#   een data:-URI gebruikt;
+# - frame-ancestors/frame-src/worker-src/media-src toegevoegd op 'none' -
+#   de site gebruikt geen iframes, workers of media;
+# - Cross-Origin-Opener-Policy en Cross-Origin-Resource-Policy toegevoegd -
+#   geen cross-origin popups/embeds nodig op deze pagina's.
+
+/
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/aanpak*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/ai-integratie*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/security*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/infrastructure*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/development*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/automation*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/consulting*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/contact*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/blog*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/projects*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/privacyverklaring*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/algemene-voorwaarden*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+/en*
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self' https://api.web3forms.com; form-action 'self' https://api.web3forms.com; frame-ancestors 'none'; frame-src 'none'; worker-src 'none'; media-src 'none'; object-src 'none'; base-uri 'self'; upgrade-insecure-requests
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
+
+# --- Klantenportaal: buiten scope van deze aanscherping ------------------
+#
+# Behoudt bewust exact de oorspronkelijke CSP (ongewijzigd) - het portaal
+# heeft eigen, nog niet opgeloste CSP-knelpunten (inline style-attributen,
+# een niet-gehashte inline script, inline event-handlers), maar het
+# oplossen daarvan stond uitdrukkelijk niet in scope voor deze ronde.
 /portal/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'sha256-e6bpPHY6bliQXedLDjT3zH2/CEU9Rl2+RZ0SRJsdRWI=' 'sha256-S+baWO+2mehGOdYYUklpJZ+zVym+YQGKfCnjoY79joo='; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://api.web3forms.com; object-src 'none'; base-uri 'self'; form-action 'self' https://api.web3forms.com; upgrade-insecure-requests
   X-Robots-Tag: noindex, nofollow

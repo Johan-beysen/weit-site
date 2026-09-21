@@ -1,0 +1,61 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/shared.css";
+import "../../styles/legal.css";
+
+export async function getStaticPaths() {
+  const versionFiles = import.meta.glob("../../content/legal/voorwaarden/*.md", { eager: true }) as Record<string, any>;
+  return Object.entries(versionFiles).map(([path, mod]) => ({
+    params: { version: (path.split('/').pop() as string).replace('.md', '') },
+    props: { frontmatter: mod.frontmatter, Content: mod.default, allVersions: versionFiles },
+  }));
+}
+
+const { frontmatter, Content, allVersions } = Astro.props;
+const { title, version, date } = frontmatter;
+
+const versions = Object.entries(allVersions as Record<string, any>)
+  .map(([path, mod]: [string, any]) => ({
+    slug: (path.split('/').pop() as string).replace('.md', ''),
+    frontmatter: mod.frontmatter,
+  }))
+  .sort((a, b) => new Date(b.frontmatter.date).getTime() - new Date(a.frontmatter.date).getTime());
+
+const isCurrent = versions[0].slug === Astro.params.version;
+const formattedDate = new Date(date).toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Base
+  title={`algemene voorwaarden - versie ${version}`}
+  description={`Algemene voorwaarden van WeIT, versie ${version} van ${formattedDate} - vaste, gearchiveerde versie.`}
+  translated={false}
+  noindex={!isCurrent || frontmatter.status !== "actief"}
+>
+  <Nav slot="nav" translated={false} />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// algemene voorwaarden</div>
+      <h1>{title}</h1>
+      <p>Versie {version} - {formattedDate}. Dit is de vaste, gearchiveerde URL voor deze specifieke versie.</p>
+    </div>
+  </section>
+
+  {!isCurrent && (
+    <div class="archived-notice">
+      Dit is een eerdere versie van de algemene voorwaarden, bewaard op haar vaste URL. Bekijk de <a href="/algemene-voorwaarden">huidige versie</a>.
+    </div>
+  )}
+
+  <article class="legal-content">
+    <div class="legal-meta">
+      <span class="pill">versie {version}</span>
+      <span class="pill">{formattedDate}</span>
+    </div>
+    <Content />
+  </article>
+
+  <Footer slot="footer" />
+</Base>

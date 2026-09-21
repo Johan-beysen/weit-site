@@ -1,0 +1,38 @@
+---
+import Base from "../../layouts/Base.astro";
+import Nav from "../../components/Nav.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/shared.css";
+import "../../styles/legal.css";
+import Privacy, { frontmatter } from "../../content/legal/privacyverklaring.md";
+
+const { title, version, date, status } = frontmatter;
+const formattedDate = new Date(date).toLocaleDateString("nl-BE", { day: "numeric", month: "long", year: "numeric" });
+---
+
+<Base
+  title="privacyverklaring"
+  description="De privacyverklaring van WeIT - welke persoonsgegevens worden verwerkt, waarom, en welke rechten je hebt."
+  translated={false}
+  noindex={status !== "actief"}
+>
+  <Nav slot="nav" translated={false} />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// privacyverklaring</div>
+      <h1>{title}</h1>
+      <p>Versie {version} - {formattedDate}.</p>
+    </div>
+  </section>
+
+  <article class="legal-content">
+    <div class="legal-meta">
+      <span class="pill">versie {version}</span>
+      <span class="pill">{formattedDate}</span>
+    </div>
+    <Privacy />
+  </article>
+
+  <Footer slot="footer" />
+</Base>

@@ -11,6 +11,11 @@ const {
   titleOverride,
   description = "Cybersecurity, infrastructuur, maatwerk en automatisering - pragmatisch en zonder fluff.",
   image = "/og-image.png",
+  // Nederlandstalig-only pagina's (zie i.c. de juridische teksten, artikel 24.4:
+  // vertaling volgt pas na definitieve NL-goedkeuring) hebben geen /en/-tegenhanger.
+  translated = true,
+  // Concept-content (zie PUBLICATIECHECKLIST.md) mag nog niet geïndexeerd worden.
+  noindex = false,
 } = Astro.props;
 
 const siteName = "WeIT.be";
@@ -28,9 +33,10 @@ const enAlternateURL = new URL(getLocalizedPathname(Astro.url.pathname, 'en'), A
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{pageTitle}</title>
   <meta name="description" content={description} />
+  {noindex && <meta name="robots" content="noindex, follow" />}
   <link rel="canonical" href={canonicalURL} />
   <link rel="alternate" hreflang="nl" href={nlAlternateURL} />
-  <link rel="alternate" hreflang="en" href={enAlternateURL} />
+  {translated && <link rel="alternate" hreflang="en" href={enAlternateURL} />}
   <link rel="alternate" hreflang="x-default" href={nlAlternateURL} />
 
   <!-- Open Graph -->

@@ -1,0 +1,207 @@
+/* =============================================================
+   legal.css - stijlen voor de juridische pagina's (privacyverklaring,
+   algemene voorwaarden). Dichte referentietekst met genummerde
+   artikelen en brede tabellen - andere leesvorm dan de marketing-
+   pagina's, dus geen hergebruik van project-content (die vormt
+   tabellen om tot een 2-koloms label/beschrijving-grid, wat hier
+   kolommen zou laten verdwijnen).
+   ============================================================= */
+
+.legal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-bottom: 32px;
+}
+
+.legal-meta .pill {
+  background: var(--gray-100);
+  color: var(--text);
+  padding: 3px 10px;
+  border-radius: 4px;
+}
+
+.legal-content {
+  padding: 48px var(--px) 64px;
+  max-width: 820px;
+  margin-inline: auto;
+  /* Laat enkel een brede tabel horizontaal scrollen (zie .legal-content
+     table hieronder) zonder een extra wrapper-element nodig te hebben -
+     gewone tekst binnen max-width breekt hier nooit op af. */
+  overflow-x: auto;
+}
+
+/* Conceptwaarschuwing (markdown blockquote bovenaan) - duidelijk
+   zichtbaar zolang de publicatiechecklist niet is afgewerkt. */
+.legal-content blockquote {
+  background: #FFF7E6;
+  border: 1px solid #F0C36D;
+  border-left: 4px solid #E0A526;
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 0 0 32px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #6B4E00;
+}
+.legal-content blockquote p { margin: 0; max-width: none; }
+.legal-content blockquote code {
+  background: rgba(0, 0, 0, 0.06);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: 12.5px;
+}
+
+.legal-content h2 {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 40px 0 14px;
+  padding-top: 28px;
+  border-top: 1px solid var(--border);
+}
+.legal-content h2:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+
+.legal-content h3 {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--teal-dark);
+  margin: 24px 0 10px;
+}
+
+.legal-content p {
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 14px;
+}
+.legal-content p:last-child { margin-bottom: 0; }
+
+.legal-content strong { color: var(--text); font-weight: 600; }
+
+.legal-content ul,
+.legal-content ol {
+  margin: 0 0 14px;
+  padding-left: 20px;
+}
+.legal-content li {
+  font-size: 14.5px;
+  color: var(--text-muted);
+  line-height: 1.75;
+  margin-bottom: 6px;
+}
+
+.legal-content a { color: var(--teal-dark); text-decoration: underline; text-underline-offset: 2px; }
+.legal-content a:hover { color: var(--teal); }
+
+.legal-content code {
+  font-family: var(--mono);
+  font-size: 13px;
+  background: var(--gray-100);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+/* Echte tabellen (niet omgevormd zoals op de projectpagina's) -
+   referentietabellen hier hebben 3-4 kolommen en verliezen hun
+   betekenis als ze worden herschikt tot label/beschrijving. min-width
+   houdt kolommen leesbaar; .legal-content scrollt dan horizontaal. */
+.legal-content table {
+  width: 100%;
+  min-width: 560px;
+  border-collapse: collapse;
+  font-size: 13.5px;
+  margin: 8px 0 24px;
+}
+
+.legal-content th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0 16px 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.legal-content td {
+  vertical-align: top;
+  padding: 12px 16px 12px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+  line-height: 1.6;
+}
+
+.legal-content tbody tr:last-child td { border-bottom: none; }
+
+/* --- Versiegeschiedenis (algemene voorwaarden) ---------------- */
+
+.version-history {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 var(--px) 64px;
+}
+
+.version-history h2 {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+.version-history table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+
+.version-history th {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 400;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0 16px 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.version-history td {
+  padding: 10px 16px 10px 0;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+.version-history td:first-child { font-family: var(--mono); color: var(--text); }
+.version-history tr.is-current td { color: var(--text); }
+.version-history .current-tag {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--teal);
+  margin-left: 8px;
+}
+
+.version-history a { color: var(--teal-dark); }
+.version-history a:hover { color: var(--teal); }
+
+/* Notice op een gearchiveerde (niet-actuele) versiepagina */
+.archived-notice {
+  max-width: 820px;
+  margin: 0 auto 24px;
+  padding: 14px 18px;
+  background: var(--gray-100);
+  border-radius: 6px;
+  font-size: 13.5px;
+  color: var(--text-muted);
+}
+.archived-notice a { color: var(--teal-dark); font-weight: 500; }
+.archived-notice a:hover { color: var(--teal); }
+
+@media (max-width: 640px) {
+  .legal-content { padding-top: 32px; }
+  .legal-content h2 { font-size: 18px; }
+}

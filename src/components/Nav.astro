@@ -2,6 +2,11 @@
 import { getRelativeLocaleUrl } from "astro:i18n";
 import { useTranslations, getLocalizedPathname, type Locale } from "../i18n";
 
+// NL-only pagina's (bv. de juridische teksten) hebben geen /en/-tegenhanger -
+// zie Base.astro's zelfde prop. De taalschakelaar zou anders naar een
+// niet-bestaande pagina linken.
+const { translated = true } = Astro.props;
+
 const lang = (Astro.currentLocale === "en" ? "en" : "nl") as Locale;
 const t = useTranslations(lang);
 const href = (path: string) => getRelativeLocaleUrl(lang, path);
@@ -55,9 +60,11 @@ const otherLocaleHref = getLocalizedPathname(current, otherLocale);
         </a>
       </li>
     ))}
-    <li>
-      <a href={otherLocaleHref} class="lang-switch mono">{otherLocale.toUpperCase()}</a>
-    </li>
+    {translated && (
+      <li>
+        <a href={otherLocaleHref} class="lang-switch mono">{otherLocale.toUpperCase()}</a>
+      </li>
+    )}
   </ul>
 </nav>
 
