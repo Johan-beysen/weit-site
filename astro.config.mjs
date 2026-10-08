@@ -11,6 +11,15 @@ export default defineConfig({
   build: {
     inlineStylesheets: 'never',
   },
+  // Nooit scripts/assets inlinen: de CSP staat enkel script-src 'self' toe (geen
+  // inline scripts) en geen data:-URI's in img-src. Zonder dit zet Vite kleine
+  // <script>-blokken (< 4 KB, zoals het contactformulier) inline en blokkeert de
+  // browser ze.
+  vite: {
+    build: {
+      assetsInlineLimit: 0,
+    },
+  },
   // Voorkomt dat de adapter een Cloudflare KV SESSION binding aanmaakt die we niet gebruiken
   // (auth loopt via Supabase SSR cookies, niet via Astro.session)
   session: {
