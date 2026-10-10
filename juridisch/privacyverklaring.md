@@ -1,8 +1,6 @@
 # Privacyverklaring van WeIT
 
-> **Concept – nog niet publiceren.** Vul minstens `[ONDERNEMINGSNUMMER]`, `[BTW-NUMMER]` en `[SUPABASE-PROJECTREGIO]` in. Bevestig vóór publicatie ook de verwerkersovereenkomst, effectieve bewaartermijn en doorgiftewaarborg van Web3Forms. Zie `PUBLICATIECHECKLIST.md`.
-
-Versie 1.0 – 20 september 2026
+Versie 1.0 – 10 oktober 2026
 
 ## 1. Wie is verantwoordelijk voor je persoonsgegevens?
 
@@ -10,8 +8,8 @@ Johan Beysen, handelend onder de naam **WeIT**, is verantwoordelijk voor de verw
 
 - Rechtsvorm: eenmanszaak
 - Adres: Windhoek 26, 2640 Mortsel, België
-- Ondernemingsnummer: `[ONDERNEMINGSNUMMER]`
-- Btw-nummer: `[BTW-NUMMER]`
+- Ondernemingsnummer: 0669.642.666
+- Btw-nummer: BE 0669.642.666
 - E-mail: [contact@weit.be](mailto:contact@weit.be)
 - Telefoon: [+32 484 56 03 64](tel:+32484560364)
 
@@ -75,14 +73,15 @@ De huidige belangrijkste dienstverleners zijn:
 | Dienstverlener | Gebruik | Mogelijke verwerkingslocatie en waarborg |
 |---|---|---|
 | Cloudflare | Hosting en levering van de website, netwerkbeveiliging, technische observatie en logs | Wereldwijd, waaronder de Verenigde Staten; doorgifte volgens de toepasselijke verwerkersovereenkomst en erkende doorgiftemechanismen, waaronder waar toepasselijk standaardcontractbepalingen of het EU–US Data Privacy Framework |
-| Web3Forms / Web3Creative | Contactformulier verwerken en doorsturen naar WeIT | Infrastructuur in de Verenigde Staten en dienstverlening vanuit India; `[VOOR PUBLICATIE: DPA, EFFECTIEVE BEWAARTERMIJN EN GELDIG DOORGIFTEMECHANISME BEVESTIGEN]` |
-| Supabase | Authenticatie, database en opslag van het klantenportaal | Primaire projectregio: `[SUPABASE-PROJECTREGIO]`; beperkte verdere verwerking kan elders plaatsvinden volgens de verwerkersovereenkomst en toepasselijke standaardcontractbepalingen |
+| Web3Forms / Web3Creative | Contactformulier verwerken en doorsturen naar WeIT | Dienstverlening vanuit India, met subverwerkers in de Verenigde Staten en de EU (onder meer AWS, Cloudflare, Hetzner en spamfilters van CleanTalk en Akismet). Verwerkersovereenkomst afgesloten; doorgifte op basis van de standaardcontractbepalingen van de Europese Commissie (Uitvoeringsbesluit (EU) 2021/914). Inzendingen zijn 30 dagen raadpleegbaar in het dashboard en worden volgens die overeenkomst technisch na maximaal 3 jaar automatisch verwijderd |
+| Accountable | Boekhouding, facturatie en gestructureerde elektronische facturen (Peppol) | Opslag binnen de EU (AWS, Duitsland); bepaalde ondersteunende functies kunnen via subverwerkers buiten de EER verlopen op basis van standaardcontractbepalingen, volgens de verwerkersovereenkomst van Accountable |
+| Supabase | Authenticatie, database en opslag van het klantenportaal | Primaire projectregio: West-EU (Ierland, eu-west-1); beperkte verdere verwerking kan elders plaatsvinden volgens de verwerkersovereenkomst en toepasselijke standaardcontractbepalingen |
 | Apple iCloud | Professionele e-mail met het domein `weit.be` en bijbehorende opslag | Europese Economische Ruimte en mogelijk andere landen, waaronder de Verenigde Staten, volgens de toepasselijke voorwaarden en doorgiftemechanismen van Apple |
 
 Daarnaast kunnen gegevens, wanneer nodig, worden gedeeld met:
 
 - boekhoudkundige, juridische, verzekerings- of andere professionele adviseurs die tot vertrouwelijkheid zijn gehouden;
-- banksystemen, facturatie- of boekhoudleveranciers zodra WeIT die inzet;
+- banken en betaaldienstverleners;
 - projectspecifieke onderaannemers of leveranciers die vooraf in de offerte, opdrachtbeschrijving of verwerkersovereenkomst worden vermeld wanneer dat relevant is;
 - overheden, toezichthouders, gerechtsdeurwaarders of rechtbanken wanneer de wet dit vereist of dit nodig is voor rechtsvorderingen.
 
@@ -113,7 +112,7 @@ WeIT bewaart persoonsgegevens niet langer dan nodig voor het doel, wettelijke ve
 
 | Categorie | Richttermijn |
 |---|---|
-| Contactaanvraag zonder samenwerking | 12 maanden na het laatste inhoudelijke contact |
+| Contactaanvraag zonder samenwerking | 12 maanden na het laatste inhoudelijke contact bij WeIT; de kopie bij Web3Forms volgt de termijn in punt 5 |
 | Prospect zonder reactie | 12 maanden na het laatste contact; een minimale uitsluitingsregistratie blijft zo lang als nodig om een bezwaar te respecteren |
 | Niet-aanvaarde offerte of relevant prospectdossier | Maximaal 3 jaar na het laatste contact |
 | Contract- en projectdossier | Maximaal 10 jaar na het einde, voor zover nodig voor wettelijke verplichtingen of mogelijke vorderingen |
@@ -135,7 +134,7 @@ Het klantenportaal gebruikt strikt noodzakelijke technieken voor authenticatie e
 
 | Naam of patroon | Doel | Bewaartermijn |
 |---|---|---|
-| `sb-<projectreferentie>-auth-token` en eventuele genummerde delen | Je veilig aangemeld houden en de sessie vernieuwen | Maximaal ongeveer 400 dagen volgens de huidige standaardconfiguratie; eerder verwijderd bij afmelden, verval of wijziging van de configuratie |
+| `sb-<projectreferentie>-auth-token` en eventuele genummerde delen | Je veilig aangemeld houden en de sessie vernieuwen | 7 dagen na je laatste gebruik van het portaal; bij elk gebruik verlengd en verwijderd bij afmelden. Alleen leesbaar voor de server (HttpOnly), enkel via HTTPS (Secure) en niet meegestuurd bij verzoeken vanaf andere websites (SameSite=Lax) |
 | `sb-<projectreferentie>-auth-token-code-verifier` of een vergelijkbare tijdelijke sleutel | Een aanmelding veilig afronden via PKCE | Tijdelijk, normaal tot de aanmeldprocedure is voltooid of de browseropslag wordt gewist |
 
 De exacte naam kan technisch verschillen per project of browser. Strikt noodzakelijke cookies vereisen geen toestemming, maar worden hier wel transparant beschreven. Je kunt ze via je browser verwijderen; het portaal zal dan mogelijk niet meer werken of je opnieuw laten aanmelden.

@@ -36,13 +36,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Klantportaal is niet publiek/indexeerbaar - hoort niet in de sitemap.
-      // Privacyverklaring/algemene voorwaarden staan nog op "concept" (zie
-      // PUBLICATIECHECKLIST.md) - uitsluiten tot de placeholders zijn ingevuld
-      // en de status naar "actief" gaat, dan deze twee regels verwijderen.
-      filter: (page) =>
-        !page.includes('/portal/') &&
-        !page.includes('/privacyverklaring') &&
-        !page.includes('/algemene-voorwaarden'),
+      filter: (page) => !page.includes('/portal/'),
       i18n: {
         defaultLocale: 'nl',
         locales: {

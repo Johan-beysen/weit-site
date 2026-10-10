@@ -4,21 +4,21 @@ Deze checklist is geen publieke webtekst. De privacyverklaring en algemene voorw
 
 ## Vereist vóór publicatie
 
-- [ ] Vul het definitieve ondernemingsnummer en btw-nummer in beide teksten in.
-- [ ] Vul de werkelijk gekozen primaire Supabase-projectregio in de privacyverklaring in.
-- [ ] Controleer Web3Forms contractueel en feitelijk:
+- [x] Vul het definitieve ondernemingsnummer en btw-nummer in beide teksten in. (0669.642.666 / BE 0669.642.666)
+- [x] Vul de werkelijk gekozen primaire Supabase-projectregio in de privacyverklaring in. (West-EU, Ierland, eu-west-1)
+- [x] Controleer Web3Forms contractueel en feitelijk: (DPA v1.0 aanvaard 10/10/2026, archief: 02_Weit/Legal/Web3Forms-DPA.pdf; SCC's; 30 dagen dashboard, technisch max. 3 jaar TTL - verwerkt in punt 5)
   - download en aanvaard de beschikbare verwerkersovereenkomst volgens artikel 28 AVG en archiveer de toepasselijke versie;
   - los de tegenstrijdigheid in de publieke informatie op: de oudere FAQ zegt dat inzendingen niet worden opgeslagen en serverlogs om de twee maanden worden verwijderd, terwijl de productupdate van juli 2026 instelbare opslag van inzendingen van 7 dagen tot onbeperkt vermeldt;
   - controleer in het eigen dashboard welke opslag werkelijk actief is en stel bij voorkeur 7 dagen in, tenzij een aantoonbare noodzaak een langere termijn rechtvaardigt;
   - leg een geldige waarborg vast voor verwerking in de Verenigde Staten en/of India;
   - pas de privacyverklaring aan met de bevestigde informatie;
   - vervang Web3Forms door een passende EU/EER- of zelf beheerde oplossing als dit niet afdoende kan worden aangetoond.
-- [ ] Gebruik voor Anthropic uitsluitend een zakelijke/API-omgeving met passende voorwaarden, een verwerkersovereenkomst waar nodig en een afdwingbare uitsluiting van modeltraining voor ingediende gegevens. Gebruik geen persoonlijk consumentenaccount voor vertrouwelijke klantinformatie of niet-publieke klantcode.
-- [ ] Bevestig de werkelijke cookie- en browseropslaginventaris in een productie-browser, inclusief exacte namen, domeinen en bewaartermijnen. Verkort de standaardduur van de authenticatiecookie indien 400 dagen niet noodzakelijk is en pas de tabel aan.
-- [ ] Verwijder de conceptwaarschuwing bovenaan beide publieke teksten zodra alle placeholders en blokkeringen zijn opgelost.
+- [x] Gebruik voor Anthropic uitsluitend een zakelijke/API-omgeving met passende voorwaarden, een verwerkersovereenkomst waar nodig en een afdwingbare uitsluiting van modeltraining voor ingediende gegevens. Gebruik geen persoonlijk consumentenaccount voor vertrouwelijke klantinformatie of niet-publieke klantcode.
+- [ ] (Configuratie aangepast: 7 dagen rolling, HttpOnly/Secure/SameSite=Lax - nog bevestigen in productie-browser.) Bevestig de werkelijke cookie- en browseropslaginventaris in een productie-browser, inclusief exacte namen, domeinen en bewaartermijnen. Verkort de standaardduur van de authenticatiecookie indien 400 dagen niet noodzakelijk is en pas de tabel aan.
+- [x] Verwijder de conceptwaarschuwing bovenaan beide publieke teksten zodra alle placeholders en blokkeringen zijn opgelost.
 - [ ] Sluit de beroeps- en cyberverzekering af of bevestig schriftelijk de tijdelijke risicoafbakening. Vergelijk daarna de dekkingen, uitsluitingen, verzekerde som en eigen risico’s met artikel 20 van de voorwaarden en pas de aansprakelijkheidsplafonds zo nodig aan.
-- [ ] Kies vóór de eerste factuur een oplossing waarmee WeIT de sinds 1 januari 2026 verplichte gestructureerde elektronische B2B-facturen kan verzenden en ontvangen, waar die verplichting van toepassing is.
-- [ ] Laat de definitieve versies vóór eerste gebruik nakijken door een Belgische advocaat met ervaring in IT-contracten, cybersecurity en gegevensbescherming. Dit is in het bijzonder belangrijk voor de IE-overdracht, pentestclausules, urenkredieten en aansprakelijkheidsplafonds.
+- [x] Kies vóór de eerste factuur een oplossing waarmee WeIT de sinds 1 januari 2026 verplichte gestructureerde elektronische B2B-facturen kan verzenden en ontvangen, waar die verplichting van toepassing is. (Accountable; opgenomen in de privacyverklaring.)
+- [ ] (Uitgesteld tot er omzet is.) Laat de definitieve versies vóór eerste gebruik nakijken door een Belgische advocaat met ervaring in IT-contracten, cybersecurity en gegevensbescherming. Dit is in het bijzonder belangrijk voor de IE-overdracht, pentestclausules, urenkredieten en aansprakelijkheidsplafonds.
 
 ## Vereist bij ingebruikname
 

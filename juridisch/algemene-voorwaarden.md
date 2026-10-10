@@ -1,7 +1,5 @@
 # Algemene voorwaarden van WeIT
 
-> **Concept – nog niet publiceren.** Vul minstens `[ONDERNEMINGSNUMMER]` en `[BTW-NUMMER]` in. Laat de aansprakelijkheidsregeling opnieuw controleren en zo nodig aanpassen zodra de beroeps- en cyberverzekering is afgesloten. Zie `PUBLICATIECHECKLIST.md`.
-
 Versie 1.0 – 20 september 2026
 
 ## 1. Identiteit en contact
@@ -9,8 +7,8 @@ Versie 1.0 – 20 september 2026
 **WeIT** is de handelsnaam van Johan Beysen, handelend als eenmanszaak.
 
 - Adres: Windhoek 26, 2640 Mortsel, België
-- Ondernemingsnummer: `[ONDERNEMINGSNUMMER]`
-- Btw-nummer: `[BTW-NUMMER]`
+- Ondernemingsnummer: 0669.642.666
+- Btw-nummer: BE 0669.642.666
 - Website: [https://weit.be](https://weit.be)
 - E-mail: [contact@weit.be](mailto:contact@weit.be)
 - Telefoon: [+32 484 56 03 64](tel:+32484560364)

@@ -7,6 +7,17 @@ const supabaseAnon = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
 
 export function createSupabaseServerClient(request: Request, responseHeaders: Headers) {
   return createServerClient(supabaseUrl, supabaseAnon, {
+    // Sessiecookie vervalt na 7 dagen zonder gebruik (Supabase-default: 400
+    // dagen); bij elke token-refresh wordt hij opnieuw gezet. HttpOnly kan
+    // omdat het portaal de sessie enkel server-side leest - zie ook
+    // privacyverklaring punt 9.
+    cookieOptions: {
+      maxAge: 7 * 24 * 60 * 60,
+      httpOnly: true,
+      secure: true,
+      sameSite: 'lax',
+      path: '/',
+    },
     cookies: {
       getAll() {
         return parseCookieHeader(request.headers.get('Cookie') ?? '')
