@@ -4,7 +4,7 @@ category: "development"
 year: 2026
 client: "Liesbeth - De Tussenruimte"
 summary: "Website for a starting career coach. From first conversation to live - fully hand-built, no website builders. Including a full digital onboarding."
-stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Calendly", "GitHub"]
+stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Netlify Forms", "GitHub"]
 ---
 
 ## How it started
@@ -27,7 +27,7 @@ Fully hand-written HTML, CSS and JavaScript - no website builders, no themes, no
 |-----------|------|
 | Blog | So Liesbeth can write relevant articles herself - good for discoverability. |
 | Decap CMS | Admin portal for the blog, expanded to manage the full site content. |
-| Calendly | Integration for appointments - book directly without back-and-forth emails. |
+| Contact form | Netlify Forms with a honeypot against spam and an optional newsletter sign-up. Calendly was integrated first, but deliberately left out in the end in favour of "send a message". |
 | Google Tag Manager | Conversion tracking for Google Ads campaigns, with an open source cookie consent banner. |
 | Security headers | A+ score on CSP and security headers. Privacy policy and robots.txt included. |
 | Publishing | GitHub → Netlify. Mailboxes created and configured. |
@@ -39,3 +39,5 @@ Liesbeth started from zero digitally. No password management, no good password h
 Everything lives on her own accounts - DNS, Netlify, GitHub, mailboxes. She owns every line of code and every login. If I still make changes to her site, it's because she wants that - not because there's no other way.
 
 That's the norm for me, not the exception.
+
+The full story - from the first draft to the A+ on security headers - is on the blog: [De Tussenruimte: from idea to live website](/en/blog/de-tussenruimte-van-idee-tot-live-website).

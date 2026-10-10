@@ -4,7 +4,7 @@ category: "development"
 year: 2026
 client: "Liesbeth - De Tussenruimte"
 summary: "Website voor een startende loopbaanbegeleidster. Van eerste gesprek tot live - volledig handgebouwd, zonder websitebouwers. Inclusief volledige digitale onboarding."
-stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Calendly", "GitHub"]
+stack: ["HTML", "CSS", "JavaScript", "Netlify", "Decap CMS", "Netlify Forms", "GitHub"]
 ---
 
 ## Hoe het begon
@@ -27,7 +27,7 @@ Volledig handgeschreven HTML, CSS en JavaScript - geen websitebouwers, geen them
 |-----------|------|
 | Blog | Zodat Liesbeth zelf relevante artikels kan schrijven - goed voor vindbaarheid. |
 | Decap CMS | Admin portaal voor de blog, uitgebreid naar beheer van de volledige site-inhoud. |
-| Calendly | Integratie voor afspraken - direct inplannen zonder heen-en-weer e-mailen. |
+| Contactformulier | Netlify Forms met honeypot tegen spam en optionele nieuwsbriefinschrijving. Calendly werd eerst geïntegreerd, maar uiteindelijk bewust weggelaten ten voordele van "stuur een bericht". |
 | Google Tag Manager | Conversietracking van Google Ads campagnes, met open source cookie consent banner. |
 | Security headers | A+ score op CSP en security headers. Privacybeleid en robots.txt inbegrepen. |
 | Publicatie | GitHub → Netlify. Mailboxen aangemaakt en geconfigureerd. |
@@ -39,3 +39,5 @@ Liesbeth vertrok van nul digitaal. Geen wachtwoordbeheer, geen goede wachtwoordh
 Alles staat op haar eigen accounts - DNS, Netlify, GitHub, mailboxen. Ze is eigenaar van elke lijn code en elke login. Als ik nog aanpassingen doe aan haar site, is dat omdat zij dat wil - niet omdat het niet anders kan.
 
 Dat is voor mij de norm, geen uitzondering.
+
+Het volledige verhaal - van de eerste draft tot de A+ op security headers - lees je in de blog: [De Tussenruimte: van idee tot live website](/blog/de-tussenruimte-van-idee-tot-live-website).

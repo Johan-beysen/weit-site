@@ -84,6 +84,31 @@
 }
 
 /* Inline code binnen markdown */
+/* Links in lopende tekst - global.css zet alle links op inherit/geen
+   onderlijning, wat ze in een artikel onzichtbaar maakt. */
+.project-content a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.project-content a:hover { color: var(--teal-dark); }
+
+/* Afbeeldingen met bijschrift in artikels (bv. scanner-screenshots) */
+.project-content figure { margin: 28px 0; }
+.project-content figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.project-content figcaption {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 10px;
+}
+
 .project-content code {
   font-family: var(--mono);
   font-size: 13px;
