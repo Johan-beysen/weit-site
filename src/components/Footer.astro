@@ -1,5 +1,6 @@
 ---
 import { useTranslations } from "../i18n";
+import { TELEFOON, TELEFOON_LEESBAAR } from "../lib/schema";
 
 const year = new Date().getFullYear();
 const t = useTranslations(Astro.currentLocale);
@@ -9,6 +10,10 @@ const t = useTranslations(Astro.currentLocale);
   <div class="left">
     <span class="logo">WeIT<span>.</span>be</span>
     <span class="tagline">{t("footer.tagline")}</span>
+    <span class="contact-links">
+      <a href={`tel:${TELEFOON}`}>{TELEFOON_LEESBAAR}</a>
+      <a href="mailto:contact@weit.be">contact@weit.be</a>
+    </span>
   </div>
   <div class="right">
     <nav class="legal-links">
@@ -44,6 +49,17 @@ const t = useTranslations(Astro.currentLocale);
     font-size: 12px;
     color: var(--text-muted);
   }
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-top: 4px;
+  }
+  .contact-links a {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .contact-links a:hover { color: var(--teal); }
   .right {
     display: flex;
     flex-direction: column;
@@ -73,6 +89,17 @@ const t = useTranslations(Astro.currentLocale);
       padding-top: 20px;
       padding-bottom: 20px;
     }
-    .right { align-items: flex-start; }
+    .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-top: 4px;
+  }
+  .contact-links a {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .contact-links a:hover { color: var(--teal); }
+  .right { align-items: flex-start; }
   }
 </style>

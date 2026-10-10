@@ -29,3 +29,9 @@
 
 .detail-cta h2 { font-size: 22px; font-weight: 500; margin-bottom: 8px; }
 .detail-cta p  { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; line-height: 1.6; max-width: 480px; }
+
+/* Secundaire link naast de CTA-knop */
+.detail-cta .cta-alt { margin-left: 20px; }
+@media (max-width: 640px) {
+  .detail-cta .cta-alt { display: block; margin: 16px 0 0; }
+}

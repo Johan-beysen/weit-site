@@ -1,0 +1,176 @@
+---
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+import HeroCode from "../components/HeroCode.astro";
+import "../styles/shared.css";
+import "../styles/services.css";
+import "../styles/rich-service.css";
+import "../styles/nulmeting.css";
+import { SITE, ORG_ID, TELEFOON, TELEFOON_LEESBAAR } from "../lib/schema";
+
+// Contactlink met voorinvulling, zie het script in contact.astro
+const contactHref = "/contact?onderwerp=nulmeting";
+
+// Verfijnt de Service-node uit de OfferCatalog (zelfde @id) met prijs en details
+const schema = [
+  {
+    "@type": "Service",
+    "@id": `${SITE}/nulmeting#service`,
+    name: "Cyberweerbaarheid nulmeting",
+    serviceType: "Cybersecurity-adviestraject",
+    description: "Eén dag on-site: gestructureerd gesprek en rondgang rond toegangsbeheer, back-ups, updates, e-mail, toestellen, personeel en afspraken, met een implementatieplan in drie fases en een nabespreking. Gebaseerd op de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België; geen officiële CyFun-verificatie of certificering en geen technische tests.",
+    url: `${SITE}/nulmeting`,
+    provider: { "@id": ORG_ID },
+    areaServed: [
+      { "@id": `${SITE}/#provincie-antwerpen` },
+      { "@id": `${SITE}/#provincie-vlaams-brabant` },
+      { "@id": `${SITE}/#provincie-limburg` },
+    ],
+    audience: {
+      "@type": "BusinessAudience",
+      audienceType: "Kmo's, zelfstandigen met personeel, praktijken, winkels, aannemers en kantoren",
+    },
+    offers: {
+      "@type": "Offer",
+      url: `${SITE}/nulmeting`,
+      price: "500.00",
+      priceCurrency: "EUR",
+      priceSpecification: {
+        "@type": "UnitPriceSpecification",
+        price: "500.00",
+        priceCurrency: "EUR",
+        valueAddedTaxIncluded: false,
+      },
+      availability: "https://schema.org/InStock",
+      seller: { "@id": ORG_ID },
+    },
+  },
+];
+---
+
+<Base
+  title="cyberweerbaarheid nulmeting"
+  description="Eén dag on-site, één helder plan. Een praktische nulmeting op basis van CyFun® die toont waar uw bedrijf staat en wat u het best eerst aanpakt. €500 excl. btw."
+  translated={false}
+  schema={schema}
+>
+  <Nav slot="nav" translated={false} />
+
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <div class="label mono">// nulmeting</div>
+      <h1>Te klein om<br />gehackt te worden?</h1>
+      <p>Helaas, aanvallers kiezen meestal niet ú specifiek uit. Ze scannen automatisch duizenden bedrijven op zoek naar open deuren. Wie een open deur heeft, wordt gevonden, ongeacht de grootte.</p>
+      <div class="hero-cta">
+        <a href={contactHref} class="btn-primary">Plan een kennismaking</a>
+        <a href="#plan" class="mono subtle">hoe het plan eruitziet →</a>
+      </div>
+    </div>
+    <HeroCode />
+  </section>
+
+  <section class="content">
+    <div class="block">
+      <div class="sub-sectie">
+        <div class="mono section-label">// waar beginnen we?</div>
+        <div class="tekst">
+          <p>Een standaardwachtwoord op de router, een verouderde website, een mailbox zonder extra beveiliging: meer is er vaak niet nodig.</p>
+          <p>“We zouden eens iets moeten doen aan onze IT-beveiliging... maar waar beginnen we?” Die gedachte blijft vaak hangen, niet uit onwil, maar omdat het probleem te groot en te technisch lijkt. Er zijn tientallen maatregelen, iedereen roept iets anders, en niemand weet wat écht het verschil maakt.</p>
+          <p><strong>Dat is precies wat ik oplos.</strong></p>
+        </div>
+      </div>
+
+      <div class="sub-sectie">
+        <div class="mono section-label">// één dag, één helder plan</div>
+        <p class="sectie-intro">Ik kom een dag bij u langs voor een gestructureerd gesprek en een rondgang. Er wordt niets getest of aangevallen en er gaat niets stuk. We bekijken samen waar u staat en wat u het best als eerste aanpakt.</p>
+        <div class="items">
+          <div class="item">
+            <h3>1 dag on-site</h3>
+            <p>Overloop van uw situatie rond toegangsbeheer, back-ups, updates, e-mail, toestellen, personeel en afspraken.</p>
+          </div>
+          <div class="item">
+            <h3>Plan in gewone taal</h3>
+            <p>Een implementatieplan zonder technisch jargon, dat u ook aan collega's of uw boekhouder kunt voorleggen.</p>
+          </div>
+          <div class="item">
+            <h3>Vaste volgorde</h3>
+            <p>Van weinig moeite met veel effect naar meer werk met bijkomend effect, zodat u weet wat u maandag al kunt doen.</p>
+          </div>
+          <div class="item">
+            <h3>Korte nabespreking</h3>
+            <p>Zodat u weet wat u zelf kunt doen, wat u aan uw IT-leverancier vraagt en wat kan wachten.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="sub-sectie">
+        <div class="mono section-label">// leidraad: CyFun®</div>
+        <div class="tekst">
+          <p>Als leidraad gebruik ik de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België, het referentiekader waar ook uw klanten en leveranciers steeds vaker naar verwijzen.</p>
+          <p>Dit is geen officiële CyFun®-verificatie of certificering, wel een praktische nulmeting die u op weg helpt. Wilt u daarna richting een volledig CyFun®- of NIS2-traject, dan kan dat via <a href="/security">security-begeleiding</a>.</p>
+        </div>
+      </div>
+
+      <div class="sub-sectie" id="plan">
+        <div class="mono section-label">// hoe het plan eruitziet</div>
+        <div class="fases">
+          <div class="fase">
+            <span class="fase-label mono">[fase 1]</span>
+            <h3>Snelle winsten - weinig moeite, groot effect</h3>
+            <p>Maatregelen die vaak binnen enkele dagen geregeld zijn, zoals tweestapsverificatie op e-mail, een wachtwoordbeheerder en het nakijken van uw back-ups.</p>
+          </div>
+          <div class="fase">
+            <span class="fase-label mono">[fase 2]</span>
+            <h3>Stevige basis - binnen enkele maanden</h3>
+            <p>Zaken als updatebeleid, afspraken over wie waartoe toegang heeft, een draaiboek voor als er iets misgaat en een korte sensibilisering van uw team.</p>
+          </div>
+          <div class="fase">
+            <span class="fase-label mono">[fase 3]</span>
+            <h3>Verder bouwen - langere termijn</h3>
+            <p>Voor wie richting certificering of samenwerking met grotere klanten wil groeien. U weet dan al waar u staat.</p>
+          </div>
+        </div>
+        <p class="fases-noot">Bij elke maatregel staat wat het oplevert, hoeveel werk het is en wie het kan uitvoeren.</p>
+      </div>
+
+      <div class="sub-sectie">
+        <div class="mono section-label">// wat dit niet is</div>
+        <div class="tekst">
+          <p>Eerlijk is eerlijk: dit is een adviestraject. Er gebeuren geen technische tests op uw systemen, u krijgt geen certificaat en het is geen garantie dat u nooit gehackt wordt.</p>
+          <p>Wat u wel krijgt, is een duidelijke route om uw risico's stap voor stap te verkleinen. Wilt u later dieper gaan met technische tests of een <a href="/security">penetratietest</a>, dan bespreken we dat afzonderlijk.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="block aside">
+      <div class="prijs">
+        <span class="prijs-bedrag">€500</span>
+        <span class="prijs-btw">excl. btw · vast bedrag</span>
+        <span class="prijs-tag mono">introductietarief</span>
+        <p>Inclusief de dag on-site, het uitgewerkte plan en de nabespreking.</p>
+      </div>
+
+      <div class="mono section-label">// voor wie</div>
+      <p class="sectie-intro">Kleine en middelgrote bedrijven, zelfstandigen met personeel, praktijken, winkels, aannemers en kantoren die:</p>
+      <ul>
+        <li>vermoeden dat hun beveiliging “wel oké zal zijn”, maar het nooit hebben laten nakijken</li>
+        <li>willen weten waar ze staan, vóór er iets misgaat</li>
+        <li>een onafhankelijke, frisse blik willen naast wat hun eigen IT-team of -leverancier al doet</li>
+      </ul>
+      <a href={contactHref} class="btn-primary">Nulmeting aanvragen</a>
+      <a href={`tel:${TELEFOON}`} class="mono subtle aside-link">bel {TELEFOON_LEESBAAR}</a>
+      <a href="/aanpak" class="mono subtle aside-link">hoe ik werk →</a>
+    </div>
+  </section>
+
+  <section class="detail-cta">
+    <div class="mono section-label">// zin om te weten waar u staat?</div>
+    <h2>Begin met een vrijblijvend gesprek.</h2>
+    <p>Stuur een berichtje of bel voor een kennismakingsgesprek. Dan bekijken we samen of de nulmeting bij uw situatie past.</p>
+    <a href={contactHref} class="btn-primary">Stuur een bericht</a>
+    <a href={`tel:${TELEFOON}`} class="mono subtle cta-alt">of bel {TELEFOON_LEESBAAR}</a>
+  </section>
+
+  <Footer slot="footer" />
+</Base>

@@ -110,6 +110,10 @@ button[type="submit"]:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* --- Responsive -------------------------------------------- */
 
+/* Telefoon/e-mail in de "wat mag je verwachten"-lijst */
+.expect-list .direct-link { color: var(--teal); }
+.expect-list .direct-link:hover { color: var(--teal-dark); }
+
 @media (max-width: 768px) {
   /* Verwachtingenlijst stapelt onder het formulier */
   .contact-grid { grid-template-columns: 1fr; min-height: unset; }

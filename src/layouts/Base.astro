@@ -5,6 +5,7 @@ import '@fontsource/inter/latin-500.css';
 import '@fontsource/jetbrains-mono/latin-400.css';
 import '@fontsource/jetbrains-mono/latin-500.css';
 import { getLocalizedPathname } from '../i18n';
+import { jsonLd } from '../lib/schema';
 
 const {
   title = "WeIT.be",
@@ -16,6 +17,8 @@ const {
   translated = true,
   // Concept-content (zie PUBLICATIECHECKLIST.md) mag nog niet geïndexeerd worden.
   noindex = false,
+  // Extra schema.org-nodes voor deze pagina, naast Organization/WebSite
+  schema = [],
 } = Astro.props;
 
 const siteName = "WeIT.be";
@@ -53,6 +56,9 @@ const enAlternateURL = new URL(getLocalizedPathname(Astro.url.pathname, 'en'), A
   <meta name="twitter:title" content={pageTitle} />
   <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={imageURL} />
+
+  <!-- Structured data - type="application/ld+json" wordt niet uitgevoerd, dus geen CSP-conflict -->
+  <script is:inline type="application/ld+json" set:html={jsonLd(schema)} />
 </head>
 <body>
   <slot name="nav" />

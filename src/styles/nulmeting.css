@@ -1,0 +1,92 @@
+/* =============================================================
+   nulmeting.css - aanvullingen voor de landingspagina
+   /nulmeting, bovenop services.css en rich-service.css
+   ============================================================= */
+
+/* Lopende tekst in een subsectie (probleemschets, "wat dit niet is") */
+.sub-sectie .tekst p {
+  font-size: 15px;
+  color: var(--text-muted);
+  line-height: 1.7;
+  max-width: 640px;
+  margin-bottom: 16px;
+}
+.sub-sectie .tekst p:last-child { margin-bottom: 0; }
+.sub-sectie .tekst strong { color: var(--text); font-weight: 500; }
+.sub-sectie .tekst a { color: var(--teal); }
+.sub-sectie .tekst a:hover { color: var(--teal-dark); }
+
+/* Drie fases van het plan, gestapeld met teal fase-label */
+.fases {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  max-width: 640px;
+}
+.fase {
+  padding-left: 20px;
+  border-left: 2px solid var(--teal);
+}
+.fase-label {
+  display: block;
+  font-size: 12px;
+  color: var(--teal);
+  margin-bottom: 6px;
+}
+.fase h3 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+.fase p  { font-size: 14px; color: var(--text-muted); line-height: 1.7; }
+
+.fases-noot {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: 28px;
+  max-width: 640px;
+}
+
+/* Prijsblok in de zijbalk */
+.prijs {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.prijs-bedrag {
+  display: block;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.1;
+}
+.prijs-btw {
+  display: block;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.prijs-tag {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--teal-dark);
+  background: var(--teal-light);
+  border-radius: 4px;
+  padding: 2px 8px;
+  margin-top: 12px;
+}
+.prijs p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-top: 12px;
+}
+
+.aside .aside-link {
+  display: block;
+  margin-top: 16px;
+}
+
+.aside .sectie-intro {
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 16px;
+}

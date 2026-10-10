@@ -86,6 +86,19 @@
 /* Pijl-link onderaan een kaart */
 .arrow { display: block; margin-top: 16px; font-size: 12px; color: var(--teal); }
 
+/* Volle-breedte kaart onder de grid - instapaanbod (nulmeting) */
+.nulmeting-card {
+  margin-top: 16px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  background: var(--teal-light);
+  border-color: transparent;
+}
+.nulmeting-card p { max-width: 640px; }
+.nulmeting-card .arrow { margin-top: 0; white-space: nowrap; }
+
 /* --- Projecten preview ------------------------------------- */
 
 .projecten {
@@ -165,6 +178,7 @@
   /* Alles naar 1 kolom op mobiel */
   .diensten-grid  { grid-template-columns: 1fr; }
   .projecten-grid { grid-template-columns: 1fr; }
+  .nulmeting-card { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 
 @media (max-width: 480px) {

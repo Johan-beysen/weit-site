@@ -48,6 +48,19 @@
   border-left: 2px solid var(--teal);
 }
 
+/* Doorverwijzing naar een gerelateerd aanbod onderaan de sidebar */
+.aside-teaser {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+.aside-teaser .teaser-label { font-size: 13px; color: var(--text); margin-bottom: 8px; }
+.aside-teaser p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px; }
+
+/* Link binnen lopende tekst van een item */
+.inline-link { color: var(--teal); }
+.inline-link:hover { color: var(--teal-dark); }
+
 /* --- Responsive -------------------------------------------- */
 
 @media (max-width: 768px) {

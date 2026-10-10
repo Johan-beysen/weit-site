@@ -58,6 +58,10 @@ import "../styles/contact.css";
       <div class="mono section-label">// wat mag je verwachten</div>
       <ul class="expect-list">
         <li>
+          <span class="expect-title">[Liever bellen?]</span>
+          <p><a href="tel:+32484560364" class="direct-link">+32 484 56 03 64</a> of <a href="mailto:contact@weit.be" class="direct-link">contact@weit.be</a></p>
+        </li>
+        <li>
           <span class="expect-title">[Snelle reactie]</span>
           <p>Binnen 1 werkdag hoor je van me - geen wekenlange stilte.</p>
         </li>
@@ -81,6 +85,20 @@ import "../styles/contact.css";
   const form = document.getElementById("contact-form") as HTMLFormElement;
   const result = document.getElementById("form-result");
   const btn = document.getElementById("submit-btn");
+
+  // Voorinvulling vanuit een landingspagina, bv. /contact?onderwerp=nulmeting.
+  // Enkel gekende waarden - de querystring zelf komt nooit in het formulier.
+  const onderwerpen: Record<string, { subject: string; message: string }> = {
+    nulmeting: {
+      subject: "Aanvraag cyberweerbaarheid nulmeting via WeIT.be",
+      message: "Ik heb interesse in de cyberweerbaarheid nulmeting en wil graag een kennismakingsgesprek inplannen.",
+    },
+  };
+  const onderwerp = onderwerpen[new URLSearchParams(location.search).get("onderwerp") ?? ""];
+  if (onderwerp && form) {
+    (form.elements.namedItem("subject") as HTMLInputElement).value = onderwerp.subject;
+    (form.elements.namedItem("message") as HTMLTextAreaElement).value = onderwerp.message;
+  }
 
   form?.addEventListener("submit", async (e) => {
     e.preventDefault();
