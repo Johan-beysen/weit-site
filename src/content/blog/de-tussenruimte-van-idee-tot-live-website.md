@@ -94,7 +94,7 @@ Persoonlijk gebruik ik Proton Pass, al zit een overstap naar **1Password** er ze
 
 Tegen het einde van het project had Liesbeth een volledig gevulde wachtwoordbeheerder, met alle inloggegevens voorzien van een label zodat ze makkelijk terug te vinden zijn, en was ze vertrouwd met het gebruik ervan.
 
-Precies dit soort snelle winst - een wachtwoordbeheerder, tweestapsverificatie, back-ups nakijken - staat bovenaan het plan van de [cyberweerbaarheid nulmeting](/nulmeting).
+Precies dit soort snelle winst - een wachtwoordbeheerder, tweestapsverificatie, back-ups nakijken - staat bovenaan het actieplan van het [cyberveiligheidsplan voor kmo's](/nulmeting).
 
 ## Security - een A+ waar niemand om vroeg
 

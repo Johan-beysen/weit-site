@@ -90,8 +90,8 @@ import "../styles/contact.css";
   // Enkel gekende waarden - de querystring zelf komt nooit in het formulier.
   const onderwerpen: Record<string, { subject: string; message: string }> = {
     nulmeting: {
-      subject: "Aanvraag cyberweerbaarheid nulmeting via WeIT.be",
-      message: "Ik heb interesse in de cyberweerbaarheid nulmeting en wil graag een kennismakingsgesprek inplannen.",
+      subject: "Aanvraag cyberveiligheidsplan via WeIT.be",
+      message: "Ik heb interesse in het cyberveiligheidsplan voor kmo's en wil graag een vrijblijvend gesprek.",
     },
   };
   const onderwerp = onderwerpen[new URLSearchParams(location.search).get("onderwerp") ?? ""];

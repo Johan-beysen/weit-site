@@ -3,6 +3,13 @@
    /nulmeting, bovenop services.css en rich-service.css
    ============================================================= */
 
+/* Prijs onder de hero-tekst - teal mono, dichter tegen de alinea */
+.page-hero-content p.hero-prijs {
+  font-size: 13px;
+  color: var(--teal);
+  margin-top: -16px;
+}
+
 /* Lopende tekst in een subsectie (probleemschets, "wat dit niet is") */
 .sub-sectie .tekst p {
   font-size: 15px;

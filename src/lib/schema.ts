@@ -20,41 +20,24 @@ const provincies = [
   { slug: 'limburg', name: 'Provincie Limburg' },
 ];
 
-// Mortsel en omgeving eerst, daarna de rest van de drie provincies.
-// Gemeentenamen volgen de fusies van 1 januari 2025 (bv. Borsbeek is
-// nu een district van Antwerpen, Tongeren-Borgloon, Tessenderlo-Ham).
+// Kernregio: Mortsel en de directe buurgemeenten, plus de centrumsteden
+// waar effectief klanten zitten. Bewust kort - een lange lijst gemeenten
+// levert geen lokale rankings op. De rest van het werkgebied valt onder
+// de drie provincies hierboven.
 const gemeenten: Record<string, string[]> = {
   antwerpen: [
     'Mortsel', 'Edegem', 'Hove', 'Boechout', 'Kontich', 'Lint', 'Aartselaar',
-    'Antwerpen', 'Wommelgem', 'Ranst', 'Lier', 'Duffel', 'Rumst', 'Schelle',
-    'Niel', 'Hemiksem', 'Boom', 'Wijnegem', 'Schoten', 'Zandhoven', 'Nijlen',
-    'Mechelen', 'Sint-Katelijne-Waver', 'Bonheiden', 'Willebroek', 'Puurs-Sint-Amands',
-    'Brasschaat', 'Kapellen', 'Stabroek', 'Schilde', 'Zoersel', 'Malle', 'Brecht',
-    'Heist-op-den-Berg', 'Herentals', 'Grobbendonk', 'Turnhout', 'Geel', 'Mol',
+    'Wommelgem', 'Antwerpen', 'Lier', 'Mechelen',
   ],
-  'vlaams-brabant': [
-    'Leuven', 'Vilvoorde', 'Zaventem', 'Machelen',
-    'Grimbergen', 'Kampenhout', 'Haacht', 'Keerbergen', 'Tremelo', 'Aarschot',
-    'Diest', 'Tienen', 'Herent', 'Kortenberg', 'Halle', 'Asse',
-  ],
-  limburg: [
-    'Hasselt', 'Genk', 'Beringen', 'Heusden-Zolder', 'Lommel', 'Tessenderlo-Ham',
-    'Sint-Truiden', 'Tongeren-Borgloon', 'Bilzen-Hoeselt', 'Maasmechelen',
-    'Houthalen-Helchteren', 'Diepenbeek', 'Lanaken', 'Leopoldsburg', 'Peer',
-  ],
+  'vlaams-brabant': ['Leuven'],
+  limburg: ['Hasselt'],
 };
-
-// Antwerpse districten - expliciet vermeld omdat er lokaal op gezocht wordt.
-const districten = [
-  'Berchem', 'Wilrijk', 'Hoboken', 'Deurne', 'Borgerhout', 'Merksem',
-  'Ekeren', 'Borsbeek', 'Berendrecht-Zandvliet-Lillo',
-];
 
 const diensten = [
   {
     path: '/nulmeting',
-    name: 'Cyberweerbaarheid nulmeting',
-    description: 'Eén dag on-site en een implementatieplan in gewone taal op basis van de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België.',
+    name: "Cyberveiligheidsplan voor kmo's",
+    description: 'Eén dag op locatie en een actieplan in gewone taal: wat eerst moet gebeuren, wie het kan uitvoeren en wat kan wachten. Een praktische nulmeting op basis van de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België.',
   },
   {
     path: '/security',
@@ -100,11 +83,6 @@ export function organizationGraph() {
         containedInPlace: { '@id': provincieId(slug) },
       }))
     ),
-    ...districten.map(name => ({
-      '@type': 'Place',
-      name: `${name} (Antwerpen)`,
-      containedInPlace: { '@type': 'City', name: 'Antwerpen' },
-    })),
   ];
 
   return [
