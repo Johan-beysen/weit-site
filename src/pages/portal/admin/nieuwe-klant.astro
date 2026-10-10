@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import { createSupabaseServerClient, getServiceClient } from '../../../lib/supabase';
+import { veiligeFoutmelding } from '../../../lib/errors';
 import '../../../styles/portal.css';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
@@ -36,7 +37,7 @@ if (Astro.request.method === 'POST') {
   });
 
   if (inviteError) {
-    error = inviteError.message;
+    error = veiligeFoutmelding(inviteError, 'admin:invite', 'Uitnodiging versturen mislukt.');
   } else {
     // Maak client record aan gekoppeld aan de nieuwe user
     const { error: clientError } = await admin.from('clients').insert({
@@ -52,7 +53,15 @@ if (Astro.request.method === 'POST') {
     });
 
     if (clientError) {
-      error = clientError.message;
+      // Uitnodiging terugdraaien, anders blijft er een gebruiker zonder
+      // klantrecord achter (en werkt de link in de mail wel).
+      const { error: rollbackError } = await admin.auth.admin.deleteUser(inviteData.user.id);
+      if (rollbackError) {
+        veiligeFoutmelding(rollbackError, 'admin:invite-rollback');
+        error = veiligeFoutmelding(clientError, 'admin:insert-client', 'Klant aanmaken mislukt en de uitnodiging kon niet worden ingetrokken. Verwijder de gebruiker handmatig in Supabase.');
+      } else {
+        error = veiligeFoutmelding(clientError, 'admin:insert-client', 'Klant aanmaken mislukt. De uitnodiging is ingetrokken - probeer het opnieuw.');
+      }
     } else {
       return Astro.redirect('/portal/admin');
     }

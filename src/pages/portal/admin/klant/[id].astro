@@ -1,6 +1,7 @@
 ---
 export const prerender = false;
 import { createSupabaseServerClient, getServiceClient } from '../../../../lib/supabase';
+import { veiligeFoutmelding } from '../../../../lib/errors';
 import '../../../../styles/portal.css';
 import '@fontsource/inter/latin-400.css';
 import '@fontsource/inter/latin-500.css';
@@ -29,7 +30,7 @@ if (Astro.request.method === 'POST') {
     const { error: e } = await admin.from('projects').insert({
       client_id: id, title, phase, status: 'active', notes,
     });
-    if (e) error = e.message; else savedAction = 'project';
+    if (e) error = veiligeFoutmelding(e, 'admin:add-project', 'Project toevoegen mislukt.'); else savedAction = 'project';
   }
 
   if (action === 'add-task') {
@@ -40,27 +41,27 @@ if (Astro.request.method === 'POST') {
     const { error: e } = await admin.from('tasks').insert({
       project_id, title, owner, time_estimate, satisfied: false,
     });
-    if (e) error = e.message; else savedAction = 'taak';
+    if (e) error = veiligeFoutmelding(e, 'admin:add-task', 'Taak toevoegen mislukt.'); else savedAction = 'taak';
   }
 
   if (action === 'update-task') {
     const task_id     = form.get('task_id')?.toString();
     const description = form.get('description')?.toString().trim() || null;
-    await admin.from('tasks').update({ description }).eq('id', task_id);
-    savedAction = 'notities';
+    const { error: e } = await admin.from('tasks').update({ description }).eq('id', task_id);
+    if (e) error = veiligeFoutmelding(e, 'admin:update-task', 'Notities opslaan mislukt.'); else savedAction = 'notities';
   }
 
   if (action === 'toggle-task') {
     const task_id = form.get('task_id')?.toString();
     const current = form.get('current') === 'true';
-    await admin.from('tasks').update({ satisfied: !current }).eq('id', task_id);
-    savedAction = 'taak';
+    const { error: e } = await admin.from('tasks').update({ satisfied: !current }).eq('id', task_id);
+    if (e) error = veiligeFoutmelding(e, 'admin:toggle-task', 'Taakstatus wijzigen mislukt.'); else savedAction = 'taak';
   }
 
   if (action === 'delete-task') {
     const task_id = form.get('task_id')?.toString();
-    await admin.from('tasks').delete().eq('id', task_id);
-    savedAction = 'verwijderd';
+    const { error: e } = await admin.from('tasks').delete().eq('id', task_id);
+    if (e) error = veiligeFoutmelding(e, 'admin:delete-task', 'Taak verwijderen mislukt.'); else savedAction = 'verwijderd';
   }
 
   if (action === 'add-comment') {
@@ -74,7 +75,7 @@ if (Astro.request.method === 'POST') {
         is_read_by_admin: true,
         is_read_by_client: false,
       });
-      if (e) error = e.message; else savedAction = 'bericht';
+      if (e) error = veiligeFoutmelding(e, 'admin:add-comment', 'Bericht plaatsen mislukt.'); else savedAction = 'bericht';
     }
   }
 
@@ -89,13 +90,21 @@ if (Astro.request.method === 'POST') {
       logged_at: new Date().toISOString(),
     });
     if (e) {
-      error = e.message;
+      error = veiligeFoutmelding(e, 'admin:add-timelog', 'Uren registreren mislukt.');
     } else {
       savedAction = 'uren';
       if (invoicable && hours > 0) {
-        const { data: cur } = await admin.from('clients').select('credit_balance').eq('id', id).single();
-        const newBalance = Math.max(0, (cur?.credit_balance ?? 0) - hours);
-        await admin.from('clients').update({ credit_balance: newBalance }).eq('id', id);
+        // Uren staan al geregistreerd - een fout hier mag het saldo niet
+        // stilzwijgend ongewijzigd laten, dus expliciet melden.
+        const nietBijgewerkt = 'Uren geregistreerd, maar het kredietsaldo kon niet worden bijgewerkt. Pas het saldo handmatig aan.';
+        const { data: cur, error: leesErr } = await admin.from('clients').select('credit_balance').eq('id', id).single();
+        if (leesErr) {
+          error = veiligeFoutmelding(leesErr, 'admin:timelog-read-credits', nietBijgewerkt);
+        } else {
+          const newBalance = Math.max(0, (cur?.credit_balance ?? 0) - hours);
+          const { error: schrijfErr } = await admin.from('clients').update({ credit_balance: newBalance }).eq('id', id);
+          if (schrijfErr) error = veiligeFoutmelding(schrijfErr, 'admin:timelog-write-credits', nietBijgewerkt);
+        }
       }
     }
   }
@@ -111,13 +120,19 @@ if (Astro.request.method === 'POST') {
         .from('task-files')
         .upload(filePath, buffer, { contentType: file.type });
       if (upErr) {
-        error = upErr.message;
+        error = veiligeFoutmelding(upErr, 'admin:add-attachment', 'Bijlage uploaden mislukt.');
       } else {
-        await admin.from('task_attachments').insert({
+        const { error: e } = await admin.from('task_attachments').insert({
           task_id, file_path: filePath, file_name: file.name,
           uploaded_by: user.email ?? 'admin',
         });
-        savedAction = 'bijlage';
+        if (e) {
+          // Geen record = onvindbaar bestand: upload terugdraaien
+          await admin.storage.from('task-files').remove([filePath]);
+          error = veiligeFoutmelding(e, 'admin:add-attachment-record', 'Bijlage uploaden mislukt.');
+        } else {
+          savedAction = 'bijlage';
+        }
       }
     }
   }
@@ -125,9 +140,20 @@ if (Astro.request.method === 'POST') {
   if (action === 'delete-attachment') {
     const att_id   = form.get('att_id')?.toString();
     const filePath = form.get('file_path')?.toString();
-    if (filePath) await admin.storage.from('task-files').remove([filePath]);
-    if (att_id)   await admin.from('task_attachments').delete().eq('id', att_id);
-    savedAction = 'verwijderd';
+    // Eerst het record: mislukt dat, dan blijft alles intact. Mislukt daarna
+    // het bestand, dan rest enkel een onzichtbaar wezenbestand (gelogd).
+    const { error: e } = att_id
+      ? await admin.from('task_attachments').delete().eq('id', att_id)
+      : { error: null };
+    if (e) {
+      error = veiligeFoutmelding(e, 'admin:delete-attachment', 'Bijlage verwijderen mislukt.');
+    } else {
+      if (filePath) {
+        const { error: rmErr } = await admin.storage.from('task-files').remove([filePath]);
+        if (rmErr) veiligeFoutmelding(rmErr, 'admin:delete-attachment-file');
+      }
+      savedAction = 'verwijderd';
+    }
   }
 
   if (action === 'update-credits') {
@@ -138,7 +164,7 @@ if (Astro.request.method === 'POST') {
     const { error: e } = await admin.from('clients').update({
       credit_balance, credit_expiry, credit_transferable, credit_max_cumulative,
     }).eq('id', id);
-    if (e) error = e.message; else savedAction = 'credits';
+    if (e) error = veiligeFoutmelding(e, 'admin:update-credits', 'Credits bijwerken mislukt.'); else savedAction = 'credits';
   }
 
   if (!error) {
