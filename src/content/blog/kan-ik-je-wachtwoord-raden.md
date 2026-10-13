@@ -3,7 +3,7 @@ title: "Kan ik je wachtwoord raden?"
 category: "security / wachtwoorden"
 year: 2026
 date: 2026-10-13
-summary: "Hoe een onschuldig babbeltje en wat zoekwerk volstaan om je wachtwoord te raden, en vijf regels om dat te voorkomen: uniek, willekeurig, een wachtwoordmanager, MFA en niets op papier of in een Word-bestand."
+summary: "Hoe een onschuldig babbeltje en wat zoekwerk volstaan om je wachtwoord te raden, en vijf regels om dat te voorkomen"
 ---
 
 ## Een onschuldig babbeltje
@@ -25,7 +25,9 @@ Die elementen gooi ik in een programma dat er automatisch alle combinaties van m
 
 Hoe groot is de kans dat jouw wachtwoord ertussen staat?
 
-*\* Een wordlist is een lijst met mogelijke wachtwoorden die een script of programma één voor één uitprobeert. Op een loginpagina gaat dat aan tientallen tot honderden pogingen per seconde, tenminste als de site geen blokkering of vertraging inbouwt. Heeft een aanvaller een gelekte databank met versleutelde (gehashte) wachtwoorden in handen, dan test hij offline: een gewone gamingcomputer met een goede grafische kaart haalt dan, bij zwak beveiligde wachtwoorden, miljarden pogingen per seconde.*
+*\* Een wordlist is een lijst met mogelijke wachtwoorden die een script of programma één voor één uitprobeert. Op een loginpagina gaat dat aan tientallen tot honderden pogingen per seconde, tenminste als de site geen blokkering of vertraging inbouwt. 
+
+Heeft een aanvaller een gelekte databank met versleutelde (gehashte) wachtwoorden in handen, dan test hij offline: een gewone gamingcomputer met een goede grafische kaart haalt dan, bij zwak beveiligde wachtwoorden, miljarden pogingen per seconde.*
 
 ## Ook ik dacht dat ik goed bezig was
 
