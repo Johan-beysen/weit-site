@@ -25,9 +25,9 @@ Die elementen gooi ik in een programma dat er automatisch alle combinaties van m
 
 Hoe groot is de kans dat jouw wachtwoord ertussen staat?
 
-*\* Een wordlist is een lijst met mogelijke wachtwoorden die een script of programma één voor één uitprobeert. Op een loginpagina gaat dat aan tientallen tot honderden pogingen per seconde, tenminste als de site geen blokkering of vertraging inbouwt. 
+*\* Een wordlist is een lijst met mogelijke wachtwoorden die een script of programma één voor één uitprobeert. Op een loginpagina gaat dat aan tientallen tot honderden pogingen per seconde, tenminste als de site geen blokkering of vertraging inbouwt.*
 
-Heeft een aanvaller een gelekte databank met versleutelde (gehashte) wachtwoorden in handen, dan test hij offline: een gewone gamingcomputer met een goede grafische kaart haalt dan, bij zwak beveiligde wachtwoorden, miljarden pogingen per seconde.*
+*Heeft een aanvaller een gelekte databank met versleutelde (gehashte) wachtwoorden in handen, dan test hij offline: een gewone gamingcomputer met een goede grafische kaart haalt dan, bij zwak beveiligde wachtwoorden, miljarden pogingen per seconde.*
 
 ## Ook ik dacht dat ik goed bezig was
 
@@ -94,4 +94,6 @@ Je hoeft niet alles in één avond om te gooien. Begin met wat het zwaarst doorw
 
 In een volgende blog leg ik uit hoe zo'n wachtwoordmanager precies werkt, en waarom hij je leven eigenlijk makkelijker maakt in plaats van moeilijker.
 
-**Heb je zelf een onderneming?** Bedenk dan dat elk van je medewerkers dit verhaal ook kan zijn. Eén hergebruikt wachtwoord, één lek bij een webshop, en een aanvaller staat in je mailbox of in je netwerk. Wil je weten hoe jouw bedrijf ervoor staat? [Vraag je Cyberveiligheidsplan aan.](https://weit.be/nulmeting/)
+**Heb je zelf een onderneming?** Bedenk dan dat elk van je medewerkers dit verhaal ook kan zijn. Eén hergebruikt wachtwoord, één lek bij een webshop, en een aanvaller staat in je mailbox of in je netwerk.
+
+Wil je weten hoe jouw bedrijf ervoor staat? [Vraag je Cyberveiligheidsplan aan.](https://weit.be/cyberveiligheidsplan/)

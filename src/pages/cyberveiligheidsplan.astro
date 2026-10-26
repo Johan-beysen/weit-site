@@ -6,22 +6,22 @@ import HeroCode from "../components/HeroCode.astro";
 import "../styles/shared.css";
 import "../styles/services.css";
 import "../styles/rich-service.css";
-import "../styles/nulmeting.css";
+import "../styles/cyberveiligheidsplan.css";
 import { SITE, ORG_ID, TELEFOON, TELEFOON_LEESBAAR } from "../lib/schema";
 
 // Contactlink met voorinvulling, zie het script in contact.astro
-const contactHref = "/contact?onderwerp=nulmeting";
+const contactHref = "/contact?onderwerp=cyberveiligheidsplan";
 
 // Verfijnt de Service-node uit de OfferCatalog (zelfde @id) met prijs en details
 const schema = [
   {
     "@type": "Service",
-    "@id": `${SITE}/nulmeting#service`,
+    "@id": `${SITE}/cyberveiligheidsplan#service`,
     name: "Cyberveiligheidsplan voor kmo's",
     alternateName: "Cyberweerbaarheid nulmeting",
     serviceType: "Cybersecurity-analyse en actieplan",
-    description: "Eén dag op locatie: gestructureerd gesprek en rondgang rond toegangsbeheer, back-ups, updates, e-mail, toestellen, personeel en afspraken, met een actieplan in drie fases en een nabespreking. Een praktische nulmeting op basis van de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België; geen officiële CyFun-verificatie of certificering en geen technische tests.",
-    url: `${SITE}/nulmeting`,
+    description: "Eén bezoek op locatie: gestructureerd gesprek en rondgang rond toegangsbeheer, back-ups, updates, e-mail, toestellen, personeel en afspraken, met een actieplan in drie fases en een nabespreking. Een praktische nulmeting op basis van de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België; geen officiële CyFun-verificatie of certificering en geen technische tests.",
+    url: `${SITE}/cyberveiligheidsplan`,
     provider: { "@id": ORG_ID },
     areaServed: [
       { "@id": `${SITE}/#provincie-antwerpen` },
@@ -34,7 +34,7 @@ const schema = [
     },
     offers: {
       "@type": "Offer",
-      url: `${SITE}/nulmeting`,
+      url: `${SITE}/cyberveiligheidsplan`,
       price: "500.00",
       priceCurrency: "EUR",
       priceSpecification: {
@@ -64,7 +64,7 @@ const schema = [
     <div class="page-hero-content">
       <div class="label mono">// cyberveiligheidsplan</div>
       <h1>Weet wat u eerst<br />moet beveiligen.</h1>
-      <p>Eén dag bij u op locatie. Daarna krijgt u een helder actieplan in gewone taal: wat eerst moet gebeuren, wie het kan uitvoeren en wat kan wachten.</p>
+      <p>Eén gesprek bij u op locatie. Daarna krijgt u een helder actieplan in gewone taal: wat eerst moet gebeuren, wie het kan uitvoeren en wat kan wachten.</p>
       <p class="hero-prijs mono">€500 excl. btw · vast bedrag</p>
       <div class="hero-cta">
         <a href={contactHref} class="btn-primary">Vraag een vrijblijvend gesprek aan</a>
@@ -86,11 +86,11 @@ const schema = [
       </div>
 
       <div class="sub-sectie">
-        <div class="mono section-label">// één dag op locatie, één helder actieplan</div>
-        <p class="sectie-intro">Ik kom een dag bij u langs voor een gestructureerd gesprek en een rondgang. Er wordt niets getest of aangevallen en er gaat niets stuk. We bekijken samen waar u staat en wat u het best als eerste aanpakt.</p>
+        <div class="mono section-label">// één gesprek op locatie, één helder actieplan</div>
+        <p class="sectie-intro">Ik kom bij u langs voor een gestructureerd gesprek en een rondgang. Er wordt niets getest of aangevallen en er gaat niets stuk. We bekijken samen waar u staat en wat u het best als eerste aanpakt.</p>
         <div class="items">
           <div class="item">
-            <h3>1 dag op locatie</h3>
+            <h3>Gesprek op locatie</h3>
             <p>Overloop van uw situatie rond toegangsbeheer, back-ups, updates, e-mail, toestellen, personeel en afspraken.</p>
           </div>
           <div class="item">
@@ -152,7 +152,7 @@ const schema = [
         <span class="prijs-bedrag">€500</span>
         <span class="prijs-btw">excl. btw · vast bedrag</span>
         <span class="prijs-tag mono">introductietarief</span>
-        <p>Inclusief de dag op locatie, het uitgewerkte actieplan en de nabespreking.</p>
+        <p>Inclusief het gesprek op locatie, het uitgewerkte actieplan en de nabespreking.</p>
       </div>
 
       <div class="mono section-label">// voor wie</div>

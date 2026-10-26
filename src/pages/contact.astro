@@ -86,13 +86,15 @@ import "../styles/contact.css";
   const result = document.getElementById("form-result");
   const btn = document.getElementById("submit-btn");
 
-  // Voorinvulling vanuit een landingspagina, bv. /contact?onderwerp=nulmeting.
+  // Voorinvulling vanuit een landingspagina, bv. /contact?onderwerp=cyberveiligheidsplan.
   // Enkel gekende waarden - de querystring zelf komt nooit in het formulier.
+  const cyberveiligheidsplan = {
+    subject: "Aanvraag cyberveiligheidsplan via WeIT.be",
+    message: "Ik heb interesse in het cyberveiligheidsplan voor kmo's en wil graag een vrijblijvend gesprek.",
+  };
   const onderwerpen: Record<string, { subject: string; message: string }> = {
-    nulmeting: {
-      subject: "Aanvraag cyberveiligheidsplan via WeIT.be",
-      message: "Ik heb interesse in het cyberveiligheidsplan voor kmo's en wil graag een vrijblijvend gesprek.",
-    },
+    cyberveiligheidsplan,
+    nulmeting: cyberveiligheidsplan, // oude links/bladwijzers
   };
   const onderwerp = onderwerpen[new URLSearchParams(location.search).get("onderwerp") ?? ""];
   if (onderwerp && form) {

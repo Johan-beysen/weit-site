@@ -1,6 +1,6 @@
 // Structured data (schema.org JSON-LD) voor zoekmachines.
 // organizationGraph() komt via Base.astro op elke pagina; pagina's kunnen
-// extra nodes meegeven via de `schema` prop (zie bv. nulmeting.astro).
+// extra nodes meegeven via de `schema` prop (zie bv. cyberveiligheidsplan.astro).
 // Gegevens volgen de juridische teksten (src/content/legal) - pas ze daar
 // en hier samen aan.
 
@@ -35,9 +35,9 @@ const gemeenten: Record<string, string[]> = {
 
 const diensten = [
   {
-    path: '/nulmeting',
+    path: '/cyberveiligheidsplan',
     name: "Cyberveiligheidsplan voor kmo's",
-    description: 'Eén dag op locatie en een actieplan in gewone taal: wat eerst moet gebeuren, wie het kan uitvoeren en wat kan wachten. Een praktische nulmeting op basis van de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België.',
+    description: 'Eén gesprek op locatie en een actieplan in gewone taal: wat eerst moet gebeuren, wie het kan uitvoeren en wat kan wachten. Een praktische nulmeting op basis van de CyberFundamentals (CyFun®) van het Centrum voor Cybersecurity België.',
   },
   {
     path: '/security',

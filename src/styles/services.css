@@ -57,6 +57,22 @@
 .aside-teaser .teaser-label { font-size: 13px; color: var(--text); margin-bottom: 8px; }
 .aside-teaser p { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 12px; }
 
+/* Opvallende doorverwijzing naar het instapaanbod bovenaan de inhoud */
+.plan-banner {
+  display: block;
+  background: var(--teal-light);
+  border: 2px solid var(--teal);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 48px;
+  transition: border-color 0.15s;
+}
+.plan-banner:hover { border-color: var(--teal-dark); }
+.plan-banner .plan-tag { display: block; font-size: 12px; color: var(--teal); margin-bottom: 10px; }
+.plan-banner h3 { font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 8px; }
+.plan-banner p { font-size: 14px; color: var(--text-muted); line-height: 1.6; max-width: 640px; }
+.plan-banner .plan-arrow { display: block; margin-top: 16px; font-size: 13px; color: var(--teal); }
+
 /* Link binnen lopende tekst van een item */
 .inline-link { color: var(--teal); }
 .inline-link:hover { color: var(--teal-dark); }

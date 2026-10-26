@@ -45,6 +45,10 @@
 
 .hero-cta { display: flex; align-items: center; gap: 20px; }
 
+/* Tweede hero-link naar het instapaanbod (cyberveiligheidsplan) */
+.hero-plan-link { font-size: 13px; color: var(--teal); }
+.hero-plan-link:hover { color: #fff; }
+
 /* --- Diensten grid ----------------------------------------- */
 
 /* Sectie met drie dienstenkaarten */
@@ -86,18 +90,20 @@
 /* Pijl-link onderaan een kaart */
 .arrow { display: block; margin-top: 16px; font-size: 12px; color: var(--teal); }
 
-/* Volle-breedte kaart onder de grid - instapaanbod (nulmeting) */
-.nulmeting-card {
-  margin-top: 16px;
+/* Volle-breedte kaart boven de grid - instapaanbod (cyberveiligheidsplan) */
+.plan-card {
+  margin-bottom: 16px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
   gap: 24px;
   background: var(--teal-light);
-  border-color: transparent;
+  border: 2px solid var(--teal);
 }
-.nulmeting-card p { max-width: 640px; }
-.nulmeting-card .arrow { margin-top: 0; white-space: nowrap; }
+.plan-card h3 { font-size: 18px; }
+.plan-card p { font-size: 14px; max-width: 640px; }
+.plan-card .plan-tag { display: block; font-size: 12px; color: var(--teal); margin-bottom: 10px; }
+.plan-card .arrow { margin-top: 0; white-space: nowrap; font-size: 13px; }
 
 /* --- Projecten preview ------------------------------------- */
 
@@ -178,7 +184,7 @@
   /* Alles naar 1 kolom op mobiel */
   .diensten-grid  { grid-template-columns: 1fr; }
   .projecten-grid { grid-template-columns: 1fr; }
-  .nulmeting-card { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .plan-card { flex-direction: column; align-items: flex-start; gap: 16px; }
 }
 
 @media (max-width: 480px) {

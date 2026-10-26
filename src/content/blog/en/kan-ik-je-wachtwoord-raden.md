@@ -92,4 +92,6 @@ You don't have to change everything in one evening. Start with what matters most
 
 In a next post I'll explain exactly how a password manager works, and why it actually makes your life easier rather than harder.
 
-**Running a business yourself?** Keep in mind that any of your employees could be this story too. One reused password, one leak at a webshop, and an attacker is in your mailbox or on your network. Want to know where your company stands? [Request your Cybersecurity Plan.](https://weit.be/nulmeting/)
+**Running a business yourself?** Keep in mind that any of your employees could be this story too. One reused password, one leak at a webshop, and an attacker is in your mailbox or on your network.
+
+Want to know where your company stands? [Request your Cybersecurity Plan.](https://weit.be/cyberveiligheidsplan/)

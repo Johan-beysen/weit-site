@@ -7,6 +7,7 @@ WeIT.be is de site van Johan Beysen, ethisch hacker en IT-consultant gevestigd i
 ## Diensten
 
 - [Security](https://weit.be/security/): pentesting, security audits, NIS2/CyFun®-begeleiding.
+- [Cyberveiligheidsplan voor kmo's](https://weit.be/cyberveiligheidsplan/): instapaanbod - één gesprek op locatie en een actieplan in gewone taal op basis van CyFun®, €500 excl. btw.
 - [Infrastructuur](https://weit.be/infrastructure/): servers, netwerken, cloud, Microsoft 365, databankbeheer.
 - [Development](https://weit.be/development/): webapplicaties, tools en integraties op maat.
 - [Automation](https://weit.be/automation/): workflow- en procesautomatisering.

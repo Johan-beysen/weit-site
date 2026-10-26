@@ -25,6 +25,11 @@ export default defineConfig({
   session: {
     driver: 'cookie',
   },
+  // Oude URL van het cyberveiligheidsplan (heette eerst "nulmeting"). De
+  // Cloudflare-adapter zet dit om naar een echte 301 in dist/_redirects.
+  redirects: {
+    '/nulmeting': { status: 301, destination: '/cyberveiligheidsplan' },
+  },
   i18n: {
     locales: ['nl', 'en'],
     defaultLocale: 'nl',

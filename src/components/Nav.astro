@@ -20,6 +20,12 @@ const dienstenLinks = [
   { href: href("/consulting"), title: t("nav.consulting.title"), desc: t("nav.consulting.desc") },
 ];
 
+// Instapaanbod bovenaan het dienstenmenu - enkel NL, de pagina heeft geen
+// Engelse tegenhanger.
+const planLink = lang === "nl"
+  ? { href: "/cyberveiligheidsplan", title: "[Cyberveiligheidsplan · €500]", desc: "Weet wat je eerst moet beveiligen: één gesprek op locatie, één helder actieplan." }
+  : null;
+
 const navLinks = [
   { href: href("/projects"), label: t("nav.projects") },
   { href: href("/blog"), label: t("nav.blog") },
@@ -28,7 +34,7 @@ const navLinks = [
 ];
 
 const current = Astro.url.pathname;
-const dienstenActive = dienstenLinks.some(link => current.startsWith(link.href));
+const dienstenActive = [...dienstenLinks, ...(planLink ? [planLink] : [])].some(link => current.startsWith(link.href));
 const otherLocale: Locale = lang === "nl" ? "en" : "nl";
 const otherLocaleHref = getLocalizedPathname(current, otherLocale);
 ---
@@ -43,6 +49,12 @@ const otherLocaleHref = getLocalizedPathname(current, otherLocale);
         </summary>
         <div class="mega-menu">
           <div class="mega-panel">
+            {planLink && (
+              <a href={planLink.href} class="mega-item mega-plan">
+                <span class="mega-title mono">{planLink.title}</span>
+                <span class="mega-desc">{planLink.desc}</span>
+              </a>
+            )}
             {dienstenLinks.map(item => (
               <a href={item.href} class="mega-item">
                 <span class="mega-title mono">{item.title}</span>
@@ -175,6 +187,17 @@ const otherLocaleHref = getLocalizedPathname(current, otherLocale);
     transition: color 0.15s;
   }
   .mega-item:hover .mega-title { color: var(--teal); }
+
+  /* Instapaanbod: volle breedte bovenaan, teal geaccentueerd */
+  .mega-plan {
+    grid-column: 1 / -1;
+    margin: -8px -8px 0;
+    padding: 12px;
+    background: var(--teal-light);
+    border: 1px solid var(--teal);
+  }
+  .mega-plan:hover { background: var(--teal-light); }
+  .mega-plan .mega-title { color: var(--teal); }
 
   .mega-desc {
     display: block;
